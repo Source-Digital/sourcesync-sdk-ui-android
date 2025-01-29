@@ -1,0 +1,3 @@
+rootProject.name = 'sourcesync-sdk-ui-android'
+include ':sdk-ui'
+include ':demo-app'
