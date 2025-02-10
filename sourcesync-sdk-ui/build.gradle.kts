@@ -24,7 +24,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    
 }
 
 dependencies {
@@ -33,17 +32,11 @@ dependencies {
 }
 
 mavenPublishing {
-    publishToMavenCentral()
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL) // Note: Changed to CENTRAL_PORTAL like in the KMP example
     
     signAllPublications()
     
-    coordinates("io.sourcesync.ui", "sourcesync-sdk-ui-android", version.toString())
-    pomFromGradleProperties()
-    
-    publishingConfig {
-        username = System.getenv("MAVEN_USERNAME")
-        password = System.getenv("MAVEN_PASSWORD")
-    }
+    coordinates(group.toString(), "sourcesync-sdk-ui-android", version.toString())
 
     pom {
         name.set("SourceSync SDK UI Android")
