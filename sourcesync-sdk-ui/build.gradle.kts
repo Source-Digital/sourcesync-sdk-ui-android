@@ -1,34 +1,9 @@
 import com.vanniktech.maven.publish.SonatypeHost
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.vanniktech.mavenPublish)
-}
-
-kotlin {
-    androidTarget {
-        publishLibraryVariants("release")
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
-        }
-    }
-
-    sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation("androidx.appcompat:appcompat:1.6.1")
-            }
-        }
-        
-        val androidUnitTest by getting {
-            dependencies {
-                implementation(libs.kotlin.test)
-            }
-        }
-    }
+    alias(libs.plugins.android.library)
+    id("com.vanniktech.maven.publish")
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -56,6 +31,11 @@ android {
             withJavadocJar()
         }
     }
+}
+
+dependencies {
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    testImplementation(libs.kotlin.test)
 }
 
 mavenPublishing {
