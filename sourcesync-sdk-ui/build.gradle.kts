@@ -2,7 +2,7 @@ import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.vanniktech.maven)
+    alias(libs.plugins.vanniktech.mavenPublish)
     alias(libs.plugins.kotlin.android)
 }
 
@@ -32,7 +32,7 @@ dependencies {
 }
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL) // Note: Changed to CENTRAL_PORTAL like in the KMP example
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     
     signAllPublications()
     
