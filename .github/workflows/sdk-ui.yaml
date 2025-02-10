@@ -98,14 +98,14 @@ jobs:
         run: chmod +x ./gradlew
         
       - name: Build and Publish
-        run: ./gradlew :sourcesync-sdk-ui:publishAndReleaseToMavenCentral --stacktrace
+        run: ./gradlew :sourcesync-sdk-ui:publishAndReleaseToMavenCentral --stacktrace -Pversion=$BUILD_VERSION
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_PASSWORD }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY_CONTENTS }}
-          VERSION: ${{ needs.version.outputs.new_version }}
+          BUILD_VERSION: ${{ needs.version.outputs.new_version }}
           
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
