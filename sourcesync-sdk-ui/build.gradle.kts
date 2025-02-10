@@ -1,6 +1,34 @@
+import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.vanniktech.mavenPublish)
+}
+
+kotlin {
+    androidTarget {
+        publishLibraryVariants("release")
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
+
+    sourceSets {
+        val androidMain by getting {
+            dependencies {
+                implementation("androidx.appcompat:appcompat:1.6.1")
+            }
+        }
+        
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
+        }
+    }
 }
 
 android {
@@ -30,16 +58,12 @@ android {
     }
 }
 
-dependencies {
-    implementation("androidx.appcompat:appcompat:1.6.1")
-}
-
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     
     signAllPublications()
     
-    coordinates("io.sourcesync.ui", "sourcesync-sdk-ui-android", System.getenv("VERSION") ?: "1.0.0-SNAPSHOT")
+    coordinates("io.sourcesync.ui", "sourcesync-sdk-ui-android", version.toString())
 
     pom {
         name.set("SourceSync SDK UI Android")
