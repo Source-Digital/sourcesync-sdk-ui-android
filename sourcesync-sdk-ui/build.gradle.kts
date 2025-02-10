@@ -1,4 +1,5 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
 
 plugins {
     alias(libs.plugins.android.library)
