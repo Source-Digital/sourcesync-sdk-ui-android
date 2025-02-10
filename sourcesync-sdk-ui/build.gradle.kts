@@ -2,7 +2,7 @@ import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
     alias(libs.plugins.android.library)
-    id("com.vanniktech.maven.publish")
+    alias(libs.plugins.vanniktech.maven)
     alias(libs.plugins.kotlin.android)
 }
 
@@ -25,12 +25,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
 }
 
 dependencies {
@@ -39,7 +33,7 @@ dependencies {
 }
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral()
     
     signAllPublications()
     
