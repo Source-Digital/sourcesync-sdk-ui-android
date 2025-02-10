@@ -38,6 +38,20 @@ mavenPublishing {
     signAllPublications()
     
     coordinates("io.sourcesync.ui", "sourcesync-sdk-ui-android", version.toString())
+    configure(
+        androidArtifacts = true,
+        kotlinJvmTargets = emptySet(),
+        kotlinMultiplatformTargets = emptySet(),
+    )
+    
+    repositories {
+        maven {
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
+    }
 
     pom {
         name.set("SourceSync SDK UI Android")
