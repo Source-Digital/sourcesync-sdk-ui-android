@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
-group = "io.sourcesync.sdk"
+group = "io.sourcesync.sdk-ui"
 version = "0.0.1"
 
 android {
