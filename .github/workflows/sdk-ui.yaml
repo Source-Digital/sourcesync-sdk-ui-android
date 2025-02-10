@@ -1,8 +1,6 @@
 name: Release and Publish
 on:
   push:
-    branches:
-      - cicd
     tags:
       - 'v*'
   workflow_dispatch:
@@ -25,7 +23,7 @@ permissions:
 jobs:
   version:
     runs-on: ubuntu-latest
-    # if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch'
     outputs:
       new_version: ${{ steps.semver.outputs.new_version }}
     steps:
