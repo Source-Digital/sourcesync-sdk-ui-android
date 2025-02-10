@@ -95,7 +95,10 @@ jobs:
           
       - name: Set version
         run: echo "VERSION=${{ needs.version.outputs.new_version }}" >> $GITHUB_ENV
-          
+    
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+        
       - name: Build and Publish
         run: ./gradlew :sourcesync-sdk-ui:publishReleasePublicationToOSSRHRepository
         env:
