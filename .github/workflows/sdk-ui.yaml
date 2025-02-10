@@ -100,7 +100,7 @@ jobs:
         run: chmod +x ./gradlew
         
       - name: Build and Publish
-        run: ./gradlew :sourcesync-sdk-ui:publishAllPublicationsToSonatypeRepository
+        run: ./gradlew :sourcesync-sdk-ui:publishAndReleaseToMavenCentral
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
