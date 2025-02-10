@@ -1,0 +1,139 @@
+name: Release and Publish
+on:
+  push:
+    branches:
+      - cicd
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version bump type (major, minor, patch)'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+  packages: write
+  pull-requests: write
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    # if: github.event_name == 'workflow_dispatch'
+    outputs:
+      new_version: ${{ steps.semver.outputs.new_version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Get Latest Version
+        id: get_version
+        run: |
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+          
+      - name: Bump Version
+        id: semver
+        uses: actions/github-script@v6
+        env:
+          LATEST_TAG: ${{ steps.get_version.outputs.latest_tag }}
+          VERSION_TYPE: ${{ inputs.version_type }}
+        with:
+          script: |
+            const latest = process.env.LATEST_TAG.replace('v', '')
+            const type = process.env.VERSION_TYPE
+            const [major, minor, patch] = latest.split('.')
+            let new_version
+            switch(type) {
+              case 'major':
+                new_version = `${parseInt(major) + 1}.0.0`
+                break
+              case 'minor':
+                new_version = `${major}.${parseInt(minor) + 1}.0`
+                break
+              default:
+                new_version = `${major}.${minor}.${parseInt(patch) + 1}`
+            }
+            core.setOutput('new_version', new_version)
+
+    #   - name: Create Release PR
+    #     uses: peter-evans/create-pull-request@v5
+    #     with:
+    #       commit-message: "chore: release version ${{ steps.semver.outputs.new_version }}"
+    #       title: "Release v${{ steps.semver.outputs.new_version }}"
+    #       body: |
+    #         # Release v${{ steps.semver.outputs.new_version }}
+    #       branch: "release/v${{ steps.semver.outputs.new_version }}"
+    #       base: cicd
+    #       labels: release
+
+  publish:
+    needs: [version]
+    name: Release build and publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 17
+          
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+          
+      - name: Set version
+        run: echo "VERSION=${{ needs.version.outputs.new_version }}" >> $GITHUB_ENV
+          
+      - name: Build and Publish
+        run: ./gradlew :sourcesync-sdk-ui:publishReleasePublicationToOSSRHRepository
+        env:
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          GPG_KEY_CONTENTS: ${{ secrets.GPG_KEY_CONTENTS }}
+          VERSION: ${{ needs.version.outputs.new_version }}
+          
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ needs.version.outputs.new_version }}
+          name: Release v${{ needs.version.outputs.new_version }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# Commented out changelog generation as requested
+#   generate-changelog:
+#     needs: [version]
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0
+          
+#       - name: Generate Changelog
+#         id: changelog
+#         uses: TriPSs/conventional-changelog-action@v3
+#         with:
+#           github-token: ${{ secrets.github_token }}
+#           version-file: './package.json,./gradle.properties'
+#           git-message: 'chore(release): {version}'
+#           preset: 'angular'
+#           tag-prefix: 'v'
+#           output-file: 'CHANGELOG.md'
+#           release-count: 0
+#           version: ${{ needs.version.outputs.new_version }}
