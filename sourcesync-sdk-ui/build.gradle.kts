@@ -1,11 +1,13 @@
 import com.vanniktech.maven.publish.SonatypeHost
-import com.vanniktech.maven.publish.MavenPublishBaseExtension
 
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.vanniktech.mavenPublish)
     alias(libs.plugins.kotlin.android)
 }
+
+group = "io.sourcesync.sdk"
+version = "0.0.1"
 
 android {
     namespace = "io.sourcesync.sdk.ui"
@@ -33,7 +35,7 @@ dependencies {
 }
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral(SonatypeHost.S01)
     
     signAllPublications()
     
