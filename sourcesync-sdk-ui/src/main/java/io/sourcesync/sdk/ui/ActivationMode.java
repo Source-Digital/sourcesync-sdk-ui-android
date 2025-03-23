@@ -1,4 +1,4 @@
-package io.sourcesync.android.activation;
+package io.sourcesync.sdk.ui;
 
 public enum ActivationMode {
     PREVIEW,

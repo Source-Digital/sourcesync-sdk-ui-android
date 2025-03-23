@@ -1,4 +1,4 @@
-package io.sourcesync.android.segment.processors;
+package io.sourcesync.sdk.ui.segment.processors;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,10 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.util.Log;
 
-import io.sourcesync.android.segment.SegmentProcessor;
-import io.sourcesync.android.segment.SegmentAttributes;
-import io.sourcesync.android.segment.LayoutUtils;
-
 import org.json.JSONObject;
 import org.json.JSONException;
 
@@ -24,6 +20,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import io.sourcesync.sdk.ui.segment.LayoutUtils;
+import io.sourcesync.sdk.ui.segment.SegmentAttributes;
+import io.sourcesync.sdk.ui.segment.SegmentProcessor;
 
 public class ImageSegmentProcessor implements SegmentProcessor {
     private static final String TAG = "SourceSync.segment.image";

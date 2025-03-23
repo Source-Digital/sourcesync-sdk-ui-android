@@ -1,17 +1,18 @@
-package io.sourcesync.android.segment.processors;
+package io.sourcesync.sdk.ui.segment.processors;
 
 import android.content.Context;
 import android.widget.LinearLayout;
 import android.view.View;
-import io.sourcesync.android.segment.SegmentProcessor;
-import io.sourcesync.android.segment.SegmentAttributes;
-import io.sourcesync.android.segment.LayoutUtils;
-import io.sourcesync.android.segment.factory.SegmentProcessorFactory;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import android.view.ViewGroup;
 import android.util.Log;
+
+import io.sourcesync.sdk.ui.segment.LayoutUtils;
+import io.sourcesync.sdk.ui.segment.SegmentAttributes;
+import io.sourcesync.sdk.ui.segment.SegmentProcessor;
+import io.sourcesync.sdk.ui.segment.factory.SegmentProcessorFactory;
 
 public class RowSegmentProcessor implements SegmentProcessor {
     private static final String TAG = "RowSegmentProcessor";
@@ -81,7 +82,7 @@ public class RowSegmentProcessor implements SegmentProcessor {
                         JSONObject childAttributes = childSegment.optJSONObject("attributes");
                         if (childAttributes != null) {
                             SegmentAttributes childAttrs = SegmentAttributes.fromJson(childAttributes);
-                            if (childAttrs.width != null && LayoutUtils.isValidPercentage(childAttrs.width)) {
+                            if (LayoutUtils.isValidPercentage(childAttrs.width)) {
                                 LinearLayout.LayoutParams childParams = new LinearLayout.LayoutParams(
                                     0, // Width will be determined by weight
                                     LinearLayout.LayoutParams.WRAP_CONTENT,

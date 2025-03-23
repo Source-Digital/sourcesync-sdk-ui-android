@@ -1,4 +1,4 @@
-package io.sourcesync.android.segment;
+package io.sourcesync.sdk.ui.segment;
 
 import android.content.Context;
 import android.view.Gravity;

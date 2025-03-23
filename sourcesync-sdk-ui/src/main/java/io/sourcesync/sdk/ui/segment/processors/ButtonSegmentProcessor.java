@@ -1,16 +1,17 @@
-package io.sourcesync.android.segment.processors;
+package io.sourcesync.sdk.ui.segment.processors;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import io.sourcesync.android.segment.SegmentProcessor;
-import io.sourcesync.android.segment.SegmentAttributes;
-import io.sourcesync.android.segment.LayoutUtils;
 import org.json.JSONObject;
 import org.json.JSONException;
 import android.util.Log;
+
+import io.sourcesync.sdk.ui.segment.LayoutUtils;
+import io.sourcesync.sdk.ui.segment.SegmentAttributes;
+import io.sourcesync.sdk.ui.segment.SegmentProcessor;
 
 public class ButtonSegmentProcessor implements SegmentProcessor {
     private static final String TAG = "ButtonSegmentProcessor";
@@ -65,7 +66,7 @@ public class ButtonSegmentProcessor implements SegmentProcessor {
 
             // Handle width if specified as percentage
             LinearLayout.LayoutParams params;
-            if (attributes.width != null && LayoutUtils.isValidPercentage(attributes.width)) {
+            if (LayoutUtils.isValidPercentage(attributes.width)) {
                 float weight = LayoutUtils.percentageToDecimal(attributes.width);
                 params = new LinearLayout.LayoutParams(
                     0, // Width will be determined by weight

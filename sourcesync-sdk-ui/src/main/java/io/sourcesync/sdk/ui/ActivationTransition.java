@@ -1,7 +1,6 @@
-package io.sourcesync.android.activation.transitions;
+package io.sourcesync.sdk.ui;
 
 import android.view.View;
-import android.view.animation.Animation;
 
 public interface ActivationTransition {
     void enterDetail(View previewView, View detailView, Runnable onComplete);

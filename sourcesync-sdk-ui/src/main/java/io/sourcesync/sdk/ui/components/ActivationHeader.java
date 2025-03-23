@@ -1,12 +1,15 @@
-package io.sourcesync.android.components;
+package io.sourcesync.sdk.ui.components;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.view.Gravity;
 import android.graphics.Color;
-import io.sourcesync.android.segment.LayoutUtils;
 
+import io.sourcesync.sdk.ui.segment.LayoutUtils;
+
+@SuppressLint("ViewConstructor")
 public class ActivationHeader extends FrameLayout {
 
     public ActivationHeader(Context context, Runnable onClose) {

@@ -1,9 +1,7 @@
-package io.sourcesync.android.activation.transitions;
+package io.sourcesync.sdk.ui;
 
-import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.util.Log;
+import android.view.View;
 
 public class FadeTransition implements ActivationTransition {
     private static final String TAG = "SourceSync.trans.fade";

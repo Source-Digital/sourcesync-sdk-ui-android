@@ -1,17 +1,18 @@
-package io.sourcesync.android.segment.processors;
+package io.sourcesync.sdk.ui.segment.processors;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import io.sourcesync.android.segment.SegmentProcessor;
-import io.sourcesync.android.segment.SegmentAttributes;
-import io.sourcesync.android.segment.LayoutUtils;
-import io.sourcesync.android.segment.factory.SegmentProcessorFactory;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import android.util.Log;
+
+import io.sourcesync.sdk.ui.segment.LayoutUtils;
+import io.sourcesync.sdk.ui.segment.SegmentAttributes;
+import io.sourcesync.sdk.ui.segment.SegmentProcessor;
+import io.sourcesync.sdk.ui.segment.factory.SegmentProcessorFactory;
 
 public class ColumnSegmentProcessor implements SegmentProcessor {
     private static final String TAG = "ColumnSegmentProcessor";
@@ -101,7 +102,7 @@ public class ColumnSegmentProcessor implements SegmentProcessor {
                         JSONObject childAttributes = childSegment.optJSONObject("attributes");
                         if (childAttributes != null) {
                             SegmentAttributes childAttrs = SegmentAttributes.fromJson(childAttributes);
-                            if (childAttrs.width != null && LayoutUtils.isValidPercentage(childAttrs.width)) {
+                            if (LayoutUtils.isValidPercentage(childAttrs.width)) {
                                 LinearLayout.LayoutParams childParams = (LinearLayout.LayoutParams) childView.getLayoutParams();
                                 float weight = LayoutUtils.percentageToDecimal(childAttrs.width);
                                 childParams.width = 0; // Use weight instead of fixed width

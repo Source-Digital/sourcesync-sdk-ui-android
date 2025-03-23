@@ -1,27 +1,29 @@
-package io.sourcesync.android.components;
+package io.sourcesync.sdk.ui.components;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.view.Gravity;
-import android.graphics.Color;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import android.view.View;
-import android.view.MotionEvent;
-import android.util.Log;
-import io.sourcesync.android.segment.factory.SegmentProcessorFactory;
-import io.sourcesync.android.segment.SegmentProcessor;
-import io.sourcesync.android.segment.LayoutUtils;
 
+import io.sourcesync.sdk.ui.segment.LayoutUtils;
+import io.sourcesync.sdk.ui.segment.SegmentProcessor;
+import io.sourcesync.sdk.ui.segment.factory.SegmentProcessorFactory;
+
+@SuppressLint("ViewConstructor")
 public class ActivationDetail extends FrameLayout {
     private static final String TAG = "ActivationDetail";
-    private SegmentProcessorFactory processorFactory;
+    private final SegmentProcessorFactory processorFactory;
     private final LinearLayout contentContainer;
-    private final ScrollView scrollView;
 
     public ActivationDetail(Context context, JSONArray template, Runnable onClose) {
         super(context);
@@ -33,7 +35,7 @@ public class ActivationDetail extends FrameLayout {
         ActivationHeader header = new ActivationHeader(context, onClose);
 
         // Create ScrollView for scrollable content
-        scrollView = new ScrollView(context);
+        ScrollView scrollView = new ScrollView(context);
         LinearLayout.LayoutParams scrollParams = new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             0  // Use weight for height
@@ -80,6 +82,7 @@ public class ActivationDetail extends FrameLayout {
         processTemplate(template);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // Consume all touch events to prevent them from propagating

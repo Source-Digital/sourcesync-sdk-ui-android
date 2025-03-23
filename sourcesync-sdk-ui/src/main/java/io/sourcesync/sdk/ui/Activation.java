@@ -1,13 +1,14 @@
-package io.sourcesync.android;
+package io.sourcesync.sdk.ui;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import org.json.JSONObject;
 import org.json.JSONException;
-import io.sourcesync.android.components.ActivationPreview;
-import io.sourcesync.android.components.ActivationDetail;
+
+import io.sourcesync.sdk.ui.components.ActivationDetail;
+import io.sourcesync.sdk.ui.components.ActivationPreview;
+
 
 public class Activation extends FrameLayout {
     private ActivationPreview previewView;

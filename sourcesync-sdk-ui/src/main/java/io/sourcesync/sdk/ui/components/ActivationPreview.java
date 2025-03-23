@@ -1,19 +1,22 @@
-package io.sourcesync.android.components;
+package io.sourcesync.sdk.ui.components;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.widget.LinearLayout;
-import android.view.Gravity;
 import android.graphics.Color;
-import android.view.View;
-import android.widget.FrameLayout;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONException;
 import android.util.Log;
-import io.sourcesync.android.segment.factory.SegmentProcessorFactory;
-import io.sourcesync.android.segment.SegmentProcessor;
-import io.sourcesync.android.segment.LayoutUtils;
+import android.view.View;
+import android.widget.LinearLayout;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import io.sourcesync.sdk.ui.segment.LayoutUtils;
+import io.sourcesync.sdk.ui.segment.SegmentProcessor;
+import io.sourcesync.sdk.ui.segment.factory.SegmentProcessorFactory;
+
+
+@SuppressLint("ViewConstructor")
 public class ActivationPreview extends LinearLayout {
     private static final String TAG = "ActivationPreview";
     private LinearLayout contentContainer;
