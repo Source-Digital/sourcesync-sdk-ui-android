@@ -31,6 +31,7 @@ android {
 
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation(libs.gif.drawable)
     testImplementation(libs.kotlin.test)
 }
 

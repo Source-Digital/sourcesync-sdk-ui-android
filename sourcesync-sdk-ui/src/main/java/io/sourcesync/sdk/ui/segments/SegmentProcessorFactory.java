@@ -1,16 +1,15 @@
 // SegmentProcessorFactory.java
-package io.sourcesync.sdk.ui.segment.factory;
+package io.sourcesync.sdk.ui.segments;
 
 import android.view.ViewGroup;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.sourcesync.sdk.ui.segment.SegmentProcessor;
-import io.sourcesync.sdk.ui.segment.processors.ButtonSegmentProcessor;
-import io.sourcesync.sdk.ui.segment.processors.ColumnSegmentProcessor;
-import io.sourcesync.sdk.ui.segment.processors.ImageSegmentProcessor;
-import io.sourcesync.sdk.ui.segment.processors.RowSegmentProcessor;
-import io.sourcesync.sdk.ui.segment.processors.TextSegmentProcessor;
+import io.sourcesync.sdk.ui.segments.processors.ButtonSegmentProcessor;
+import io.sourcesync.sdk.ui.segments.processors.ColumnSegmentProcessor;
+import io.sourcesync.sdk.ui.segments.processors.ImageSegmentProcessor;
+import io.sourcesync.sdk.ui.segments.processors.RowSegmentProcessor;
+import io.sourcesync.sdk.ui.segments.processors.TextSegmentProcessor;
 
 public class SegmentProcessorFactory {
     private final Map<String, SegmentProcessor> processors;

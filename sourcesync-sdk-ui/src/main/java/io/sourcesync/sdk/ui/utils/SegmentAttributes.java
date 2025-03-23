@@ -1,8 +1,7 @@
-package io.sourcesync.sdk.ui.segment;
+package io.sourcesync.sdk.ui.utils;
 
 import org.json.JSONObject;
 import org.json.JSONException;
-import android.util.Log;
 
 public class SegmentAttributes {
     private static final String TAG = "SourceSync.SegmentAttrs";
@@ -38,9 +37,8 @@ public class SegmentAttributes {
         // Handle size tokens
         if (json.has("size")) {
             Object size = json.get("size");
-            if (size instanceof JSONObject) {
+            if (size instanceof JSONObject dimObj) {
                 // Handle dimension object
-                JSONObject dimObj = (JSONObject) size;
                 String width = dimObj.getString("width");
                 String height = dimObj.getString("height");
 
