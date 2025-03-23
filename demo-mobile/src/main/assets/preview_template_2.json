@@ -1,0 +1,26 @@
+{
+  "template": [
+      {
+        "type": "text",
+        "content": "Text Size Demo",
+        "attributes": {
+          "font": "system",
+          "size": "xl",
+          "color": "#FFFFFF",
+          "weight": "bold",
+          "alignment": "center"
+        }
+      },
+      {
+        "type": "text",
+        "content": "Click to see all sizes",
+        "attributes": {
+          "font": "system",
+          "size": "md",
+          "color": "#FFFFFF",
+          "alignment": "center",
+          "style": "italic"
+        }
+      }
+    ]
+}

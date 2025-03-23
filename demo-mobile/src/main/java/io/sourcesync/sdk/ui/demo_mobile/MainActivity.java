@@ -1,61 +1,48 @@
 package io.sourcesync.sdk.ui.demo_mobile;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
-import io.sourcesync.android.Activation;
+
 import org.json.JSONObject;
-import org.json.JSONArray;
+
+import java.io.IOException;
+
+import io.sourcesync.sdk.ui.core.ActivationView;
+import pl.droidsonroids.gif.GifDrawable;
 
 public class MainActivity extends AppCompatActivity {
-    private Activation activation;
+
+    ActivationView activationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         // Create container for activation views
         FrameLayout container = new FrameLayout(this);
         setContentView(container);
-        
+
         // Create activation
-        activation = new Activation(this);
-        container.addView(activation);
+        activationView = new ActivationView(this);
+        container.addView(activationView);
 
+        // Load a template
+        JSONObject previewTemplate = TemplateLoader.loadTemplate(this, "preview_template_1");
+        JSONObject detailsTemplate = TemplateLoader.loadTemplate(this, "details_template_1");
+        GifDrawable gifDrawable;
         try {
-            // Show preview
-            JSONObject previewData = new JSONObject()
-                .put("title", "Demo Preview")
-                .put("subtitle", "Click to see details")
-                .put("backgroundColor", "#000000")
-                .put("backgroundOpacity", 0.66);
-                
-            activation.showPreview(previewData, v -> showDetail());
-        } catch (Exception e) {
-            e.printStackTrace();
+             gifDrawable = new GifDrawable(getAssets(), "activation_img.gif");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-    }
-
-    private void showDetail() {
-        try {
-            JSONObject detailData = new JSONObject()
-                .put("template", new JSONArray()
-                    .put(new JSONObject()
-                        .put("type", "text")
-                        .put("content", "Welcome to SourceSync!")
-                        .put("attributes", new JSONObject()
-                            .put("size", "lg")
-                            .put("color", "#FFFFFF")))
-                    .put(new JSONObject()
-                        .put("type", "button")
-                        .put("content", "Close")
-                        .put("attributes", new JSONObject()
-                            .put("backgroundColor", "#4CAF50")
-                            .put("textColor", "#FFFFFF"))));
-                        
-            activation.showDetail(detailData, () -> activation.hideDetail());
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Error handling
+        if (previewTemplate != null) {
+            activationView.showPreview(previewTemplate, true, 20, gifDrawable,
+                    v -> activationView.showDetail(detailsTemplate, () -> MainActivity.this.activationView.hideDetail()));
         }
     }
 }

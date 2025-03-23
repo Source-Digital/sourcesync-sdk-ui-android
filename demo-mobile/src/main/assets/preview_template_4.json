@@ -1,0 +1,14 @@
+{
+            "template": [
+              {
+                "type": "text",
+                "content": "Complex Layout Demo",
+                "attributes": {
+                  "font": "system",
+                  "size": 18,
+                  "color": "#FFFFFF",
+                  "weight": "bold"
+                }
+              }
+      ]
+    }
