@@ -1,0 +1,14 @@
+{
+  "template": [
+    {
+      "type": "text",
+      "content": "Preview: Native Block Demo",
+      "attributes": {
+        "font": "system",
+        "size": 24,
+        "color": "#EEEEEE",
+        "weight": "bold"
+      }
+    }
+  ]
+}

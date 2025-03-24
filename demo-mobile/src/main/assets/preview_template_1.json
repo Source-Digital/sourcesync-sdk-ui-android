@@ -1,0 +1,25 @@
+{
+  "no_template": [
+    {
+      "type": "text",
+      "content": "A very basic preview template",
+      "attributes": {
+        "font": "system",
+        "size": "md",
+        "color": "#EEEEEE",
+        "weight": "bold"
+      }
+    },
+    {
+      "type": "text",
+      "content": "Click to see details",
+      "attributes": {
+        "font": "system",
+        "size": "md",
+        "color": "#FFFFFF",
+        "alignment": "center",
+        "style": "italic"
+      }
+    }
+  ]
+}

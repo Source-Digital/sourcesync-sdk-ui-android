@@ -35,6 +35,7 @@ dependencies {
     implementation(project(":sourcesync-sdk-ui"))
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.gif.drawable)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)

@@ -1,0 +1,37 @@
+{
+  "no_template": [
+    {
+      "type": "text",
+      "content": "Full Content View",
+      "attributes": {
+        "font": "system",
+        "size": "xl",
+        "color": "#FFFFFF",
+        "weight": "bold",
+        "alignment": "center"
+      }
+    },
+    {
+      "type": "image",
+      "content": "https://storage.googleapis.com/source-uploads-production/uploads/user-media/bbb_image1_aee8ad527d.png",
+      "attributes": {
+        "size": {
+          "width": "20%",
+          "height": "20%"
+        },
+        "contentMode": "scaletofill",
+        "alignment": "center"
+      }
+    },
+    {
+      "type": "text",
+      "content": "This is the main content that appears when the preview is clicked.",
+      "attributes": {
+        "font": "system",
+        "size": "lg",
+        "color": "#FFFFFF",
+        "alignment": "center"
+      }
+    }
+  ]
+}
