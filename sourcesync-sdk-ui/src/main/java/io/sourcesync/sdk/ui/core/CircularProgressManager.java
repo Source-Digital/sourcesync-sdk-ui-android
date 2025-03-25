@@ -115,7 +115,7 @@ public class CircularProgressManager {
     /**
      * Starts the progress animation
      *
-     * @param duration Duration of the progress animation in seconds
+     * @param duration Duration of the progress animation in milliseconds
      */
     public void startProgressAnimation(long duration) {
         if (progressView == null) return;
@@ -130,7 +130,7 @@ public class CircularProgressManager {
 
         // Create and start progress animator
         progressAnimator = ValueAnimator.ofFloat(1.0f, 0.0f);
-        progressAnimator.setDuration(duration * 1000);
+        progressAnimator.setDuration(duration);
         progressAnimator.setInterpolator(new LinearInterpolator());
         progressAnimator.addUpdateListener(animation -> {
             float progress = (float) animation.getAnimatedValue();

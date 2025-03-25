@@ -66,6 +66,7 @@ public class ButtonSegmentProcessor implements SegmentProcessor {
                 params.gravity = android.view.Gravity.CENTER;
             }
 
+            button.setPadding(15,15,15,15);
             button.setLayoutParams(params);
         }
 

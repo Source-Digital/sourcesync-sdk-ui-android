@@ -5,9 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
 import androidx.annotation.Nullable;
 
 import org.json.JSONArray;
@@ -29,12 +29,9 @@ public class ActivationView extends FrameLayout {
     private CircularProgressManager progressManager;
 
     // Animation configuration
-    private static final long ANIMATION_DURATION = 1000; // 1 second
+    private static final long ANIMATION_DURATION = 1500; // 1 second
     private long progressDuration = 10000; // 10 seconds
 
-    // Constants for positioning
-    private static final float PREVIEW_HEIGHT = 60f; // 60dp height
-    private static final float PREVIEW_RIGHT_MARGIN = 10f; // Margin between preview and progress or screen edge
     private static final float DETAIL_WIDTH_PERCENTAGE = 0.55f; // 55% of screen width in landscape
 
     // Default templates
@@ -83,7 +80,7 @@ public class ActivationView extends FrameLayout {
             boolean showProgress,
             long progressDuration,
             @Nullable GifDrawable progressImage,
-            OnClickListener onClickListener) {
+            OnClickListener onClickListener) throws JSONException {
 
         if (previewView != null) {
             removeView(previewView);
@@ -99,7 +96,7 @@ public class ActivationView extends FrameLayout {
 
         // Use default template if none provided
         JSONObject templateToUse = previewData;
-        if (!previewData.has("template")) {
+        if (previewData.has("template") && previewData.getJSONArray("template").length() == 0) {
             templateToUse = defaultPreviewTemplate;
             progressManager.setupCircularProgress(progressImage);
         }
@@ -113,16 +110,15 @@ public class ActivationView extends FrameLayout {
                 }
             });
 
-            // Use FrameLayout.LayoutParams for precise positioning
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
 
             // Position at the right side, either next to progress or at the edge
-            params.gravity = android.view.Gravity.TOP | android.view.Gravity.END;
+            params.gravity = Gravity.RIGHT | Gravity.TOP;
 
-             // Set right margin to 20dp
+            // Set right margin to 20dp
             int rightMargin = (int) (50 * getResources().getDisplayMetrics().density);
             params.rightMargin = rightMargin;
 
@@ -165,7 +161,7 @@ public class ActivationView extends FrameLayout {
                     .setDuration(ANIMATION_DURATION)
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
-                        public void onAnimationEnd(Animator animation) {
+                        public void onAnimationStart(Animator animation) {
                             // Start progress animation if needed
                             if (showProgress && progressManager.getProgressContainerView() != null) {
                                 progressManager.startProgressAnimation(progressDuration);
@@ -184,7 +180,7 @@ public class ActivationView extends FrameLayout {
      * @param previewData The preview template data
      * @param onClickListener Click listener
      */
-    public void showPreview(JSONObject previewData, OnClickListener onClickListener) {
+    public void showPreview(JSONObject previewData, OnClickListener onClickListener) throws JSONException {
         showPreview(previewData, true, 10000, null, onClickListener);
     }
 
@@ -216,8 +212,12 @@ public class ActivationView extends FrameLayout {
 
         // Use default template if none provided
         JSONObject detailsTemplateToUse = detailData;
-        if (!detailData.has("template")) {
-            detailsTemplateToUse = defaultDetailTemplate;
+        try {
+            if (detailData.has("template") && detailData.getJSONArray("template").length() == 0) {
+                detailsTemplateToUse = defaultDetailTemplate;
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
         }
 
         try {
@@ -249,27 +249,27 @@ public class ActivationView extends FrameLayout {
      */
     public void hideDetail() {
         if (detailView != null) {
-            detailView.animate()
-                    .alpha(0f)
-                    .setDuration(ANIMATION_DURATION)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            removeView(detailView);
-                            detailView = null;
-
-                            // Restore preview
-                            if (previewView != null) {
-                                previewView.setVisibility(VISIBLE);
-                                progressManager.setVisibility(true);
-                                previewView.animate()
-                                        .alpha(1f)
-                                        .setDuration(ANIMATION_DURATION)
-                                        .start();
-                            }
-                        }
-                    })
-                    .start();
+//            detailView.animate()
+//                    .alpha(0f)
+//                    .setDuration(ANIMATION_DURATION)
+//                    .setListener(new AnimatorListenerAdapter() {
+//                        @Override
+//                        public void onAnimationEnd(Animator animation) {
+            removeView(detailView);
+            detailView = null;
+//
+//                            // Restore preview
+//                            if (previewView != null) {
+//                                previewView.setVisibility(VISIBLE);
+//                                progressManager.setVisibility(true);
+//                                previewView.animate()
+//                                        .alpha(1f)
+//                                        .setDuration(ANIMATION_DURATION)
+//                                        .start();
+//                            }
+//                        }
+//                    })
+//                    .start();
         }
     }
 

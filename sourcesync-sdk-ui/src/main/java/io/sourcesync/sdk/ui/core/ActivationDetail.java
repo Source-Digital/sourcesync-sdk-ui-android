@@ -85,10 +85,10 @@ public class ActivationDetail extends FrameLayout {
             ));
 
             // Set spacing between items in content container
-            int spacing = LayoutUtils.dpToPx(getContext(), 10);
+            int spacing = LayoutUtils.dpToPx(getContext(), 25);
             contentContainer.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
             contentContainer.setDividerPadding(spacing);
-            contentContainer.setPadding(20,20,20,40);
+            contentContainer.setPadding(20,10,30,40);
             // Add contentContainer to ScrollView
             scrollView.addView(contentContainer);
 

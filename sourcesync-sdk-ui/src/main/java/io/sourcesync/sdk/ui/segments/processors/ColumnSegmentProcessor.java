@@ -4,18 +4,20 @@ import static io.sourcesync.sdk.ui.utils.LayoutUtils.getGravityFromAlignment;
 import static io.sourcesync.sdk.ui.utils.LayoutUtils.getSpacingValue;
 
 import android.content.Context;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import org.json.JSONObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
-import android.util.Log;
+import org.json.JSONObject;
 
-import io.sourcesync.sdk.ui.utils.LayoutUtils;
-import io.sourcesync.sdk.ui.utils.SegmentAttributes;
 import io.sourcesync.sdk.ui.segments.SegmentProcessor;
 import io.sourcesync.sdk.ui.segments.SegmentProcessorFactory;
+import io.sourcesync.sdk.ui.utils.LayoutUtils;
+import io.sourcesync.sdk.ui.utils.SegmentAttributes;
 
 public class ColumnSegmentProcessor implements SegmentProcessor {
     private static final String TAG = "ColumnSegmentProcessor";
@@ -32,7 +34,6 @@ public class ColumnSegmentProcessor implements SegmentProcessor {
         // Create a vertical LinearLayout to hold the column items
         LinearLayout columnLayout = new LinearLayout(context);
         columnLayout.setOrientation(LinearLayout.VERTICAL);
-
         // Parse attributes if available
         SegmentAttributes attributes = null;
         if (segment.has("attributes")) {
@@ -43,7 +44,7 @@ public class ColumnSegmentProcessor implements SegmentProcessor {
             if (attributes.alignment != null) {
                 columnLayout.setGravity(getGravityFromAlignment(attributes.alignment));
             } else {
-                columnLayout.setGravity(android.view.Gravity.CENTER);
+                columnLayout.setGravity(Gravity.CENTER_VERTICAL);
             }
 
             // Apply spacing between children
@@ -53,13 +54,13 @@ public class ColumnSegmentProcessor implements SegmentProcessor {
                 columnLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
             } else {
                 // Default spacing
-                columnLayout.setDividerPadding(4);
+                columnLayout.setDividerPadding(15);
                 columnLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
             }
         } else {
             // Default alignment and spacing
-            columnLayout.setGravity(android.view.Gravity.CENTER);
-            columnLayout.setDividerPadding(4);
+            columnLayout.setGravity(Gravity.CENTER_VERTICAL);
+            columnLayout.setDividerPadding(15);
             columnLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
         }
 

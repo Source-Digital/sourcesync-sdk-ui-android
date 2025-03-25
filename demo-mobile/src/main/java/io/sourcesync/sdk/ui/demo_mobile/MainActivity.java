@@ -5,6 +5,7 @@ import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -29,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
         container.addView(activationView);
 
         // Load a template
-        JSONObject previewTemplate = TemplateLoader.loadTemplate(this, "preview_template_1");
-        JSONObject detailsTemplate = TemplateLoader.loadTemplate(this, "details_template_1");
+        JSONObject previewTemplate = TemplateLoader.loadTemplate(this, "preview_template_4");
+        JSONObject detailsTemplate = TemplateLoader.loadTemplate(this, "details_template_4");
         GifDrawable gifDrawable;
         try {
              gifDrawable = new GifDrawable(getAssets(), "activation_img.gif");
@@ -39,8 +40,12 @@ public class MainActivity extends AppCompatActivity {
         }
         // Error handling
         if (previewTemplate != null) {
-            activationView.showPreview(previewTemplate, true, 20, gifDrawable,
-                    v -> activationView.showDetail(detailsTemplate, () -> MainActivity.this.activationView.hideDetail()));
+            try {
+                activationView.showPreview(previewTemplate, true, 20, gifDrawable,
+                        v -> activationView.showDetail(detailsTemplate, () -> MainActivity.this.activationView.hideDetail()));
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
