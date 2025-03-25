@@ -2,7 +2,7 @@
   "no_template": [
     {
       "type": "text",
-      "content": "Full Content View",
+      "content": "Full Content View Preview",
       "attributes": {
         "font": "system",
         "size": "xl",
