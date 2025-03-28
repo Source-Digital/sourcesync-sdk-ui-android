@@ -2,7 +2,7 @@
   "no_template": [
     {
       "type": "text",
-      "content": "A very basic preview template",
+      "content": "A very basic preview template1",
       "attributes": {
         "font": "system",
         "size": "md",
@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "content": "Click to see details",
+      "content": "Click to see details1",
       "attributes": {
         "font": "system",
         "size": "md",

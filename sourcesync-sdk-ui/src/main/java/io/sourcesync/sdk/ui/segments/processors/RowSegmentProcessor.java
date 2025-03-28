@@ -4,19 +4,20 @@ import static io.sourcesync.sdk.ui.utils.LayoutUtils.getGravityFromAlignment;
 import static io.sourcesync.sdk.ui.utils.LayoutUtils.getSpacingValue;
 
 import android.content.Context;
-import android.widget.LinearLayout;
-import android.widget.FrameLayout;
+import android.util.Log;
 import android.view.View;
-import org.json.JSONObject;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+
 import org.json.JSONArray;
 import org.json.JSONException;
-import android.view.ViewGroup;
-import android.util.Log;
+import org.json.JSONObject;
 
-import io.sourcesync.sdk.ui.utils.LayoutUtils;
-import io.sourcesync.sdk.ui.utils.SegmentAttributes;
 import io.sourcesync.sdk.ui.segments.SegmentProcessor;
 import io.sourcesync.sdk.ui.segments.SegmentProcessorFactory;
+import io.sourcesync.sdk.ui.utils.LayoutUtils;
+import io.sourcesync.sdk.ui.utils.SegmentAttributes;
 
 public class RowSegmentProcessor implements SegmentProcessor {
     private static final String TAG = "RowSegmentProcessor";

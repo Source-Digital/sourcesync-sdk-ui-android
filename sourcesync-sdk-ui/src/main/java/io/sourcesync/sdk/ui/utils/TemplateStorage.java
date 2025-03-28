@@ -16,7 +16,7 @@ public class TemplateStorage {
             // First text element
             JSONObject text1 = new JSONObject();
             text1.put("type", "text");
-            text1.put("content", "A very basic preview template");
+            text1.put("content", "Default preview template");
 
             JSONObject text1Attributes = new JSONObject();
             text1Attributes.put("font", "system");
@@ -60,7 +60,7 @@ public class TemplateStorage {
             // Title text element
             JSONObject titleText = new JSONObject();
             titleText.put("type", "text");
-            titleText.put("content", "Full Content View");
+            titleText.put("content", "Default Details Full Content View");
 
             JSONObject titleTextAttributes = new JSONObject();
             titleTextAttributes.put("font", "system");

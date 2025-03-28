@@ -51,6 +51,7 @@ public class TextSegmentProcessor implements SegmentProcessor {
 
             // Configure layout parameters
             LinearLayout.LayoutParams params = createLayoutParams(attributes);
+            textView.setPadding(15,25,15,25);
             textView.setLayoutParams(params);
         }
 
