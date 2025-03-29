@@ -11,22 +11,22 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.sourcesync.sdk.ui.segments.SegmentProcessor;
-import io.sourcesync.sdk.ui.utils.ImageLoader;
 import io.sourcesync.sdk.ui.utils.LayoutUtils;
 import io.sourcesync.sdk.ui.utils.SegmentAttributes;
 
 public class ImageSegmentProcessor implements SegmentProcessor {
     private static final String TAG = "ImageSegmentProcessor";
-    private static ImageLoader imageLoader;
+    private static final float DEFAULT_CORNER_RADIUS_DP = 12f; // 10dp corner radius
 
     public ImageSegmentProcessor(ViewGroup parentContainer) {
-        if (imageLoader == null) {
-            imageLoader = new ImageLoader();
-        }
     }
 
     @Override
@@ -48,6 +48,9 @@ public class ImageSegmentProcessor implements SegmentProcessor {
         boolean hasFixedHeight = false;
         boolean isAutoHeight = false;
 
+        // Set default corner radius (10dp)
+        float cornerRadiusPx = DEFAULT_CORNER_RADIUS_DP * context.getResources().getDisplayMetrics().density;
+
         // Apply attributes if available
         if (segment.has("attributes")) {
             JSONObject attributesJson = segment.getJSONObject("attributes");
@@ -59,6 +62,16 @@ public class ImageSegmentProcessor implements SegmentProcessor {
             } else if (attributesJson.has("contentMode")) {
                 String contentMode = attributesJson.getString("contentMode");
                 imageView.setScaleType(contentModeToScaleType(contentMode));
+            }
+
+            // Handle corner radius if specified in attributes
+            if (attributesJson.has("cornerRadius")) {
+                try {
+                    float customRadius = (float) attributesJson.getDouble("cornerRadius");
+                    cornerRadiusPx = customRadius * context.getResources().getDisplayMetrics().density;
+                } catch (Exception e) {
+                    Log.e(TAG, "Error parsing cornerRadius", e);
+                }
             }
 
             // Handle size attributes
@@ -109,11 +122,31 @@ public class ImageSegmentProcessor implements SegmentProcessor {
             }
         }
 
-        // Load the image
+        // Load the image using Glide with rounded corners
         String imageUrl = segment.optString("content");
         if (!imageUrl.isEmpty()) {
             Log.d(TAG, String.format("Starting image load for URL: %s", imageUrl));
-            imageLoader.loadImage(imageUrl, imageView, isAutoHeight && hasFixedWidth);
+
+            // Apply rounded corners using Glide's RoundedCorners transformation
+            RequestOptions requestOptions = new RequestOptions()
+                    .transform(new RoundedCorners((int) cornerRadiusPx));
+
+            // Handle placeholder/error states
+            if (isAutoHeight && hasFixedWidth) {
+                // For auto-height images, we don't want a placeholder that might affect the height calculation
+                Glide.with(context)
+                        .load(imageUrl)
+                        .apply(requestOptions)
+                        .into(imageView);
+            } else {
+                // For fixed size images, we can use a placeholder
+                Glide.with(context)
+                        .load(imageUrl)
+                        .apply(requestOptions)
+                        .placeholder(android.R.color.darker_gray)
+                        .error(android.R.color.darker_gray)
+                        .into(imageView);
+            }
         } else {
             // No image URL, provide a placeholder appearance
             imageView.setBackgroundColor(Color.LTGRAY);

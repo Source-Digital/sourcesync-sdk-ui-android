@@ -1,5 +1,6 @@
 [versions]
 agp = "8.7.1"
+compiler = "4.15.1"
 kotlin = "1.9.24"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -16,6 +17,7 @@ gif = "1.2.29"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -27,7 +29,6 @@ androidx-leanback = { group = "androidx.leanback", name = "leanback", version.re
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 gif-drawable = {module = "pl.droidsonroids.gif:android-gif-drawable", version.ref = "gif"}
-
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

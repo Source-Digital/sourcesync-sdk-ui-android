@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
         container.addView(activationView);
 
         // Load a template
-        JSONObject previewTemplate = TemplateLoader.loadTemplate(this, "preview_template_4");
-        JSONObject detailsTemplate = TemplateLoader.loadTemplate(this, "details_template_4");
+        JSONObject previewTemplate = TemplateLoader.loadTemplate(this, "preview_template_1");
+        JSONObject detailsTemplate = TemplateLoader.loadTemplate(this, "details_template_1");
         GifDrawable gifDrawable;
         try {
              gifDrawable = new GifDrawable(getAssets(), "activation_img.gif");

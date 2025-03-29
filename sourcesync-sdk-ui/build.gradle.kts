@@ -30,8 +30,13 @@ android {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation(libs.androidx.appcompat)
     implementation(libs.gif.drawable)
+    implementation(libs.material)
+
+    implementation (libs.glide)
+    annotationProcessor (libs.compiler)
+
     testImplementation(libs.kotlin.test)
 }
 
