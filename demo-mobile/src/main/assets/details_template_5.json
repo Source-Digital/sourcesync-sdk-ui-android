@@ -1,0 +1,14 @@
+{
+  "template": [
+    {
+      "type": "webview",
+      "content": "https://sam-dev.sourcesync.io/#/372",
+      "attributes": {
+        "size": {
+          "width": "50%",
+          "height": "90%"
+        }
+      }
+    }
+    ]
+}

@@ -10,6 +10,7 @@ import io.sourcesync.sdk.ui.segments.processors.ColumnSegmentProcessor;
 import io.sourcesync.sdk.ui.segments.processors.ImageSegmentProcessor;
 import io.sourcesync.sdk.ui.segments.processors.RowSegmentProcessor;
 import io.sourcesync.sdk.ui.segments.processors.TextSegmentProcessor;
+import io.sourcesync.sdk.ui.segments.processors.WebViewSegmentProcessor;
 
 public class SegmentProcessorFactory {
     private final Map<String, SegmentProcessor> processors;
@@ -27,6 +28,7 @@ public class SegmentProcessorFactory {
         registerProcessor(new ButtonSegmentProcessor());
         registerProcessor(new RowSegmentProcessor(this, parentContainer));
         registerProcessor(new ColumnSegmentProcessor(this, parentContainer));
+        registerProcessor(new WebViewSegmentProcessor());
     }
 
     public void registerProcessor(SegmentProcessor processor) {

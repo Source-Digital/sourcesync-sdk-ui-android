@@ -2,9 +2,7 @@ package io.sourcesync.sdk.ui.utils;
 
 import android.content.Context;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -26,58 +24,12 @@ public class LayoutUtils {
             default -> Gravity.CENTER;
         };
     }
-
-    /**
-     * Get horizontal gravity for views
-     */
-    public static int getHorizontalGravity(String alignment) {
-        if (alignment == null) return Gravity.CENTER_HORIZONTAL;
-
-        return switch (alignment.toLowerCase()) {
-            case "left", "leading" -> Gravity.START;
-            case "right", "trailing" -> Gravity.END;
-            case "fill" -> Gravity.FILL_HORIZONTAL;
-            default -> Gravity.CENTER_HORIZONTAL;
-        };
-    }
-
-    /**
-     * Convert alignment to Linear Layout orientation
-     */
-    public static int getLinearLayoutOrientation(String orientation) {
-        if (orientation == null) return LinearLayout.VERTICAL;
-
-        switch (orientation.toLowerCase()) {
-            case "horizontal":
-                return LinearLayout.HORIZONTAL;
-            case "vertical":
-            default:
-                return LinearLayout.VERTICAL;
-        }
-    }
-
     /**
      * Convert dp to pixels
      */
     public static int dpToPx(Context context, int dp) {
         float density = context.getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
-    }
-
-    /**
-     * Convert dp to pixels (float version)
-     */
-    public static float dpToPx(Context context, float dp) {
-        float density = context.getResources().getDisplayMetrics().density;
-        return dp * density;
-    }
-
-    /**
-     * Convert dp to pixels (double version)
-     */
-    public static double dpToPx(Context context, double dp) {
-        float density = context.getResources().getDisplayMetrics().density;
-        return dp * density;
     }
 
     /**
@@ -135,20 +87,6 @@ public class LayoutUtils {
         float decimal = percentageToDecimal(percentage);
         return Math.round(totalDimension * decimal);
     }
-
-    /**
-     * Converts a percentage string to pixels based on a total dimension (float version)
-     * @param context The Android context
-     * @param percentage The percentage string (e.g. "50%")
-     * @param totalDimension The total dimension in pixels
-     * @return The calculated pixels
-     * @throws IllegalArgumentException if the percentage string is invalid
-     */
-    public static float percentageToPxFloat(Context context, String percentage, float totalDimension) {
-        float decimal = percentageToDecimal(percentage);
-        return totalDimension * decimal;
-    }
-
     /**
      * Convert a named font size to dp
      */
