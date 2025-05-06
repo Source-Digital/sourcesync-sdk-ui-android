@@ -33,7 +33,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.gif.drawable)
     implementation(libs.material)
-
+    implementation(libs.picasso)
     implementation (libs.glide)
     annotationProcessor (libs.compiler)
 

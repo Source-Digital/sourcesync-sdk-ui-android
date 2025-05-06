@@ -2,6 +2,7 @@ package io.sourcesync.sdk.ui.segments.processors;
 
 import static io.sourcesync.sdk.ui.utils.LayoutUtils.getGravityFromAlignment;
 import static io.sourcesync.sdk.ui.utils.LayoutUtils.getSpacingValue;
+import static io.sourcesync.sdk.ui.utils.LayoutUtils.percentageToDecimal;
 
 import android.content.Context;
 import android.util.Log;
@@ -65,7 +66,7 @@ public class ColumnSegmentProcessor implements SegmentProcessor {
         }
 
         // Setup layout parameters
-        LinearLayout.LayoutParams columnParams = createColumnLayoutParams(context, attributes);
+        LinearLayout.LayoutParams columnParams = createColumnLayoutParams(attributes);
         columnLayout.setLayoutParams(columnParams);
 
         // Process children elements (if any)
@@ -113,13 +114,13 @@ public class ColumnSegmentProcessor implements SegmentProcessor {
     }
 
     // Helper method to create layout parameters based on attributes
-    private LinearLayout.LayoutParams createColumnLayoutParams(Context context, SegmentAttributes attributes) {
+    private LinearLayout.LayoutParams createColumnLayoutParams(SegmentAttributes attributes) {
         LinearLayout.LayoutParams params;
 
         if (attributes != null && attributes.width != null) {
             if (LayoutUtils.isValidPercentage(attributes.width)) {
                 // Calculate weight based on percentage
-                float weight = LayoutUtils.percentageToDecimal(attributes.width);
+                float weight = percentageToDecimal(attributes.width);
                 params = new LinearLayout.LayoutParams(
                         0, // Width will be determined by weight
                         LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -133,15 +134,14 @@ public class ColumnSegmentProcessor implements SegmentProcessor {
             }
 
             // Handle height if specified
-            if (attributes.height != null) {
-                if (LayoutUtils.isValidPercentage(attributes.height)) {
+            if (LayoutUtils.isValidPercentage(attributes.height)) {
                     int parentHeight = parentContainer.getHeight();
                     if (parentHeight == 0) {
                         parentHeight = parentContainer.getMeasuredHeight();
                     }
-                    params.height = LayoutUtils.percentageToPx(context, attributes.height, parentHeight);
+                    params.height = LayoutUtils.percentageToPx(attributes.height,parentHeight);
                 }
-            }
+
         } else {
             // Default to equal weight distribution
             params = new LinearLayout.LayoutParams(
