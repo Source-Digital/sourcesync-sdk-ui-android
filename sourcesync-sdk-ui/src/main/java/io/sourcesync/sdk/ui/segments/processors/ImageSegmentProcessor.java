@@ -5,9 +5,11 @@ import static io.sourcesync.sdk.ui.utils.LayoutUtils.contentModeToScaleType;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -24,13 +26,21 @@ import io.sourcesync.sdk.ui.utils.SegmentAttributes;
 
 public class ImageSegmentProcessor implements SegmentProcessor {
     private static final String TAG = "ImageSegmentProcessor";
-    private static final float DEFAULT_CORNER_RADIUS_DP = 12f; // 10dp corner radius
+    private static final float DEFAULT_CORNER_RADIUS_DP = 12f; // 12dp corner radius
+
+    // Store screen dimensions
+    private int screenWidth;
+    private int screenHeight;
+    private boolean isLandscape;
 
     public ImageSegmentProcessor(ViewGroup parentContainer) {
     }
 
     @Override
     public View processSegment(Context context, JSONObject segment) throws JSONException {
+        // Initialize screen dimensions
+        initializeScreenDimensions(context);
+
         // Create a container view that will hold the image view
         FrameLayout containerView = new FrameLayout(context);
 
@@ -48,7 +58,7 @@ public class ImageSegmentProcessor implements SegmentProcessor {
         boolean hasFixedHeight = false;
         boolean isAutoHeight = false;
 
-        // Set default corner radius (10dp)
+        // Set default corner radius (12dp)
         float cornerRadiusPx = DEFAULT_CORNER_RADIUS_DP * context.getResources().getDisplayMetrics().density;
 
         // Apply attributes if available
@@ -79,7 +89,7 @@ public class ImageSegmentProcessor implements SegmentProcessor {
             if (sizeObj != null) {
                 // Process width value
                 if (sizeObj.has("width")) {
-                    hasFixedWidth = processWidth(sizeObj.get("width"), containerView);
+                    hasFixedWidth = processWidth(context, sizeObj.get("width"), containerView);
                 }
 
                 // Process height value
@@ -88,13 +98,13 @@ public class ImageSegmentProcessor implements SegmentProcessor {
                     if ("auto".equals(heightValue)) {
                         isAutoHeight = true;
                     } else {
-                        hasFixedHeight = processHeight(heightValue, containerView);
+                        hasFixedHeight = processHeight(context, heightValue, containerView);
                     }
                 }
             } else {
                 // Handle width attribute directly
                 if (attributes.width != null) {
-                    hasFixedWidth = processWidth(attributes.width, containerView);
+                    hasFixedWidth = processWidth(context, attributes.width, containerView);
                 }
 
                 // Handle height attribute directly
@@ -102,7 +112,7 @@ public class ImageSegmentProcessor implements SegmentProcessor {
                     if ("auto".equals(attributes.height)) {
                         isAutoHeight = true;
                     } else {
-                        hasFixedHeight = processHeight(attributes.height, containerView);
+                        hasFixedHeight = processHeight(context, attributes.height, containerView);
                     }
                 }
             }
@@ -117,7 +127,7 @@ public class ImageSegmentProcessor implements SegmentProcessor {
                             ViewGroup.LayoutParams.WRAP_CONTENT
                     );
                 }
-                params.height = (int) (50 * context.getResources().getDisplayMetrics().density);
+                params.height = (int) (60 * context.getResources().getDisplayMetrics().density);
                 containerView.setLayoutParams(params);
             }
         }
@@ -155,8 +165,36 @@ public class ImageSegmentProcessor implements SegmentProcessor {
         return containerView;
     }
 
+    /**
+     * Initialize screen dimensions, accounting for landscape orientation
+     */
+    private void initializeScreenDimensions(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+
+        // Get raw width and height
+        int rawWidth = displayMetrics.widthPixels;
+        int rawHeight = displayMetrics.heightPixels;
+
+        // Check if in landscape mode (width > height)
+        isLandscape = rawWidth > rawHeight;
+
+        // Always set screenWidth to be the larger dimension in landscape mode
+        if (isLandscape) {
+            screenWidth = Math.max(rawWidth, rawHeight);
+            screenHeight = Math.min(rawWidth, rawHeight);
+        } else {
+            screenWidth = rawWidth;
+            screenHeight = rawHeight;
+        }
+
+        Log.d(TAG, String.format("Screen dimensions: %dx%d, isLandscape: %b",
+                screenWidth, screenHeight, isLandscape));
+    }
+
     // Process width value and return true if it's a fixed width
-    private boolean processWidth(Object width, View view) {
+    private boolean processWidth(Context context, Object width, View view) {
         if (width instanceof Integer) {
             int widthValue = (Integer) width;
             ViewGroup.LayoutParams params = view.getLayoutParams();
@@ -171,14 +209,27 @@ public class ImageSegmentProcessor implements SegmentProcessor {
             view.setLayoutParams(params);
             return true;
         } else if (width instanceof String widthString) {
-
             if ("auto".equals(widthString)) {
                 return false;
             } else if (LayoutUtils.isValidPercentage(widthString)) {
                 float percentage = LayoutUtils.percentageToDecimal(widthString);
                 if (percentage > 0) {
-                    // Let the parent handle percentage constraints
-                    return false;
+                    // Calculate actual pixel width based on screen width
+                    int calculatedWidth = (int) (screenWidth * percentage);
+                    Log.d(TAG, String.format("Setting width to %d pixels (%s of screen width %d)",
+                            calculatedWidth, widthString, screenWidth));
+
+                    ViewGroup.LayoutParams params = view.getLayoutParams();
+                    if (params == null) {
+                        params = new ViewGroup.LayoutParams(
+                                calculatedWidth,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
+                        );
+                    } else {
+                        params.width = calculatedWidth;
+                    }
+                    view.setLayoutParams(params);
+                    return true;
                 }
                 return false;
             } else {
@@ -204,7 +255,7 @@ public class ImageSegmentProcessor implements SegmentProcessor {
     }
 
     // Process height value and return true if it's a fixed height
-    private boolean processHeight(Object height, View view) {
+    private boolean processHeight(Context context, Object height, View view) {
         if (height instanceof Integer) {
             int heightValue = (Integer) height;
             ViewGroup.LayoutParams params = view.getLayoutParams();
@@ -219,14 +270,27 @@ public class ImageSegmentProcessor implements SegmentProcessor {
             view.setLayoutParams(params);
             return true;
         } else if (height instanceof String heightString) {
-
             if ("auto".equals(heightString)) {
                 return false;
             } else if (LayoutUtils.isValidPercentage(heightString)) {
                 float percentage = LayoutUtils.percentageToDecimal(heightString);
                 if (percentage > 0) {
-                    // Let the parent handle percentage constraints
-                    return false;
+                    // Calculate actual pixel height based on screen height
+                    int calculatedHeight = (int) (screenHeight * percentage);
+                    Log.d(TAG, String.format("Setting height to %d pixels (%s of screen height %d)",
+                            calculatedHeight, heightString, screenHeight));
+
+                    ViewGroup.LayoutParams params = view.getLayoutParams();
+                    if (params == null) {
+                        params = new ViewGroup.LayoutParams(
+                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                                calculatedHeight
+                        );
+                    } else {
+                        params.height = calculatedHeight;
+                    }
+                    view.setLayoutParams(params);
+                    return true;
                 }
                 return false;
             } else {

@@ -12,6 +12,8 @@ activity = "1.9.3"
 constraintlayout = "2.2.0"
 leanback = "1.0.0"
 glide = "4.11.0"
+picasso = "2.8"
+
 vanniktech = "0.29.0"
 gif = "1.2.29"
 
@@ -29,6 +31,7 @@ androidx-leanback = { group = "androidx.leanback", name = "leanback", version.re
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 gif-drawable = {module = "pl.droidsonroids.gif:android-gif-drawable", version.ref = "gif"}
+picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
