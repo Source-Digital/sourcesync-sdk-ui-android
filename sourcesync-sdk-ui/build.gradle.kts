@@ -6,9 +6,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
-// group = "io.sourcesync.sdk"
-// version = "0.0.3"
-
 android {
     namespace = "io.sourcesync.sdk.ui"
     compileSdk = 34
@@ -35,18 +32,19 @@ dependencies {
     implementation(libs.material)
     implementation(libs.picasso)
     implementation (libs.glide)
-    annotationProcessor (libs.compiler)
 
+    implementation(libs.div.core)
+    implementation(libs.div.main)
+    implementation(libs.div.json)
+
+    annotationProcessor (libs.compiler)
     testImplementation(libs.kotlin.test)
 }
 
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-    
     signAllPublications()
-    
     coordinates(group.toString(), "sourcesync-sdk-ui-android", version.toString())
-
     pom {
         name.set("SourceSync SDK UI Android")
         description.set("Android UI components for SourceSync SDK")
