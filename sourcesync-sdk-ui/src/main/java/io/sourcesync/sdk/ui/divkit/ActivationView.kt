@@ -6,7 +6,11 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import com.yandex.div.core.DivActionHandler
 import com.yandex.div.core.DivConfiguration
+import com.yandex.div.core.DivViewFacade
+import com.yandex.div.json.expressions.ExpressionResolver
+import com.yandex.div2.DivAction
 import io.sourcesync.sdk.ui.utils.LayoutUtils.asTemplateAndCardParsed
 import io.sourcesync.sdk.ui.utils.PicassoDivImageLoader
 import org.json.JSONException
@@ -16,6 +20,7 @@ import org.json.JSONObject
  * A view representing an activation component with preview and detail views.
  */
 class ActivationView(private val context: Context) : FrameLayout(context) {
+    private var onDetailsCloseClicked: Runnable? = null
     private var previewView: ActivationPreview? = null
     private var detailView: ActivationDetail? = null
     private var onPreviewClickHandler: Runnable? = null
@@ -23,6 +28,7 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
 
     private fun createDivConfiguration(): DivConfiguration {
         return DivConfiguration.Builder(PicassoDivImageLoader(context))
+            .actionHandler(CustomActionHandler())
             .visualErrorsEnabled(true)
             .build()
     }
@@ -55,8 +61,8 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
             }
 
             val params = LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
             )
             // Add view with initial params
             addView(previewView, params)
@@ -76,13 +82,15 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
             removeView(detailView)
         }
 
+        this.onDetailsCloseClicked = onClose
+
         try {
             val detailsData = detailsParentJson.asTemplateAndCardParsed()
-            detailView = ActivationDetail(context, detailsData,createDivConfiguration(), onClose)
+            detailView = ActivationDetail(context, detailsData, createDivConfiguration())
 
             val params = LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
             )
             addView(detailView, params)
         } catch (e: JSONException) {
@@ -108,5 +116,25 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
 
     companion object {
         private const val TAG = "SDK:ActivationView"
+    }
+
+    // Custom action handler to handle the close action
+    private inner class CustomActionHandler : DivActionHandler() {
+
+        override fun handleAction(
+            action: DivAction,
+            view: DivViewFacade,
+            resolver: ExpressionResolver
+        ): Boolean {
+            val url = action.url?.evaluate(resolver) ?: return super.handleAction(action, view, resolver)
+            // Check if it's our close action
+            if (url.toString().startsWith("div-action://close")) {
+                // Handle the close action
+                onDetailsCloseClicked?.run()
+                return true
+            }
+            // Let the parent class handle other actions
+            return super.handleAction(action, view, resolver)
+        }
     }
 }

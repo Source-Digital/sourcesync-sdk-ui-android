@@ -31,10 +31,5 @@ class ActivationPreview
 
         // Add content container to frame layout
         addView(divView)
-
-        // Make the preview clickable
-        isClickable = true
-        isFocusable = true
-
     }
 }

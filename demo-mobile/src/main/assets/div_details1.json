@@ -1,119 +1,133 @@
- {
-    "template": {
-      "text_block": {
-        "type": "text",
-        "font_size": 12,
-        "line_height": 15,
-        "text_alignment_horizontal": "center",
-        "text_alignment_vertical": "center",
-        "alignment_horizontal": "center",
-        "text_color": "#000000",
-        "paddings": {
-          "top": 4,
-          "bottom": 4,
-          "left": 8,
-          "right": 8
-        },
-        "width": {
-          "type": "fixed",
-          "value": 80
-        },
-        "height": {
-          "type": "fixed",
-          "value": 104
-        },
-        "background": [
-          {
-            "type": "solid",
-            "color": "#0E000000"
-          }
-        ],
-        "border": {
-          "corner_radius": 16
-        }
-      },
-      "title": {
-        "type": "text",
-        "font_size": 20,
-        "line_height": 24,
-        "font_weight": "bold",
-        "paddings": {
-          "left": 24,
-          "right": 24,
-          "bottom": 16
-        }
-      },
-      "subtitle": {
-        "font_size": 15,
-        "line_height": 20,
-        "type": "text",
-        "paddings": {
-          "left": 24,
-          "right": 24
-        }
+{
+  "templates": {
+    "title": {
+      "type": "text",
+      "font_size": 20,
+      "line_height": 24,
+      "font_weight": "bold",
+      "paddings": {
+        "left": 24,
+        "right": 24,
+        "bottom": 16
       }
     },
-    "card": {
-      "log_id": "sample_card",
-      "states": [
+    "subtitle": {
+      "font_size": 15,
+      "line_height": 20,
+      "type": "text",
+      "paddings": {
+        "left": 24,
+        "right": 24
+      }
+    },
+    "close_button": {
+      "type": "text",
+      "text": "✕",
+      "font_size": 18,
+      "font_weight": "bold",
+      "text_color": "#FFFFFF",
+      "text_alignment_horizontal": "center",
+      "text_alignment_vertical": "center",
+      "width": {
+        "type": "fixed",
+        "value": 32
+      },
+      "height": {
+        "type": "fixed",
+        "value": 32
+      },
+      "background": [
         {
-          "state_id": 0,
-          "div": {
-            "type": "container",
-            "orientation": "vertical",
-            "margins": {
-              "top": 24,
-              "bottom": 24
-            },
-            "items": [
-              {
-                "type": "title",
-                "text": "Gallery"
-              },
-              {
-                "type": "subtitle",
-                "text": "Displays elements with any content, not just images. It lets you set the distance between adjacent elements.",
-                "margins": {
-                  "bottom": 24
-                }
-              },
-              {
-                "type": "gallery",
-                "height": {
-                  "type": "fixed",
-                  "value": 104
-                },
-                "paddings": {
-                  "left": 16,
-                  "right": 16
-                },
-                "item_spacing": 16,
-                "items": [
-                  {
-                    "type": "text_block",
-                    "text": "Item 0"
-                  },
-                  {
-                    "type": "text_block",
-                    "text": "Item 1"
-                  },
-                  {
-                    "type": "text_block",
-                    "text": "Item 2"
-                  },
-                  {
-                    "type": "text_block",
-                    "text": "Item 3"
-                  },
-                  {
-                    "type": "text_block",
-                    "text": "Item 4"
-                  }
-                ]
-              }
-            ]
-          }
+          "type": "solid",
+          "color": "#000000",
+          "alpha": 0.7
         }
-      ]
+      ],
+      "border": {
+        "corner_radius": 16
+      }
     }
+  },
+  "card": {
+    "log_id": "sample_card",
+    "states": [
+      {
+        "state_id": 0,
+        "div": {
+          "type": "container",
+          "orientation": "vertical",
+          "items": [
+            {
+              "type": "container",
+              "width": {
+                "type": "match_parent"
+              },
+              "height": {
+                "type": "wrap_content"
+              },
+              "items": [
+                {
+                  "type": "close_button",
+                  "alignment_horizontal": "right",
+                  "alignment_vertical": "top",
+                  "margins": {
+                    "top": 20,
+                    "right": 20
+                  },
+                  "action": {
+                    "log_id": "close_button_click",
+                    "url": "div-action://close"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "container",
+              "orientation": "vertical",
+              "margins": {
+                "top": 24,
+                "bottom": 24
+              },
+              "items": [
+                {
+                  "type": "title",
+                  "text": "Image Example"
+                },
+                {
+                  "type": "subtitle",
+                  "text": "Displaying an image from a URL.",
+                  "margins": {
+                    "bottom": 24
+                  }
+                },
+                {
+                  "type": "image",
+                  "image_url": "https://cdn-icons-png.flaticon.com/256/10278/10278187.png",
+                  "width": {
+                    "type": "fixed",
+                    "value": 200
+                  },
+                  "height": {
+                    "type": "fixed",
+                    "value": 200
+                  },
+                  "scale": "fit",
+                  "alignment_horizontal": "center",
+                  "margins": {
+                    "left": 24,
+                    "right": 24,
+                    "top": 8,
+                    "bottom": 24
+                  },
+                  "border": {
+                    "corner_radius": 8
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
   }
+}

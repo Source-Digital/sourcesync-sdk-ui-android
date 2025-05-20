@@ -38,13 +38,11 @@ class PicassoDivImageLoader(
     val isIdle: Boolean
         get() = targets.size == 0
 
-    private fun createPicasso(): com.squareup.picasso.Picasso {
-        return com.squareup.picasso.Picasso.Builder(appContext)
+    private fun createPicasso(): Picasso {
+        return Picasso.Builder(appContext)
             .downloader(com.squareup.picasso.OkHttp3Downloader(appContext, DISK_CACHE_SIZE))
             .build()
     }
-
-    fun hasSvgSupport() = false
 
     override fun loadImage(imageUrl: String, callback: DivImageDownloadCallback): LoadReference {
         val imageUri = imageUrl.toUri()
@@ -82,8 +80,8 @@ class PicassoDivImageLoader(
                     call.execute()
                 }.getOrNull() ?: return@withContext null
                 val source =
-                    response.cacheResponse()?.let { BitmapSource.MEMORY } ?: BitmapSource.NETWORK
-                val bytes = response.body()?.bytes() ?: return@withContext null
+                    response.cacheResponse?.let { BitmapSource.MEMORY } ?: BitmapSource.NETWORK
+                val bytes = response.body?.bytes() ?: return@withContext null
                 BitmapFactory.decodeByteArray(bytes, 0, bytes.size)?.let {
                     CachedBitmap(it, bytes, imageUrl.toUri(), source)
                 }

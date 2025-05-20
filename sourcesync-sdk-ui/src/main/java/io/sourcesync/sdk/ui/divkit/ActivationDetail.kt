@@ -15,23 +15,17 @@ import com.yandex.div2.DivData
 class ActivationDetail(
     context: Context,
     detailsData: DivData,
-    createDivConfiguration: DivConfiguration,
-    onClose: Runnable?
+    divConfig: DivConfiguration
 ) : FrameLayout(context) {
     private lateinit var divView: Div2View
 
     init {
-        initializeView(detailsData, createDivConfiguration, onClose)
-    }
-
-    fun setOnCloseListener(onClose: Runnable?) {
-        // If we already have header views, update their listeners
+        initializeView(detailsData, divConfig)
     }
 
     private fun initializeView(
         detailsData: DivData,
-        config: DivConfiguration,
-        onClose: Runnable?
+        config: DivConfiguration
     ) {
         try {
             divView = Div2View(
