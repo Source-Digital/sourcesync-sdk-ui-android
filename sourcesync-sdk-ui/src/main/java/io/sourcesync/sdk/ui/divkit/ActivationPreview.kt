@@ -2,6 +2,7 @@ package io.sourcesync.sdk.ui.divkit
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.ContextWrapper
 import android.view.ContextThemeWrapper
 import android.widget.FrameLayout
 import com.yandex.div.DivDataTag
@@ -19,11 +20,22 @@ class ActivationPreview
         initializeView(previewData, config)
     }
 
+    /**
+     * Initializes the DivView with the provided data and configuration
+     * @param previewData The DivData to display
+     * @param config The DivConfiguration to use
+     */
+
     private fun initializeView(previewData: DivData, config: DivConfiguration) {
+
+        val themedContext = ContextThemeWrapper(
+            context,
+            context.applicationInfo.theme
+        )
 
         divView = Div2View(
             Div2Context(
-                baseContext = context as ContextThemeWrapper,
+                baseContext = themedContext,
                 configuration = config
             )
         )

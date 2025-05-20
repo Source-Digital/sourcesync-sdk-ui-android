@@ -28,9 +28,15 @@ class ActivationDetail(
         config: DivConfiguration
     ) {
         try {
+
+            val themedContext = ContextThemeWrapper(
+                context,
+                context.applicationInfo.theme
+            )
+
             divView = Div2View(
                 Div2Context(
-                    baseContext = context as ContextThemeWrapper,
+                    baseContext = themedContext,
                     configuration = config
                 )
             )
