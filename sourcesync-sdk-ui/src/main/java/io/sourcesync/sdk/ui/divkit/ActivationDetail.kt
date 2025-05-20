@@ -1,0 +1,55 @@
+package io.sourcesync.sdk.ui.divkit
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.util.Log
+import android.view.ContextThemeWrapper
+import android.widget.FrameLayout
+import com.yandex.div.DivDataTag
+import com.yandex.div.core.Div2Context
+import com.yandex.div.core.DivConfiguration
+import com.yandex.div.core.view2.Div2View
+import com.yandex.div2.DivData
+
+@SuppressLint("ViewConstructor")
+class ActivationDetail(
+    context: Context,
+    detailsData: DivData,
+    createDivConfiguration: DivConfiguration,
+    onClose: Runnable?
+) : FrameLayout(context) {
+    private lateinit var divView: Div2View
+
+    init {
+        initializeView(detailsData, createDivConfiguration, onClose)
+    }
+
+    fun setOnCloseListener(onClose: Runnable?) {
+        // If we already have header views, update their listeners
+    }
+
+    private fun initializeView(
+        detailsData: DivData,
+        config: DivConfiguration,
+        onClose: Runnable?
+    ) {
+        try {
+            divView = Div2View(
+                Div2Context(
+                    baseContext = context as ContextThemeWrapper,
+                    configuration = config
+                )
+            )
+            divView.setData(detailsData, DivDataTag("SourceSync-ActivationDetails"))
+
+            // Add content container to frame layout
+            addView(divView)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error in initializeView", e)
+        }
+    }
+
+    companion object {
+        private const val TAG = "ActivationDetails"
+    }
+}

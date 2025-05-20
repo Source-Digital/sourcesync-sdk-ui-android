@@ -1,0 +1,135 @@
+{
+    "template":
+      {
+        "name": "DivKitBlock",
+        "settings": {
+          "version": "1.0"
+        }
+      },
+  "card": {
+    "states": [
+      {
+        "state_id": 0,
+        "div": {
+          "type": "container",
+          "orientation": "horizontal",
+          "paddings": {
+            "left": 16,
+            "right": 16,
+            "top": 16,
+            "bottom": 16
+          },
+          "width": {
+            "type": "fixed",
+            "value": 400
+          },
+          "height": {
+            "type": "fixed",
+            "value": 150
+          },
+          "alignment_horizontal": "right",
+          "background": [
+            {
+              "type": "image",
+              "image_url": "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b",
+              "alpha": 0.5,
+              "scale": "fill"
+            }
+          ],
+          "border": {
+            "corner_radius": 16
+          },
+          "items": [
+            {
+              "type": "container",
+              "orientation": "vertical",
+              "width": {
+                "type": "match_parent",
+                "weight": 0.6
+              },
+              "alignment_vertical": "center",
+              "background": [
+                {
+                  "type": "solid",
+                  "color": "#FFFFFF",
+                  "alpha": 0.8
+                }
+              ],
+              "border": {
+                "corner_radius": 8
+              },
+              "paddings": {
+                "left": 12,
+                "right": 12,
+                "top": 12,
+                "bottom": 12
+              },
+              "margins": {
+                "right": 16
+              },
+              "items": [
+                {
+                  "type": "text",
+                  "text": "City Views",
+                  "font_size": 22,
+                  "font_weight": "bold",
+                  "margins": {
+                    "bottom": 8
+                  },
+                  "text_color": "#000000"
+                },
+                {
+                  "type": "text",
+                  "text": "Explore breathtaking urban landscapes and architectural marvels from around the world.",
+                  "font_size": 14,
+                  "text_color": "#333333"
+                }
+              ]
+            },
+            {
+              "type": "container",
+              "width": {
+                "type": "match_parent",
+                "weight": 0.4
+              },
+              "height": {
+                "type": "wrap_content"
+              },
+              "alignment_horizontal": "center",
+              "alignment_vertical": "center",
+              "items": [
+                {
+                  "type": "image",
+                  "image_url": "https://images.unsplash.com/photo-1444723121867-7a241cacace9",
+                  "width": {
+                    "type": "fixed",
+                    "value": 120
+                  },
+                  "height": {
+                    "type": "fixed",
+                    "value": 120
+                  },
+                  "scale": "fill",
+                  "content_alignment_vertical": "center",
+                  "content_alignment_horizontal": "center",
+                  "alignment_horizontal": "center",
+                  "alignment_vertical": "center",
+                  "border": {
+                    "corner_radius": 60,
+                    "stroke": {
+                      "color": "#FFFFFF",
+                      "width": 3
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "log_id": "main_layout"
+  }
+
+
+}

@@ -2,7 +2,6 @@
 agp = "8.7.1"
 compiler = "4.15.1"
 kotlin = "1.9.24"
-coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -16,6 +15,10 @@ picasso = "2.8"
 
 vanniktech = "0.29.0"
 gif = "1.2.29"
+
+div-version="3.0.1"
+#coreKtxVersion = "1.16.0"
+coreKtx = "1.13.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,9 +36,15 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 gif-drawable = {module = "pl.droidsonroids.gif:android-gif-drawable", version.ref = "gif"}
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 
+#DivKit dependencies
+div-core = { group = "com.yandex.div", name = "div-core", version.ref = "div-version" }
+div-main = { group = "com.yandex.div", name = "div", version.ref = "div-version" }
+div-json = { group = "com.yandex.div", name = "div-json", version.ref = "div-version" }
+#core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtxVersion" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version = "2.1.20" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 vanniktech-mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
