@@ -1,6 +1,5 @@
 [versions]
 agp = "8.7.1"
-compiler = "4.15.1"
 kotlin = "1.9.24"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -10,19 +9,15 @@ material = "1.10.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
 leanback = "1.0.0"
-glide = "4.11.0"
 picasso = "2.8"
 
 vanniktech = "0.29.0"
-gif = "1.2.29"
 
-div-version="31.14.0"
-#coreKtxVersion = "1.16.0"
+div-version="32.0.0"
 coreKtx = "1.13.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -31,9 +26,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-leanback = { group = "androidx.leanback", name = "leanback", version.ref = "leanback" }
-glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-gif-drawable = {module = "pl.droidsonroids.gif:android-gif-drawable", version.ref = "gif"}
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 
 #DivKit dependencies

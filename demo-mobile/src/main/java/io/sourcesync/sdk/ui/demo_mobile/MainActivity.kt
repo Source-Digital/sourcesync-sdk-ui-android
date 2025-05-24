@@ -20,8 +20,8 @@ class MainActivity : AppCompatActivity() {
         activationView = ActivationView(this)
         container.addView(activationView)
 
-        val previewTemplate = TemplateLoader.loadTemplate(this,"div_preview2.json")
-        val detailsTemplate = TemplateLoader.loadTemplate(this,"div_details1.json")
+        val previewTemplate = TemplateLoader.loadTemplate(this,"div_preview.json")
+        val detailsTemplate = TemplateLoader.loadTemplate(this,"div_details.json")
         try {
             activationView!!.showPreview(previewTemplate) { _: View? ->
                 activationView!!.showDetail(detailsTemplate)
