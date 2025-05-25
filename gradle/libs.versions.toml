@@ -16,7 +16,7 @@ picasso = "2.8"
 vanniktech = "0.29.0"
 gif = "1.2.29"
 
-div-version="3.0.1"
+div-version="31.14.0"
 #coreKtxVersion = "1.16.0"
 coreKtx = "1.13.1"
 

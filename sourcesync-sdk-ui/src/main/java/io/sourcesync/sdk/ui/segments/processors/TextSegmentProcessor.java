@@ -290,22 +290,6 @@ public class TextSegmentProcessor implements SegmentProcessor {
             // For colored shadows, we would need a custom solution
             // This is a simplified approach using native elevation
         }
-        // Apply background image
-        if (attributes.backgroundImage != null && attributes.backgroundImage.url != null) {
-            // Use the reusable image loader from LayoutUtils
-            LayoutUtils.loadBackgroundImage(
-                    context,
-                    textView,
-                    attributes.backgroundImage.url,
-                    attributes.backgroundImage.contentMode,
-                    attributes.backgroundImage.opacity,
-                    hasCustomBackground ? background : null,
-                    attributes.borderRadius
-            );
-        } else if (hasCustomBackground) {
-            // If no background image but has other background styling
-            textView.setBackground(background);
-        }
     }
 
     // Helper method to map start/end points to gradient orientation

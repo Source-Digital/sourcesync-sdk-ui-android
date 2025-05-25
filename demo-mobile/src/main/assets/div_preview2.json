@@ -1,5 +1,5 @@
 {
-    "template":
+    "templates":
       {
         "name": "DivKitBlock",
         "settings": {
@@ -130,6 +130,4 @@
     ],
     "log_id": "main_layout"
   }
-
-
 }
