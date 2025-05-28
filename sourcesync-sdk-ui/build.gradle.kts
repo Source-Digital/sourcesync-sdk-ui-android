@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "io.sourcesync.sdk.ui"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
@@ -34,16 +34,13 @@ tasks.withType<KotlinCompile>().configureEach {
 
 dependencies {
     implementation(libs.androidx.appcompat)
-    implementation(libs.gif.drawable)
     implementation(libs.material)
     implementation(libs.picasso)
-    implementation (libs.glide)
 
     implementation(libs.div.core)
     implementation(libs.div.main)
     implementation(libs.div.json)
 
-    annotationProcessor (libs.compiler)
     testImplementation(libs.kotlin.test)
 }
 

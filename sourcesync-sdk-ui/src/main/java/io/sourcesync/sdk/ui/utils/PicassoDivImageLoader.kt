@@ -6,8 +6,10 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
+import androidx.core.net.toUri
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.squareup.picasso.Picasso
 import com.yandex.div.core.images.BitmapSource
 import com.yandex.div.core.images.CachedBitmap
 import com.yandex.div.core.images.DivImageDownloadCallback
@@ -17,8 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import androidx.core.net.toUri
-import com.squareup.picasso.Picasso
 
 class PicassoDivImageLoader(
     context: Context,
@@ -91,11 +91,6 @@ class PicassoDivImageLoader(
         }
 
         return loadReference
-    }
-
-    fun resetIdle() {
-        //TODO(DIVKIT-290): Find out why picasso loses callbacks.
-        targets.clean()
     }
 
     private companion object {

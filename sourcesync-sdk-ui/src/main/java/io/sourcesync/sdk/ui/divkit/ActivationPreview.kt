@@ -2,7 +2,6 @@ package io.sourcesync.sdk.ui.divkit
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.ContextWrapper
 import android.view.ContextThemeWrapper
 import android.widget.FrameLayout
 import com.yandex.div.DivDataTag
