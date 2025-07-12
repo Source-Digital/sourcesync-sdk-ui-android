@@ -1,23 +1,16 @@
 {
-    "templates":
-      {
-        "name": "DivKitBlock",
-        "settings": {
-          "version": "1.0"
-        }
-      },
   "card": {
-    "log_id": "main_layout",
+    "log_id": "div2_sample_card",
     "states": [
       {
         "state_id": 0,
         "div": {
           "type": "container",
           "width": {
-            "type": "match_parent"
+            "type": "wrap_content"
           },
           "height": {
-            "type": "match_parent"
+            "type": "wrap_content"
           },
           "orientation": "vertical",
           "paddings": {
@@ -98,7 +91,7 @@
                       "items": [
                         {
                           "type": "text",
-                          "text": "City Views!",
+                          "text": "City Dogs!",
                           "font_size": 22,
                           "font_weight": "bold",
                           "margins": {
@@ -156,9 +149,22 @@
                 }
               ]
             }
+          ],
+          "alignment_horizontal": "right",
+          "background": [
+            {
+              "type": "solid",
+              "color": "#ffb800"
+            }
           ]
         }
       }
     ]
+  },
+  "templates": {
+    "name": "DivKitBlock",
+    "settings": {
+      "version": "1.0"
+    }
   }
 }

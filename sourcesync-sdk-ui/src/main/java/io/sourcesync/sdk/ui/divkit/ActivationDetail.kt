@@ -40,6 +40,8 @@ class ActivationDetail(
                     configuration = config
                 )
             )
+
+
             divView.setData(detailsData, DivDataTag("SourceSync-ActivationDetails"))
 
             // Add content container to frame layout

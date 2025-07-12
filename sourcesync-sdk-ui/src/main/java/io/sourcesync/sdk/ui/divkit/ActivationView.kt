@@ -53,7 +53,7 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
 
         try {
             previewView = ActivationPreview(context, previewData, createDivConfiguration())
-            previewView!!.setOnClickListener { _: View? ->
+            previewView!!.setOnContentClickListener {
                 if (onPreviewClickHandler != null) {
                     previewView!!.visibility = GONE
                     onPreviewClickHandler!!.run()
