@@ -1,3 +1,5 @@
+package io.sourcesync.sdk.ui.divkit
+
 import android.content.Context
 import android.os.Handler
 import android.util.DisplayMetrics
@@ -9,8 +11,6 @@ import com.yandex.div.core.DivConfiguration
 import com.yandex.div.core.DivViewFacade
 import com.yandex.div.json.expressions.ExpressionResolver
 import com.yandex.div2.DivAction
-import io.sourcesync.sdk.ui.divkit.ActivationDetails
-import io.sourcesync.sdk.ui.divkit.ActivationPreview
 import io.sourcesync.sdk.ui.utils.LayoutUtils.asTemplateAndCardParsed
 import io.sourcesync.sdk.ui.utils.PicassoDivImageLoader
 import org.json.JSONException

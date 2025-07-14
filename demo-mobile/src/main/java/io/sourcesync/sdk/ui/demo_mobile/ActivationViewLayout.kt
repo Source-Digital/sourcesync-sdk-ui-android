@@ -1,6 +1,5 @@
 package io.sourcesync.sdk.ui.demo_mobile
 
-import ActivationView
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.CountDownTimer
@@ -10,6 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import io.sourcesync.sdk.ui.divkit.ActivationView
 import org.json.JSONException
 
 class ActivationViewLayout @JvmOverloads constructor(
