@@ -14,13 +14,13 @@
           "height": {
             "type": "match_parent"
           },
-          "orientation": "vertical",
+          "orientation": "overlap",
           "items": [
             {
               "type": "container",
               "width": {
-                "type": "fixed",
-                "value": 300
+                "type": "match_parent",
+                "weight": 0.7
               },
               "height": {
                 "type": "match_parent"

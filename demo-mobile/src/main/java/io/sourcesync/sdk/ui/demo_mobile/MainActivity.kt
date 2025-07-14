@@ -1,34 +1,63 @@
 package io.sourcesync.sdk.ui.demo_mobile
 
 import android.os.Bundle
-import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import io.sourcesync.sdk.ui.divkit.ActivationView
-import org.json.JSONException
 
 class MainActivity : AppCompatActivity() {
-    private var activationView: ActivationView? = null
+    private var activationViewLayout: ActivationViewLayout? = null
+    private var container: FrameLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Create container for activation views
-        val container = FrameLayout(this)
+        // Create container
+        container = FrameLayout(this)
         setContentView(container)
 
-        activationView = ActivationView(this)
-        container.addView(activationView)
+        showMainButtons()
+    }
 
-        val previewTemplate = TemplateLoader.loadTemplate(this,"div_preview.json")
-        val detailsTemplate = TemplateLoader.loadTemplate(this,"div_details.json")
-        try {
-            activationView!!.showPreview(previewTemplate) { _: View? ->
-                activationView!!.showDetail(detailsTemplate)
-                { activationView!!.hideDetails() }
-            }
-        } catch (e: JSONException) {
-            throw RuntimeException(e)
+    private fun showMainButtons() {
+        container?.removeAllViews()
+
+        val layout = android.widget.LinearLayout(this).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            setPadding(32, 32, 32, 32)
         }
+
+        val launchButton = android.widget.Button(this).apply {
+            text = "Show Activation View Layout"
+            setOnClickListener {
+                showActivationViewLayout()
+            }
+        }
+
+        layout.addView(launchButton)
+        container?.addView(layout)
+    }
+
+    private fun showActivationViewLayout() {
+        container?.removeAllViews()
+
+        activationViewLayout = ActivationViewLayout(this).apply {
+            onBackClickListener = {
+                hideActivationViewLayout()
+            }
+        }
+
+        container?.addView(activationViewLayout)
+        activationViewLayout?.startTimer()
+    }
+
+    private fun hideActivationViewLayout() {
+        activationViewLayout?.stopTimer()
+        activationViewLayout = null
+        showMainButtons()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activationViewLayout?.stopTimer()
     }
 }
