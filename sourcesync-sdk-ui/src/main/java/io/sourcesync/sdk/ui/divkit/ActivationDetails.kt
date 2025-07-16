@@ -4,18 +4,18 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.ContextThemeWrapper
-import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.recyclerview.widget.RecyclerView
 import com.yandex.div.DivDataTag
 import com.yandex.div.core.Div2Context
 import com.yandex.div.core.DivConfiguration
 import com.yandex.div.core.view2.Div2View
 import com.yandex.div2.DivData
+import io.sourcesync.sdk.ui.utils.LayoutUtils.forceCleanup
+import io.sourcesync.sdk.ui.utils.LayoutUtils.isSafeForCleanup
+import io.sourcesync.sdk.ui.utils.LayoutUtils.safeCleanup
 
 @SuppressLint("ViewConstructor")
-class ActivationDetails(
+open class ActivationDetails(
     context: Context,
     detailsData: DivData,
     divConfig: DivConfiguration
@@ -53,53 +53,20 @@ class ActivationDetails(
         }
     }
 
-    /**
-     * Safely cleanup all RecyclerViews in the view hierarchy
-     */
-    private fun clearRecyclerViews(view: View) {
-        try {
-            if (view is ViewGroup) {
-                for (i in 0 until view.childCount) {
-                    val child = view.getChildAt(i)
-                    if (child is RecyclerView) {
-                        try {
-                            child.adapter = null
-                            child.layoutManager = null
-                        } catch (e: Exception) {
-                            Log.w(TAG, "Error clearing RecyclerView: ${e.message}")
-                        }
-                    }
-                    if (child is ViewGroup) {
-                        clearRecyclerViews(child)
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            Log.w(TAG, "Error in clearRecyclerViews: ${e.message}")
-        }
-    }
-
-    /**
-     * Safe cleanup method
-     */
-    fun safeCleanup() {
-        try {
-            divView?.let { view ->
-                // Clear all RecyclerViews first
-                clearRecyclerViews(view)
-                // Then cleanup
-                view.cleanup()
-            }
-        } catch (e: Exception) {
-            Log.w(TAG, "Error during safe cleanup: ${e.message}")
-        } finally {
-            divView = null
-        }
-    }
-
     override fun onDetachedFromWindow() {
-        safeCleanup()
+        Log.d(TAG, "onDetachedFromWindow called")
+
+        if (isSafeForCleanup(TAG,divView)) {
+            safeCleanup(TAG, divView)
+        } else {
+            forceCleanup(TAG, divView)
+        }
+
         super.onDetachedFromWindow()
+    }
+
+    fun safeCleanup() {
+        safeCleanup(TAG, divView)
     }
 
     companion object {
