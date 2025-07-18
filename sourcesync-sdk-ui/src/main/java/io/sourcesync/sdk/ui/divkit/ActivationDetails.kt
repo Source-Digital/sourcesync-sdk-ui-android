@@ -15,24 +15,23 @@ import com.yandex.div.core.view2.Div2View
 import com.yandex.div2.DivData
 
 @SuppressLint("ViewConstructor")
-class ActivationPreview(
+class ActivationDetails(
     context: Context,
-    previewData: DivData,
-    config: DivConfiguration
+    detailsData: DivData,
+    divConfig: DivConfiguration
 ) : FrameLayout(context) {
     private var divView: Div2View? = null
 
     init {
-        initializeView(previewData, config)
+        initializeView(detailsData, divConfig)
     }
 
-    /**
-     * Initializes the DivView with the provided data and configuration
-     * @param previewData The DivData to display
-     * @param config The DivConfiguration to use
-     */
-    private fun initializeView(previewData: DivData, config: DivConfiguration) {
+    private fun initializeView(
+        detailsData: DivData,
+        config: DivConfiguration
+    ) {
         try {
+
             val themedContext = ContextThemeWrapper(
                 context,
                 context.applicationInfo.theme
@@ -45,7 +44,9 @@ class ActivationPreview(
                 )
             )
 
-            divView?.setData(previewData, DivDataTag("SourceSync-ActivationPreview"))
+            divView?.setData(detailsData, DivDataTag("SourceSync-ActivationDetails"))
+
+            // Add content container to frame layout
             divView?.let { addView(it) }
         } catch (e: Exception) {
             Log.e(TAG, "Error in initializeView", e)
@@ -102,6 +103,6 @@ class ActivationPreview(
     }
 
     companion object {
-        private const val TAG = "ActivationPreview"
+        private const val TAG = "ActivationDetails"
     }
 }
