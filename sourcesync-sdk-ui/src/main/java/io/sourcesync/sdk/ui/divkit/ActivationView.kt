@@ -15,6 +15,8 @@ import io.sourcesync.sdk.ui.utils.LayoutUtils.asTemplateAndCardParsed
 import io.sourcesync.sdk.ui.utils.PicassoDivImageLoader
 import org.json.JSONException
 import org.json.JSONObject
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * A view representing an activation component with preview and detail views.
@@ -85,13 +87,13 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
             val width = if (widthPercentage <= 0f) {
                 LayoutParams.WRAP_CONTENT
             } else {
-                (screenWidth * widthPercentage.coerceIn(0f, 1f)).toInt()
+                (max(screenWidth, screenHeight) * widthPercentage.coerceIn(0f, 1f)).toInt()
             }
 
             val height = if (heightPercentage <= 0f) {
                 LayoutParams.WRAP_CONTENT
             } else {
-                (screenHeight * heightPercentage.coerceIn(0f, 1f)).toInt()
+                (min(screenWidth, screenHeight) * heightPercentage.coerceIn(0f, 1f)).toInt()
             }
 
             val params = LayoutParams(width, height)
@@ -134,13 +136,13 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
             val width = if (widthPercentage <= 0f) {
                 LayoutParams.WRAP_CONTENT
             } else {
-                (screenWidth * widthPercentage.coerceIn(0f, 1f)).toInt()
+                (max(screenWidth, screenHeight) * widthPercentage.coerceIn(0f, 1f)).toInt()
             }
 
             val height = if (heightPercentage <= 0f) {
                 LayoutParams.WRAP_CONTENT
             } else {
-                (screenHeight * heightPercentage.coerceIn(0f, 1f)).toInt()
+                (min(screenWidth, screenHeight) * heightPercentage.coerceIn(0f, 1f)).toInt()
             }
 
             val params = LayoutParams(width, height)
