@@ -6,13 +6,11 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.WindowManager
 import android.widget.FrameLayout
-import com.yandex.div.core.DivActionHandler
 import com.yandex.div.core.DivConfiguration
-import com.yandex.div.core.DivViewFacade
-import com.yandex.div.json.expressions.ExpressionResolver
-import com.yandex.div2.DivAction
+import io.sourcesync.sdk.ui.utils.EnhancedDivUrlHandler
 import io.sourcesync.sdk.ui.utils.LayoutUtils.asTemplateAndCardParsed
 import io.sourcesync.sdk.ui.utils.PicassoDivImageLoader
+import io.sourcesync.sdk.ui.utils.createDivUrlHandler
 import org.json.JSONException
 import org.json.JSONObject
 import kotlin.math.max
@@ -27,6 +25,7 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
     private var detailView: ActivationDetails? = null
     private var onPreviewClickHandler: Runnable? = null
     private val handler = Handler()
+    private lateinit var divUrlHandler: EnhancedDivUrlHandler
 
     // Screen dimensions
     private val screenWidth: Int
@@ -40,12 +39,27 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
         screenWidth = displayMetrics.widthPixels
         screenHeight = displayMetrics.heightPixels
 
+        // Create the URL handler
+        divUrlHandler = context.createDivUrlHandler(
+            onCloseAction = {
+                // Handle close action (finish activity, navigate back, etc.)
+                Log.d("MainActivity", "Closing activation view...")
+                onDetailsCloseClicked?.run()
+            },
+            onExternalUrlAction = { uri ->
+                // Optional: Custom handling for external URLs
+            },
+            onCustomSchemeAction = { uri ->
+                // Optional: Handle custom schemes not covered by default implementation
+            }
+        )
         Log.d(TAG, "Screen dimensions: ${screenWidth}x${screenHeight}")
     }
 
+
     private fun createDivConfiguration(): DivConfiguration {
         return DivConfiguration.Builder(PicassoDivImageLoader(context))
-            .actionHandler(CustomActionHandler())
+            .actionHandler(divUrlHandler)
             .visualErrorsEnabled(true)
             .build()
     }
@@ -239,25 +253,5 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
 
     companion object {
         private const val TAG = "SDK:ActivationView"
-    }
-
-    // Custom action handler to handle the close action
-    private inner class CustomActionHandler : DivActionHandler() {
-
-        override fun handleAction(
-            action: DivAction,
-            view: DivViewFacade,
-            resolver: ExpressionResolver
-        ): Boolean {
-            val url = action.url?.evaluate(resolver) ?: return super.handleAction(action, view, resolver)
-            // Check if it's our close action
-            if (url.toString().startsWith("div-action://close")) {
-                // Handle the close action
-                onDetailsCloseClicked?.run()
-                return true
-            }
-            // Let the parent class handle other actions
-            return super.handleAction(action, view, resolver)
-        }
     }
 }

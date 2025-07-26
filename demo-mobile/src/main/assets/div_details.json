@@ -1,8 +1,33 @@
 {
   "templates": {
+    "button": {
+      "type": "text",
+      "height": {
+        "type": "fixed",
+        "value": 48
+      },
+      "margins": {
+        "left": 16,
+        "right": 16,
+        "bottom": 16
+      },
+      "border": {
+        "corner_radius": 16
+      },
+      "background": [
+        {
+          "type": "solid",
+          "$color": "background_color"
+        }
+      ],
+      "font_size": 18,
+      "font_weight": "medium",
+      "text_alignment_vertical": "center",
+      "text_alignment_horizontal": "center"
+    }
   },
   "card": {
-    "log_id": "full_screen_activation",
+    "log_id": "div2_sample_card",
     "states": [
       {
         "state_id": 0,
@@ -14,160 +39,174 @@
           "height": {
             "type": "match_parent"
           },
-          "orientation": "overlap",
           "items": [
             {
               "type": "container",
               "width": {
-                "type": "match_parent",
-                "weight": 0.7
+                "type": "wrap_content"
               },
               "height": {
-                "type": "match_parent"
-              },
-              "orientation": "vertical",
-              "alignment_horizontal": "end",
-              "background": [
-                {
-                  "type": "solid",
-                  "color": "#FFFFFF"
-                }
-              ],
-              "border": {
-                "corner_radius": 0
+                "type": "wrap_content"
               },
               "items": [
                 {
                   "type": "container",
-                  "orientation": "horizontal",
+                  "width": {
+                    "type": "fixed",
+                    "value": 50
+                  },
+                  "height": {
+                    "type": "fixed",
+                    "value": 50
+                  },
+                  "background": [
+                    {
+                      "type": "solid",
+                      "color": "#000000",
+                      "alpha": 0.7
+                    }
+                  ],
+                  "border": {
+                    "corner_radius": 16
+                  },
+                  "margins": {
+                    "left": 20,
+                    "top": 20
+                  },
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "✕",
+                      "font_size": 18,
+                      "font_weight": "bold",
+                      "text_color": "#FFFFFF",
+                      "text_alignment_horizontal": "center",
+                      "text_alignment_vertical": "center"
+                    }
+                  ],
+                  "action": {
+                    "log_id": "close_popup",
+                    "url": "div-action://close"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "gallery",
+              "orientation": "vertical",
+              "width": {
+                "type": "match_parent"
+              },
+              "height": {
+                "type": "match_parent"
+              },
+              "content_alignment_horizontal": "center",
+              "paddings": {
+                "left": 20,
+                "right": 20,
+                "top": 10,
+                "bottom": 20
+              },
+              "items": [
+                {
+                  "type": "button",
+                  "background_color": "#FFCC00",
+                  "text": "Click to see Rules",
+                  "text_color": "#000000",
+                  "actions": [
+                    {
+                      "log_id": "bkfc_rules_button",
+                      "url": "https://www.bkfc.com/rules"
+
+                    }
+                  ],
+                  "action_animation": {
+                    "name": "set",
+                    "items": [
+                      {
+                        "name": "fade",
+                        "start_value": 1,
+                        "end_value": 0.2,
+                        "duration": 300,
+                        "interpolator": "ease_in_out"
+                      },
+                      {
+                        "name": "scale",
+                        "start_value": 1,
+                        "end_value": 0.5,
+                        "duration": 500,
+                        "interpolator": "ease_in_out"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "container",
+                  "orientation": "vertical",
                   "width": {
                     "type": "match_parent"
                   },
                   "height": {
                     "type": "wrap_content"
                   },
+                  "content_alignment_horizontal": "center",
                   "margins": {
-                    "top": 20
+                    "bottom": 40
                   },
                   "items": [
                     {
-                      "type": "container",
+                      "type": "image",
+                      "image_url": "https://storage.googleapis.com/source-uploads-production/uploads/user-media/png_with_scan_doo_dad_png_0269a243bf.png",
                       "width": {
                         "type": "fixed",
-                        "value": 32
+                        "value": 180
                       },
                       "height": {
                         "type": "fixed",
-                        "value": 32
+                        "value": 180
                       },
-                      "background": [
-                        {
-                          "type": "solid",
-                          "color": "#000000",
-                          "alpha": 0.7
-                        }
-                      ],
-                      "border": {
-                        "corner_radius": 16
-                      },
+                      "scale": "fit",
                       "margins": {
-                        "left": 20
+                        "bottom": 15
+                      }
+                    },
+                    {
+                      "type": "container",
+                      "orientation": "horizontal",
+                      "width": {
+                        "type": "wrap_content"
                       },
+                      "height": {
+                        "type": "wrap_content"
+                      },
+                      "content_alignment_horizontal": "center",
                       "items": [
                         {
-                          "type": "text",
-                          "text": "✕",
-                          "font_size": 18,
-                          "font_weight": "bold",
-                          "text_color": "#FFFFFF",
-                          "alignment_horizontal": "center",
-                          "alignment_vertical": "center",
-                          "text_alignment_horizontal": "center",
-                          "text_alignment_vertical": "center",
+                          "type": "image",
+                          "image_url": "https://via.placeholder.com/40x30/FFD700/000000?text=BKFC",
+                          "width": {
+                            "type": "fixed",
+                            "value": 40
+                          },
+                          "height": {
+                            "type": "fixed",
+                            "value": 30
+                          },
+                          "scale": "fit",
                           "margins": {
-                            "top": 6
+                            "right": 8
                           }
                         }
-                      ],
-                      "action": {
-                        "log_id": "close_button_click",
-                        "url": "div-action://close"
-                      }
+                      ]
                     },
                     {
                       "type": "text",
-                      "text": "City Exploration",
-                      "font_size": 28,
-                      "font_weight": "bold",
+                      "text": "Scan for Full List of Rules",
+                      "text_color": "#FFFFFF",
+                      "font_size": 14,
                       "text_alignment_horizontal": "center",
-                      "text_color": "#333333",
-                      "width": {
-                        "type": "match_parent"
-                      },
                       "margins": {
-                        "right": 52,
-                        "top": 50
-                      },
-                      "paddings": {
-                        "bottom": 24
-                      }
-                    }
-                  ]
-                },
-                {
-                  "type": "container",
-                  "orientation": "horizontal",
-                  "content_alignment_horizontal": "center",
-                  "margins": {
-                    "left": 16,
-                    "right": 16,
-                    "bottom": 24
-                  },
-                  "height": {
-                    "type": "wrap_content"
-                  },
-                  "items": [
-                    {
-                      "type": "image",
-                      "image_url": "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b",
-                      "width": {
-                        "type": "fixed",
-                        "value": 150
-                      },
-                      "height": {
-                        "type": "fixed",
-                        "value": 150
-                      },
-                      "scale": "fill",
-                      "border": {
-                        "corner_radius": 12,
-                        "stroke": {
-                          "color": "#FFFFFF",
-                          "width": 2
-                        }
-                      },
-                      "margins": {
-                        "right": 12
-                      }
-                    },
-                    {
-                      "type": "image",
-                      "image_url": "https://images.unsplash.com/photo-1444723121867-7a241cacace9",
-                      "width": {
-                        "type": "fixed",
-                        "value": 150
-                      },
-                      "height": {
-                        "type": "fixed",
-                        "value": 150
-                      },
-                      "scale": "fill",
-                      "border": {
-                        "corner_radius": 12,
-                        "stroke": {
-                          "color": "#FFFFFF",
-                          "width": 2
-                        }
+                        "top": 10
                       }
                     }
                   ]
@@ -175,146 +214,58 @@
                 {
                   "type": "container",
                   "orientation": "vertical",
-                  "height": {
-                    "type": "match_parent",
-                    "weight": 1
-                  }
-                },
-                {
-                  "type": "container",
-                  "orientation": "horizontal",
                   "width": {
                     "type": "match_parent"
                   },
-                  "margins": {
-                    "left": 16,
-                    "right": 16,
-                    "bottom": 32
+                  "height": {
+                    "type": "wrap_content"
                   },
-                  "content_alignment_horizontal": "space-between",
                   "items": [
                     {
-                      "type": "container",
-                      "width": {
-                        "type": "match_parent",
-                        "weight": 1
-                      },
-                      "height": {
-                        "type": "fixed",
-                        "value": 48
-                      },
-                      "alignment_vertical": "center",
-                      "alignment_horizontal": "center",
-                      "background": [
-                        {
-                          "type": "solid",
-                          "color": "#4285F4"
-                        }
-                      ],
-                      "border": {
-                        "corner_radius": 8
-                      },
-                      "items": [
-                        {
-                          "type": "text",
-                          "text": "Explore",
-                          "font_size": 16,
-                          "font_weight": "medium",
-                          "text_color": "#FFFFFF",
-                          "alignment_horizontal": "center",
-                          "alignment_vertical": "center",
-                          "text_alignment_horizontal": "center",
-                          "text_alignment_vertical": "center"
-                        }
-                      ],
-                      "action": {
-                        "log_id": "explore_button",
-                        "url": "div-action://explore"
+                      "type": "text",
+                      "text": "1. Fighters are permitted to wrap and tape the wrist, thumb, and mid-hand. No gauze or tape can be within 1 inch of the knuckles.",
+                      "text_color": "#FFFFFF",
+                      "font_size": 16,
+                      "line_height": 24,
+                      "text_alignment_horizontal": "start",
+                      "margins": {
+                        "bottom": 30
                       }
                     },
                     {
-                      "type": "container",
-                      "width": {
-                        "type": "match_parent",
-                        "weight": 1
-                      },
-                      "height": {
-                        "type": "fixed",
-                        "value": 48
-                      },
-                      "alignment_vertical": "center",
-                      "alignment_horizontal": "center",
-                      "background": [
-                        {
-                          "type": "solid",
-                          "color": "#0F9D58"
-                        }
-                      ],
-                      "border": {
-                        "corner_radius": 8
-                      },
-                      "items": [
-                        {
-                          "type": "text",
-                          "text": "Discover",
-                          "font_size": 16,
-                          "font_weight": "medium",
-                          "text_color": "#FFFFFF",
-                          "alignment_horizontal": "center",
-                          "alignment_vertical": "center",
-                          "text_alignment_horizontal": "center",
-                          "text_alignment_vertical": "center"
-                        }
-                      ],
-                      "action": {
-                        "log_id": "discover_button",
-                        "url": "div-action://discover"
+                      "type": "text",
+                      "text": "2. Punches are the only strike allowed and must be a closed fist. (No kicks, elbows, knees, or grappling)",
+                      "text_color": "#FFFFFF",
+                      "font_size": 16,
+                      "line_height": 24,
+                      "text_alignment_horizontal": "start",
+                      "margins": {
+                        "bottom": 30
                       }
                     },
                     {
-                      "type": "container",
-                      "width": {
-                        "type": "match_parent",
-                        "weight": 1
-                      },
-                      "height": {
-                        "type": "fixed",
-                        "value": 48
-                      },
-                      "alignment_vertical": "center",
-                      "alignment_horizontal": "center",
-                      "background": [
-                        {
-                          "type": "solid",
-                          "color": "#DB4437"
-                        }
-                      ],
-                      "border": {
-                        "corner_radius": 8
-                      },
-                      "items": [
-                        {
-                          "type": "text",
-                          "text": "Book Now",
-                          "font_size": 16,
-                          "font_weight": "medium",
-                          "text_color": "#FFFFFF",
-                          "alignment_horizontal": "center",
-                          "alignment_vertical": "center",
-                          "text_alignment_horizontal": "center",
-                          "text_alignment_vertical": "center"
-                        }
-                      ],
-                      "action": {
-                        "log_id": "book_button",
-                        "url": "div-action://book"
+                      "type": "text",
+                      "text": "3. Fights are 2 minutes per round and each bout will be 5 rounds in length.",
+                      "text_color": "#FFFFFF",
+                      "font_size": 16,
+                      "line_height": 24,
+                      "text_alignment_horizontal": "start",
+                      "margins": {
+                        "bottom": 20
                       }
                     }
                   ]
                 }
               ]
             }
-          ]
+          ],
+          "background": [
+            {
+              "type": "solid",
+              "color": "#000"
+            }
+          ],
+          "alignment_horizontal": "right"
         }
       }
     ]
