@@ -24,7 +24,8 @@ class EnhancedDivUrlHandler(
     private val context: Context,
     private val onCloseAction: () -> Unit,
     private val onExternalUrlAction: ((Uri) -> Unit)? = null,
-    private val onCustomSchemeAction: ((Uri) -> Unit)? = null
+    private val onCustomSchemeAction: ((Uri) -> Unit)? = null,
+    private val onDetailsActionTriggered: () -> Unit
 ) : DivActionHandler() {
 
     companion object {
@@ -61,12 +62,14 @@ class EnhancedDivUrlHandler(
 
             // Handle external URLs (http/https)
             normalizedUrlString.startsWith("http://") || normalizedUrlString.startsWith("https://") -> {
+                onDetailsActionTriggered.invoke()
                 handleExternalUrl(uri)
                 true
             }
 
             // Handle custom schemes
             uri.scheme != null && !normalizedUrlString.startsWith("http") -> {
+                onDetailsActionTriggered.invoke()
                 handleCustomScheme(uri)
                 true
             }

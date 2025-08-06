@@ -25,8 +25,8 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
     private var detailView: ActivationDetails? = null
     private var onPreviewClickHandler: Runnable? = null
     private val handler = Handler()
-    private lateinit var divUrlHandler: EnhancedDivUrlHandler
-
+    private var divUrlHandler: EnhancedDivUrlHandler
+    private lateinit var onDetailsActionTriggered: () -> Unit
     // Screen dimensions
     private val screenWidth: Int
     private val screenHeight: Int
@@ -51,7 +51,8 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
             },
             onCustomSchemeAction = { uri ->
                 // Optional: Handle custom schemes not covered by default implementation
-            }
+            },
+            onDetailsActionTriggered
         )
         Log.d(TAG, "Screen dimensions: ${screenWidth}x${screenHeight}")
     }
@@ -112,7 +113,10 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
 
             val params = LayoutParams(width, height)
 
-            Log.d(TAG, "Preview dimensions: ${width}x${height} (${widthPercentage*100}% x ${heightPercentage*100}%)")
+            Log.d(
+                TAG,
+                "Preview dimensions: ${width}x${height} (${widthPercentage * 100}% x ${heightPercentage * 100}%)"
+            )
 
             previewView?.let { addView(it, params) }
         } catch (e: Exception) {
@@ -125,6 +129,7 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
      *
      * @param detailsParentJson JSON data for detail.
      * @param onClose Runnable to execute on close.
+     * @param onActionTriggered Callback to be called when an Action is triggered
      * @param widthPercentage Width as percentage of screen width (0.0 to 1.0).
      * @param heightPercentage Height as percentage of screen height (0.0 to 1.0).
      */
@@ -132,6 +137,7 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
         detailsParentJson: JSONObject,
         widthPercentage: Float = 1.0f,
         heightPercentage: Float = 1.0f,
+        onActionTriggered: () -> Unit,
         onClose: Runnable?
     ) {
         // Clean up existing detail safely
@@ -141,6 +147,7 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
         }
 
         this.onDetailsCloseClicked = onClose
+        onDetailsActionTriggered = onActionTriggered
 
         try {
             val detailsData = detailsParentJson.asTemplateAndCardParsed()
@@ -161,7 +168,10 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
 
             val params = LayoutParams(width, height)
 
-            Log.d(TAG, "Detail dimensions: ${width}x${height} (${widthPercentage*100}% x ${heightPercentage*100}%)")
+            Log.d(
+                TAG,
+                "Detail dimensions: ${width}x${height} (${widthPercentage * 100}% x ${heightPercentage * 100}%)"
+            )
 
             detailView?.let { addView(it, params) }
         } catch (e: JSONException) {
@@ -183,8 +193,8 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
     /**
      * Convenience method for showDetail with percentage parameters
      */
-    fun showDetail(detailsParentJson: JSONObject, onClose: Runnable?) {
-        showDetail(detailsParentJson, 0f, 0f, onClose)
+    fun showDetail(detailsParentJson: JSONObject,onActionTriggered: () -> Unit, onClose: Runnable?) {
+        showDetail(detailsParentJson, 0f, 0f,onActionTriggered, onClose)
     }
 
     /**
