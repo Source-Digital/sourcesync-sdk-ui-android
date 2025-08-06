@@ -1,7 +1,6 @@
 [versions]
 agp = "8.7.1"
 kotlin = "1.9.24"
-coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -10,8 +9,12 @@ material = "1.10.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
 leanback = "1.0.0"
-glide = "4.11.0"
+picasso = "2.8"
+
 vanniktech = "0.29.0"
+
+div-version="32.0.0"
+coreKtx = "1.13.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -23,12 +26,18 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-leanback = { group = "androidx.leanback", name = "leanback", version.ref = "leanback" }
-glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
+
+#DivKit dependencies
+div-core = { group = "com.yandex.div", name = "div-core", version.ref = "div-version" }
+div-main = { group = "com.yandex.div", name = "div", version.ref = "div-version" }
+div-json = { group = "com.yandex.div", name = "div-json", version.ref = "div-version" }
+#core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtxVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version = "2.1.20" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 vanniktech-mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

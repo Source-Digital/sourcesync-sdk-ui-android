@@ -1,0 +1,121 @@
+{
+  "templates":
+  {
+    "name": "DivKitBlock",
+    "settings": {
+      "version": "1.0"
+    }
+  },
+  "card": {
+    "log_id": "div2_sample_card",
+    "states": [
+      {
+        "state_id": 0,
+        "div": {
+          "type": "container",
+          "items": [
+            {
+              "type": "container",
+              "width": {
+                "type": "fixed",
+                "value": 350
+              },
+              "height": {
+                "type": "fixed",
+                "value": 100
+              },
+              "background": [
+                {
+                  "type": "solid",
+                  "color": "#99000000"
+                }
+              ],
+              "border": {
+                "corner_radius": 10
+              },
+              "content_alignment_vertical": "center",
+              "items": [
+                {
+                  "type": "container",
+                  "orientation": "vertical",
+                  "width": {
+                    "type": "wrap_content"
+                  },
+                  "height": {
+                    "type": "wrap_content"
+                  },
+                  "content_alignment_vertical": "center",
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "RULES OF THE RING",
+                      "text_color": "#FFD700",
+                      "font_size": 18,
+                      "font_weight": "bold",
+                      "text_alignment_horizontal": "start",
+                      "margins": {
+                        "bottom": 8
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "text": "Official fight regulations and guidelines",
+                      "text_color": "#FFFFFF",
+                      "font_size": 14,
+                      "text_alignment_horizontal": "start"
+                    }
+                  ],
+                  "alignment_horizontal": "left",
+                  "alignment_vertical": "center"
+                },
+                {
+                  "type": "container",
+                  "width": {
+                    "type": "wrap_content"
+                  },
+                  "height": {
+                    "type": "wrap_content"
+                  },
+                  "items": [
+                    {
+                      "type": "image",
+                      "image_url": "https://storage.googleapis.com/source-uploads-production/uploads/user-media/Screen_Shot_2021_11_10_at_12_05_16_PM_b8b858ba68.png",
+                      "width": {
+                        "type": "fixed",
+                        "value": 60
+                      },
+                      "height": {
+                        "type": "fixed",
+                        "value": 60
+                      },
+                      "scale": "fit",
+                      "border": {
+                        "corner_radius": 30,
+                        "stroke": {
+                          "color": "#FFD700",
+                          "width": 2
+                        }
+                      }
+                    }
+                  ],
+                  "alignment_horizontal": "right",
+                  "alignment_vertical": "center"
+                }
+              ],
+              "orientation": "overlap",
+              "alignment_horizontal": "end",
+              "paddings": {
+                "right": 10,
+                "left": 10
+              }
+            }
+          ],
+          "width": {
+            "type": "wrap_content"
+          },
+          "alignment_horizontal": "right"
+        }
+      }
+    ]
+  }
+}

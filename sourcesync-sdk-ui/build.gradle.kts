@@ -1,4 +1,6 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.android.library)
@@ -6,12 +8,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
-// group = "io.sourcesync.sdk"
-// version = "0.0.1"
-
 android {
     namespace = "io.sourcesync.sdk.ui"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
@@ -29,18 +28,26 @@ android {
     }
 }
 
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
+}
+
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.picasso)
+
+    implementation(libs.div.core)
+    implementation(libs.div.main)
+    implementation(libs.div.json)
+
     testImplementation(libs.kotlin.test)
 }
 
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-    
     signAllPublications()
-    
     coordinates(group.toString(), "sourcesync-sdk-ui-android", version.toString())
-
     pom {
         name.set("SourceSync SDK UI Android")
         description.set("Android UI components for SourceSync SDK")

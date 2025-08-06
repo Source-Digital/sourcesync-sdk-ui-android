@@ -1,0 +1,273 @@
+{
+  "templates": {
+    "button": {
+      "type": "text",
+      "height": {
+        "type": "fixed",
+        "value": 48
+      },
+      "margins": {
+        "left": 16,
+        "right": 16,
+        "bottom": 16
+      },
+      "border": {
+        "corner_radius": 16
+      },
+      "background": [
+        {
+          "type": "solid",
+          "$color": "background_color"
+        }
+      ],
+      "font_size": 18,
+      "font_weight": "medium",
+      "text_alignment_vertical": "center",
+      "text_alignment_horizontal": "center"
+    }
+  },
+  "card": {
+    "log_id": "div2_sample_card",
+    "states": [
+      {
+        "state_id": 0,
+        "div": {
+          "type": "container",
+          "width": {
+            "type": "match_parent"
+          },
+          "height": {
+            "type": "match_parent"
+          },
+          "items": [
+            {
+              "type": "container",
+              "width": {
+                "type": "wrap_content"
+              },
+              "height": {
+                "type": "wrap_content"
+              },
+              "items": [
+                {
+                  "type": "container",
+                  "width": {
+                    "type": "fixed",
+                    "value": 50
+                  },
+                  "height": {
+                    "type": "fixed",
+                    "value": 50
+                  },
+                  "background": [
+                    {
+                      "type": "solid",
+                      "color": "#000000",
+                      "alpha": 0.7
+                    }
+                  ],
+                  "border": {
+                    "corner_radius": 16
+                  },
+                  "margins": {
+                    "left": 20,
+                    "top": 20
+                  },
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "✕",
+                      "font_size": 18,
+                      "font_weight": "bold",
+                      "text_color": "#FFFFFF",
+                      "text_alignment_horizontal": "center",
+                      "text_alignment_vertical": "center"
+                    }
+                  ],
+                  "action": {
+                    "log_id": "close_popup",
+                    "url": "div-action://close"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "gallery",
+              "orientation": "vertical",
+              "width": {
+                "type": "match_parent"
+              },
+              "height": {
+                "type": "match_parent"
+              },
+              "content_alignment_horizontal": "center",
+              "paddings": {
+                "left": 20,
+                "right": 20,
+                "top": 10,
+                "bottom": 20
+              },
+              "items": [
+                {
+                  "type": "button",
+                  "background_color": "#FFCC00",
+                  "text": "Click to see Rules",
+                  "text_color": "#000000",
+                  "actions": [
+                    {
+                      "log_id": "bkfc_rules_button",
+                      "url": "https://www.bkfc.com/rules"
+
+                    }
+                  ],
+                  "action_animation": {
+                    "name": "set",
+                    "items": [
+                      {
+                        "name": "fade",
+                        "start_value": 1,
+                        "end_value": 0.2,
+                        "duration": 300,
+                        "interpolator": "ease_in_out"
+                      },
+                      {
+                        "name": "scale",
+                        "start_value": 1,
+                        "end_value": 0.5,
+                        "duration": 500,
+                        "interpolator": "ease_in_out"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "container",
+                  "orientation": "vertical",
+                  "width": {
+                    "type": "match_parent"
+                  },
+                  "height": {
+                    "type": "wrap_content"
+                  },
+                  "content_alignment_horizontal": "center",
+                  "margins": {
+                    "bottom": 40
+                  },
+                  "items": [
+                    {
+                      "type": "image",
+                      "image_url": "https://storage.googleapis.com/source-uploads-production/uploads/user-media/png_with_scan_doo_dad_png_0269a243bf.png",
+                      "width": {
+                        "type": "fixed",
+                        "value": 180
+                      },
+                      "height": {
+                        "type": "fixed",
+                        "value": 180
+                      },
+                      "scale": "fit",
+                      "margins": {
+                        "bottom": 15
+                      }
+                    },
+                    {
+                      "type": "container",
+                      "orientation": "horizontal",
+                      "width": {
+                        "type": "wrap_content"
+                      },
+                      "height": {
+                        "type": "wrap_content"
+                      },
+                      "content_alignment_horizontal": "center",
+                      "items": [
+                        {
+                          "type": "image",
+                          "image_url": "https://via.placeholder.com/40x30/FFD700/000000?text=BKFC",
+                          "width": {
+                            "type": "fixed",
+                            "value": 40
+                          },
+                          "height": {
+                            "type": "fixed",
+                            "value": 30
+                          },
+                          "scale": "fit",
+                          "margins": {
+                            "right": 8
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": "Scan for Full List of Rules",
+                      "text_color": "#FFFFFF",
+                      "font_size": 14,
+                      "text_alignment_horizontal": "center",
+                      "margins": {
+                        "top": 10
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "container",
+                  "orientation": "vertical",
+                  "width": {
+                    "type": "match_parent"
+                  },
+                  "height": {
+                    "type": "wrap_content"
+                  },
+                  "items": [
+                    {
+                      "type": "text",
+                      "text": "1. Fighters are permitted to wrap and tape the wrist, thumb, and mid-hand. No gauze or tape can be within 1 inch of the knuckles.",
+                      "text_color": "#FFFFFF",
+                      "font_size": 16,
+                      "line_height": 24,
+                      "text_alignment_horizontal": "start",
+                      "margins": {
+                        "bottom": 30
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "text": "2. Punches are the only strike allowed and must be a closed fist. (No kicks, elbows, knees, or grappling)",
+                      "text_color": "#FFFFFF",
+                      "font_size": 16,
+                      "line_height": 24,
+                      "text_alignment_horizontal": "start",
+                      "margins": {
+                        "bottom": 30
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "text": "3. Fights are 2 minutes per round and each bout will be 5 rounds in length.",
+                      "text_color": "#FFFFFF",
+                      "font_size": 16,
+                      "line_height": 24,
+                      "text_alignment_horizontal": "start",
+                      "margins": {
+                        "bottom": 20
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "background": [
+            {
+              "type": "solid",
+              "color": "#000"
+            }
+          ],
+          "alignment_horizontal": "right"
+        }
+      }
+    ]
+  }
+}
