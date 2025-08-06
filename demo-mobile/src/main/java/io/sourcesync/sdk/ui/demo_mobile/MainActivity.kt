@@ -1,7 +1,9 @@
 package io.sourcesync.sdk.ui.demo_mobile
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -21,12 +23,12 @@ class MainActivity : AppCompatActivity() {
     private fun showMainButtons() {
         container?.removeAllViews()
 
-        val layout = android.widget.LinearLayout(this).apply {
-            orientation = android.widget.LinearLayout.VERTICAL
+        val layout = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
             setPadding(32, 32, 32, 32)
         }
 
-        val launchButton = android.widget.Button(this).apply {
+        val launchButton = Button(this).apply {
             text = "Show Activation View Layout"
             setOnClickListener {
                 showActivationViewLayout()
