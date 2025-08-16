@@ -24,7 +24,7 @@ class EnhancedDivUrlHandler(
     private val context: Context,
     private val onCloseAction: () -> Unit,
     private val onExternalUrlAction: ((Uri) -> Unit)? = null,
-    private val onCustomSchemeAction: ((Uri) -> Unit)? = null
+    private val onCustomSchemeAction: ((Uri) -> Unit)? = null,
 ) : DivActionHandler() {
 
     companion object {
@@ -94,11 +94,8 @@ class EnhancedDivUrlHandler(
 
         try {
             // Use custom handler if provided, otherwise open with system
-//            if (onExternalUrlAction != null) {
-//                onExternalUrlAction.invoke(uri)
-//            } else {
-                openWithSystem(uri)
-//            }
+            onExternalUrlAction?.invoke(uri)
+            openWithSystem(uri)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to open external URL: $uri", e)
         }
@@ -106,7 +103,7 @@ class EnhancedDivUrlHandler(
 
     private fun handleCustomScheme(uri: Uri) {
         Log.d(TAG, "Handling custom scheme: $uri")
-
+        onCustomSchemeAction?.invoke(uri)
         val scheme = uri.scheme?.lowercase() ?: return
 
         try {
@@ -117,11 +114,7 @@ class EnhancedDivUrlHandler(
                 "div-action" -> handleDivAction(uri)
                 else -> {
                     // Use custom handler or fallback
-                    if (onCustomSchemeAction != null) {
-                        onCustomSchemeAction.invoke(uri)
-                    } else {
-                        attemptSystemOpen(uri)
-                    }
+                    attemptSystemOpen(uri)
                 }
             }
         } catch (e: Exception) {
