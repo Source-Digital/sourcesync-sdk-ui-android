@@ -47,12 +47,11 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
                 onDetailsCloseClicked?.run()
             },
             onExternalUrlAction = { uri ->
-                // Optional: Custom handling for external URLs
+                onDetailsActionTriggered.invoke()
             },
             onCustomSchemeAction = { uri ->
-                // Optional: Handle custom schemes not covered by default implementation
-            },
-            onDetailsActionTriggered
+                onDetailsActionTriggered.invoke()
+            }
         )
         Log.d(TAG, "Screen dimensions: ${screenWidth}x${screenHeight}")
     }
