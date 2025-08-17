@@ -9,7 +9,7 @@ import android.net.Uri
 fun Context.createDivUrlHandler(
     onCloseAction: () -> Unit,
     onExternalUrlAction: ((Uri) -> Unit)? = null,
-    onCustomSchemeAction: ((Uri) -> Unit)? = null
+    onCustomSchemeAction: ((Uri) -> Unit)? = null,
 ): EnhancedDivUrlHandler {
     return EnhancedDivUrlHandler(
         context = this,

@@ -148,10 +148,15 @@ class ActivationViewLayout @JvmOverloads constructor(
 
             activationView?.showPreview(previewTemplate) { _: View? ->
                 Log.d("ActivationViewLayout", "Preview clicked, showing details")
-                activationView?.showDetail(detailsTemplate, widthPercentage = 0.55f) {
-                    Log.d("ActivationViewLayout", "Details action triggered, hiding details")
-                    activationView?.hideDetails()
-                }
+                activationView?.showDetail(
+                    detailsTemplate,
+                    widthPercentage = 0.55f,
+                    onActionTriggered = {
+
+                    }, onClose = {
+                        Log.d("ActivationViewLayout", "Details action triggered, hiding details")
+                        activationView?.hideDetails()
+                    })
             }
 
             Log.d("ActivationViewLayout", "Activation view setup completed")
