@@ -1,0 +1,194 @@
+name: Demo Mobile CI/CD
+
+on:
+  push:
+    branches: [main, develop, demo]
+    tags: ['demo-v*']
+    paths:
+      - 'demo-mobile/**'
+      - 'sourcesync-sdk-ui/**'
+      - '.github/workflows/demo-mobile-ci.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'demo-mobile/**'
+      - 'sourcesync-sdk-ui/**'
+      - '.github/workflows/demo-mobile-ci.yml'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build-demo-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 21
+          cache: gradle
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build Debug APK
+        run: ./gradlew :demo-mobile:assembleDebug
+
+      - name: Build Release APK
+        if: github.event_name != 'pull_request'
+        run: ./gradlew :demo-mobile:assembleRelease
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-mobile-debug-apk
+          path: demo-mobile/build/outputs/apk/debug/demo-mobile-debug.apk
+          retention-days: ${{ github.event_name == 'pull_request' && 7 || 30 }}
+
+      - name: Upload Release APK
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-mobile-release-apk
+          path: demo-mobile/build/outputs/apk/release/demo-mobile-release.apk
+          retention-days: 90
+
+  pr-comment:
+    needs: [build-demo-android]
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Download APK artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: demo-mobile-debug-apk
+          path: ./artifacts
+
+      - name: Get APK info
+        id: apk_info
+        run: |
+          APK_PATH="./artifacts/demo-mobile-debug.apk"
+          APK_SIZE=$(stat -f%z "$APK_PATH" 2>/dev/null || stat -c%s "$APK_PATH")
+          APK_SIZE_MB=$(echo "scale=2; $APK_SIZE / 1024 / 1024" | bc)
+          echo "size_mb=$APK_SIZE_MB" >> $GITHUB_OUTPUT
+          echo "commit_sha=${GITHUB_SHA:0:7}" >> $GITHUB_OUTPUT
+
+      - name: Find existing comment
+        uses: peter-evans/find-comment@v3
+        id: find_comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '📱 Demo Mobile Build'
+
+      - name: Create or update PR comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find_comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
+          body: |
+            ## 📱 Demo Mobile Build
+
+            🔨 **Build Status:** ✅ Success  
+            📦 **APK Size:** ${{ steps.apk_info.outputs.size_mb }} MB  
+            🔄 **Commit:** `${{ steps.apk_info.outputs.commit_sha }}`  
+            📅 **Built:** $(date -u +"%Y-%m-%d %H:%M UTC")
+
+            ### Download Links
+            - 🐛 [Debug APK](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) - Click "Artifacts" section
+
+            > 💡 **Note:** APK will be available for 7 days. Download from the GitHub Actions artifacts section.
+
+  create-demo-release:
+    needs: [build-demo-android]
+    if: startsWith(github.ref, 'refs/tags/demo-v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get version from tag
+        id: get_version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/demo-v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          echo "NOTES<<EOF" >> $GITHUB_OUTPUT
+          echo "## Demo Mobile App Release v${{ steps.get_version.outputs.version }}" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "### Changes" >> $GITHUB_OUTPUT
+          # Get commits since last demo release tag
+          LAST_TAG=$(git describe --tags --match "demo-v*" --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -n "$LAST_TAG" ]; then
+            git log --pretty=format:"- %s (%h)" $LAST_TAG..HEAD -- demo-mobile/ sourcesync-sdk-ui/ >> $GITHUB_OUTPUT
+          else
+            echo "- Initial demo mobile release" >> $GITHUB_OUTPUT
+          fi
+          echo "" >> $GITHUB_OUTPUT
+          echo "### Installation" >> $GITHUB_OUTPUT
+          echo "Download the APK file and install on your Android device." >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Download APK artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: demo-mobile-release-apk
+          path: ./release-artifacts
+
+      - name: Rename APK with version
+        run: |
+          VERSION=${{ steps.get_version.outputs.version }}
+          mv ./release-artifacts/demo-mobile-release.apk ./release-artifacts/sourcesync-demo-mobile-v$VERSION.apk
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.get_version.outputs.tag_name }}
+          name: "Demo Mobile v${{ steps.get_version.outputs.version }}"
+          body: ${{ steps.release_notes.outputs.NOTES }}
+          files: ./release-artifacts/sourcesync-demo-mobile-v${{ steps.get_version.outputs.version }}.apk
+          draft: false
+          prerelease: false
+
+  main-branch-artifacts:
+    needs: [build-demo-android]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download APK artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: demo-mobile-release-apk
+          path: ./latest-artifacts
+
+      - name: Rename APK with timestamp and branch
+        run: |
+          TIMESTAMP=$(date +"%Y%m%d-%H%M")
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          mv ./latest-artifacts/demo-mobile-release.apk ./latest-artifacts/sourcesync-demo-mobile-$BRANCH_NAME-$TIMESTAMP.apk
+
+      - name: Upload latest artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-mobile-latest-${{ github.ref_name }}
+          path: ./latest-artifacts/*
+          retention-days: 90
