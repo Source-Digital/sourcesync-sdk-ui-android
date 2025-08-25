@@ -78,10 +78,26 @@ jobs:
         id: apk_info
         run: |
           APK_PATH="./artifacts/demo-mobile-debug.apk"
-          APK_SIZE=$(stat -f%z "$APK_PATH" 2>/dev/null || stat -c%s "$APK_PATH")
-          APK_SIZE_MB=$(echo "scale=2; $APK_SIZE / 1024 / 1024" | bc)
+          
+          # Debug: List what we downloaded
+          echo "Contents of ./artifacts directory:"
+          ls -la ./artifacts/
+          
+          # Check if APK exists and get size
+          if [ -f "$APK_PATH" ]; then
+            APK_SIZE=$(stat -f%z "$APK_PATH" 2>/dev/null || stat -c%s "$APK_PATH")
+            APK_SIZE_MB=$(echo "scale=2; $APK_SIZE / 1024 / 1024" | bc)
+            echo "APK found at $APK_PATH with size: $APK_SIZE bytes ($APK_SIZE_MB MB)"
+          else
+            echo "APK not found at expected path: $APK_PATH"
+            APK_SIZE_MB="unknown"
+          fi
+          
+          BUILD_DATE=$(date -u +"%Y-%m-%d %H:%M UTC")
           echo "size_mb=$APK_SIZE_MB" >> $GITHUB_OUTPUT
-          echo "commit_sha=${GITHUB_SHA:0:7}" >> $GITHUB_OUTPUT
+          COMMIT_SHA="${{ github.event.pull_request.head.sha || github.sha }}"
+          echo "commit_sha=${COMMIT_SHA:0:7}" >> $GITHUB_OUTPUT
+          echo "build_date=$BUILD_DATE" >> $GITHUB_OUTPUT
 
       - name: Find existing comment
         uses: peter-evans/find-comment@v3
@@ -103,7 +119,7 @@ jobs:
             🔨 **Build Status:** ✅ Success  
             📦 **APK Size:** ${{ steps.apk_info.outputs.size_mb }} MB  
             🔄 **Commit:** `${{ steps.apk_info.outputs.commit_sha }}`  
-            📅 **Built:** $(date -u +"%Y-%m-%d %H:%M UTC")
+            📅 **Built:** ${{ steps.apk_info.outputs.build_date }}
 
             ### Download Links
             - 🐛 [Debug APK](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) - Click "Artifacts" section
