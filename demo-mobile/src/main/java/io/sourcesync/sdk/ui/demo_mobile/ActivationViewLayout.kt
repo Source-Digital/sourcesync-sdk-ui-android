@@ -143,17 +143,23 @@ class ActivationViewLayout @JvmOverloads constructor(
 
             addView(activationView, layoutParams)
 
-            val previewTemplate = TemplateLoader.loadTemplate(context, "div_preview.json")
-            val detailsTemplate = TemplateLoader.loadTemplate(context, "div_details.json")
+            val previewTemplate = TemplateLoader.loadTemplate(context, "div_preview1.json")
+            val detailsTemplate = TemplateLoader.loadTemplate(context, "div_details2.json")
 
             activationView?.showPreview(previewTemplate) { _: View? ->
                 Log.d("ActivationViewLayout", "Preview clicked, showing details")
                 activationView?.showDetail(
                     detailsTemplate,
-                    widthPercentage = 0.55f,
+                    widthPercentage = 0.5f,
                     onActionTriggered = {
+                        Log.d("ActivationViewLayout", "onActionTriggered!")
 
-                    }, onClose = {
+                    },
+                    onDetailsOutsideClicked = {
+                        Log.d("ActivationViewLayout", "onOutSideClicked")
+
+                    },
+                    onClose = {
                         Log.d("ActivationViewLayout", "Details action triggered, hiding details")
                         activationView?.hideDetails()
                     })

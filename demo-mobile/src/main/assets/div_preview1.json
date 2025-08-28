@@ -1,151 +1,65 @@
 {
-  "template": {
-    "text_block": {
-      "type": "text",
-      "font_size": 28,
-      "text_alignment_horizontal": "center",
-      "text_alignment_vertical": "center",
-      "alignment_horizontal": "center",
-      "text_color": "#000000",
-      "width": {
-        "type": "match_parent"
-      },
-      "height": {
-        "type": "fixed",
-        "value": 184
-      },
-      "background": [
-        {
-          "type": "solid",
-          "color": "#0E000000"
-        }
-      ],
-      "border": {
-        "corner_radius": 16
-      }
-    },
-    "tab_container": {
-      "type": "container",
-      "paddings": {
-        "left": 16,
-        "right": 16
-      }
-    },
-    "title": {
-      "type": "text",
-      "font_size": 20,
-      "line_height": 24,
-      "font_weight": "bold",
-      "paddings": {
-        "left": 24,
-        "right": 24,
-        "bottom": 16
-      }
-    },
-    "subtitle": {
-      "font_size": 15,
-      "line_height": 20,
-      "type": "text",
-      "paddings": {
-        "left": 24,
-        "right": 24
-      }
-    }
-  },
+  "templates": {},
   "card": {
-    "log_id": "sample_card",
+    "log_id": "onlyfans_preview_card",
     "states": [
       {
         "state_id": 0,
         "div": {
           "type": "container",
           "orientation": "vertical",
-          "margins": {
-            "top": 24,
-            "bottom": 24
+          "width": {
+            "type": "match_parent"
           },
-          "items": [
+          "height": {
+            "type": "fixed",
+            "value": 180
+          },
+          "border": {
+            "corner_radius": 20
+          },
+          "background": [
             {
-              "type": "title",
-              "text": "Tabs"
+              "type": "image",
+              "image_url": "https://api2-dev.sourcesync.io/assets/54f9294c-bbf0-482f-8850-dd53ed9383e7",
+              "scale": "fill"
             },
             {
-              "type": "subtitle",
-              "text": "A set of tabs and a row with labels.\n\nOnly one tab is visible at a time, the rest can be switched by tapping the label of the respective tab.",
+              "type": "solid",
+              "color": "#9c000000"
+            }
+          ],
+          "content_alignment_vertical": "center",
+          "content_alignment_horizontal": "center",
+          "items": [
+            {
+              "type": "text",
+              "text": "Inside access to BKFC Creators",
+              "font_size": 28,
+              "font_weight": "bold",
+              "text_color": "#00AEEF",
+              "text_alignment_horizontal": "center",
               "margins": {
-                "bottom": 24
+                "bottom": 8
               }
             },
             {
-              "type": "tabs",
-              "height": {
-                "type": "wrap_content"
-              },
-              "tab_title_style": {
-                "animation_type": "slide"
-              },
-              "items": [
-                {
-                  "title": "wrap_content",
-                  "div": {
-                    "type": "tab_container",
-                    "items": [
-                      {
-                        "type": "text_block",
-                        "text": "Item 0",
-                        "width": {
-                          "type": "match_parent"
-                        }
-                      }
-                    ]
-                  }
-                },
-                {
-                  "title": "wrap_content",
-                  "div": {
-                    "type": "tab_container",
-                    "items": [
-                      {
-                        "type": "text_block",
-                        "text": "Item 1",
-                        "width": {
-                          "type": "match_parent"
-                        }
-                      }
-                    ]
-                  }
-                },
-                {
-                  "title": "wrap_content",
-                  "div": {
-                    "type": "tab_container",
-                    "items": [
-                      {
-                        "type": "text_block",
-                        "text": "Item 3",
-                        "width": {
-                          "type": "match_parent"
-                        }
-                      }
-                    ]
-                  }
-                },
-                {
-                  "title": "wrap_content",
-                  "div": {
-                    "type": "tab_container",
-                    "items": [
-                      {
-                        "type": "text_block",
-                        "text": "Item 3",
-                        "width": {
-                          "type": "match_parent"
-                        }
-                      }
-                    ]
-                  }
-                }
-              ]
+              "type": "text",
+              "text": "Exclusive posts • Direct access",
+              "font_size": 14,
+              "text_color": "#FFFFFF",
+              "text_alignment_horizontal": "center",
+              "margins": {
+                "bottom": 12
+              }
+            },
+            {
+              "type": "text",
+              "text": "ONLYFANS.COM",
+              "font_size": 16,
+              "font_weight": "bold",
+              "text_color": "#00AEEF",
+              "text_alignment_horizontal": "center"
             }
           ]
         }

@@ -13,7 +13,7 @@ picasso = "2.8"
 
 vanniktech = "0.29.0"
 
-div-version="32.0.0"
+div-version="31.13.0"
 coreKtx = "1.13.1"
 
 [libraries]
