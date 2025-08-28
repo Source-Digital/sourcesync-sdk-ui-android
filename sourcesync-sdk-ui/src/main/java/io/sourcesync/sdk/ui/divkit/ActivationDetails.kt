@@ -15,7 +15,7 @@ import io.sourcesync.sdk.ui.utils.LayoutUtils.isSafeForCleanup
 import io.sourcesync.sdk.ui.utils.LayoutUtils.safeCleanup
 
 @SuppressLint("ViewConstructor")
-open class ActivationDetails(
+class ActivationDetails(
     context: Context,
     detailsData: DivData,
     divConfig: DivConfiguration

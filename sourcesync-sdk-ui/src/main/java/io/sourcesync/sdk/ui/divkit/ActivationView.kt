@@ -1,6 +1,8 @@
 package io.sourcesync.sdk.ui.divkit
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.os.Handler
 import android.util.DisplayMetrics
 import android.util.Log
@@ -13,8 +15,10 @@ import io.sourcesync.sdk.ui.utils.PicassoDivImageLoader
 import io.sourcesync.sdk.ui.utils.createDivUrlHandler
 import org.json.JSONException
 import org.json.JSONObject
-import kotlin.math.max
-import kotlin.math.min
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import io.sourcesync.sdk.ui.utils.LayoutUtils
 
 /**
  * A view representing an activation component with preview and detail views.
@@ -27,6 +31,8 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
     private val handler = Handler()
     private var divUrlHandler: EnhancedDivUrlHandler
     private lateinit var onDetailsActionTriggered: () -> Unit
+    private var onDetailsOutsideClicked: (() -> Unit)? = null
+
     // Screen dimensions
     private val screenWidth: Int
     private val screenHeight: Int
@@ -40,28 +46,31 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
         screenHeight = displayMetrics.heightPixels
 
         // Create the URL handler
-        divUrlHandler = context.createDivUrlHandler(
-            onCloseAction = {
-                // Handle close action (finish activity, navigate back, etc.)
-                Log.d("MainActivity", "Closing activation view...")
-                onDetailsCloseClicked?.run()
-            },
-            onExternalUrlAction = { uri ->
-                onDetailsActionTriggered.invoke()
-            },
-            onCustomSchemeAction = { uri ->
-                onDetailsActionTriggered.invoke()
-            }
-        )
+        divUrlHandler = context.createDivUrlHandler(onCloseAction = {
+            // Handle close action (finish activity, navigate back, etc.)
+            Log.d("MainActivity", "Closing activation view...")
+            onDetailsCloseClicked?.run()
+        }, onExternalUrlAction = { uri ->
+            onDetailsActionTriggered.invoke()
+        }, onCustomSchemeAction = { uri ->
+            onDetailsActionTriggered.invoke()
+        })
         Log.d(TAG, "Screen dimensions: ${screenWidth}x${screenHeight}")
+        setupOutsideClickOverlay()
     }
 
+    fun setupOutsideClickOverlay() {
+        post {
+            val parentView = parent as? ViewGroup ?: return@post
+
+            // Create a custom touch delegate that checks bounds
+            parentView.setOnTouchListener(TouchOutsideListener())
+        }
+    }
 
     private fun createDivConfiguration(): DivConfiguration {
-        return DivConfiguration.Builder(PicassoDivImageLoader(context))
-            .actionHandler(divUrlHandler)
-            .visualErrorsEnabled(true)
-            .build()
+        return DivConfiguration.Builder(PicassoDivImageLoader(context)).actionHandler(divUrlHandler)
+            .visualErrorsEnabled(true).build()
     }
 
     /**
@@ -97,24 +106,11 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
                 }
             }
 
-            // Calculate dimensions based on percentage
-            val width = if (widthPercentage <= 0f) {
-                LayoutParams.WRAP_CONTENT
-            } else {
-                (max(screenWidth, screenHeight) * widthPercentage.coerceIn(0f, 1f)).toInt()
-            }
-
-            val height = if (heightPercentage <= 0f) {
-                LayoutParams.WRAP_CONTENT
-            } else {
-                (min(screenWidth, screenHeight) * heightPercentage.coerceIn(0f, 1f)).toInt()
-            }
-
-            val params = LayoutParams(width, height)
-
-            Log.d(
-                TAG,
-                "Preview dimensions: ${width}x${height} (${widthPercentage * 100}% x ${heightPercentage * 100}%)"
+            val params = LayoutUtils.getLayoutParams(
+                widthPercentage,
+                heightPercentage,
+                screenWidth,
+                screenHeight
             )
 
             previewView?.let { addView(it, params) }
@@ -137,6 +133,7 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
         widthPercentage: Float = 1.0f,
         heightPercentage: Float = 1.0f,
         onActionTriggered: () -> Unit,
+        onDetailsOutsideClicked: () -> Unit,
         onClose: Runnable?
     ) {
         // Clean up existing detail safely
@@ -146,30 +143,19 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
         }
 
         this.onDetailsCloseClicked = onClose
+        this.onDetailsOutsideClicked = onDetailsOutsideClicked
         onDetailsActionTriggered = onActionTriggered
 
         try {
             val detailsData = detailsParentJson.asTemplateAndCardParsed()
-            detailView = ActivationDetails(context, detailsData, createDivConfiguration())
+            detailView =
+                ActivationDetails(context, detailsData, createDivConfiguration())
 
-            // Calculate dimensions based on percentage
-            val width = if (widthPercentage <= 0f) {
-                LayoutParams.WRAP_CONTENT
-            } else {
-                (max(screenWidth, screenHeight) * widthPercentage.coerceIn(0f, 1f)).toInt()
-            }
-
-            val height = if (heightPercentage <= 0f) {
-                LayoutParams.WRAP_CONTENT
-            } else {
-                (min(screenWidth, screenHeight) * heightPercentage.coerceIn(0f, 1f)).toInt()
-            }
-
-            val params = LayoutParams(width, height)
-
-            Log.d(
-                TAG,
-                "Detail dimensions: ${width}x${height} (${widthPercentage * 100}% x ${heightPercentage * 100}%)"
+            val params = LayoutUtils.getLayoutParams(
+                widthPercentage,
+                heightPercentage,
+                screenWidth,
+                screenHeight
             )
 
             detailView?.let { addView(it, params) }
@@ -183,8 +169,7 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
      */
     @Throws(JSONException::class)
     fun showPreview(
-        previewParentJson: JSONObject,
-        onClickListener: OnClickListener
+        previewParentJson: JSONObject, onClickListener: OnClickListener
     ) {
         showPreview(previewParentJson, 0f, 0f, onClickListener)
     }
@@ -192,20 +177,39 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
     /**
      * Convenience method for showDetail with percentage parameters
      */
-    fun showDetail(detailsParentJson: JSONObject,onActionTriggered: () -> Unit, onClose: Runnable?) {
-        showDetail(detailsParentJson, 0f, 0f,onActionTriggered, onClose)
+    fun showDetail(
+        detailsParentJson: JSONObject,
+        onActionTriggered: () -> Unit,
+        onOutsideClicked: () -> Unit,
+        onClose: Runnable?
+    ) {
+        showDetail(detailsParentJson, 0f, 0f, onActionTriggered, onOutsideClicked, onClose)
     }
 
     /**
      * Hides the detail view and restores preview.
      */
     fun hideDetails() {
+        cleanupDetails()
+        previewView?.visibility = VISIBLE
+    }
+
+    // Clean up detail view
+    fun cleanupDetails() {
         detailView?.let { detail ->
             detail.safeCleanup()
             removeView(detail)
-            detailView = null
-            previewView?.visibility = VISIBLE
         }
+        detailView = null
+    }
+
+    // Clean up preview view
+    fun cleanupPreview() {
+        previewView?.let { preview ->
+            preview.safeCleanup()
+            removeView(preview)
+        }
+        previewView = null
     }
 
     /**
@@ -213,38 +217,22 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
      */
     private fun safeCleanupAll() {
         try {
+
             // Clean up detail view
-            detailView?.let { detail ->
-                detail.safeCleanup()
-                removeView(detail)
-            }
-            detailView = null
+            cleanupDetails()
 
             // Clean up preview view
-            previewView?.let { preview ->
-                preview.safeCleanup()
-                removeView(preview)
-            }
-            previewView = null
+            cleanupPreview()
 
             // Clear handlers
             handler.removeCallbacksAndMessages(null)
             onDetailsCloseClicked = null
             onPreviewClickHandler = null
+            onDetailsOutsideClicked = null
         } catch (e: Exception) {
             Log.w(TAG, "Error during cleanup: ${e.message}")
         }
     }
-
-    /**
-     * Get screen width in pixels
-     */
-    fun getScreenWidth(): Int = screenWidth
-
-    /**
-     * Get screen height in pixels
-     */
-    fun getScreenHeight(): Int = screenHeight
 
     override fun onDetachedFromWindow() {
         // Clean up resources safely
@@ -252,15 +240,44 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
         super.onDetachedFromWindow()
     }
 
-    /**
-     * Public method to manually cleanup resources
-     * Call this from your fragment's onDestroyView() if needed
-     */
-    fun cleanup() {
-        safeCleanupAll()
-    }
-
     companion object {
         private const val TAG = "SDK:ActivationView"
+    }
+
+    /**
+     * Custom touch listener that preserves video controls functionality
+     */
+    private inner class TouchOutsideListener : OnTouchListener {
+        @SuppressLint("ClickableViewAccessibility")
+        override fun onTouch(v: View, event: MotionEvent): Boolean {
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                // Get our bounds in parent coordinates
+                val outRect = Rect()
+                getHitRect(outRect)
+
+                // Check if touch is outside our bounds
+                if (!outRect.contains(event.x.toInt(), event.y.toInt())) {
+                    // Check if this touch would hit video controls
+                    if (!isVideoControlArea(event, v)) {
+                        Log.d(TAG, "Valid outside click detected")
+                        if (detailView != null) {
+                            onDetailsOutsideClicked?.invoke()
+                            hideDetails()
+                        }
+                        return true
+                    }
+                }
+            }
+            return false
+        }
+
+        private fun isVideoControlArea(event: MotionEvent, parentView: View): Boolean {
+            // Define video control areas (bottom area typically)
+            val controlHeight = 100 // dp, convert to pixels as needed
+            val bottomControlArea = parentView.height - controlHeight
+
+            // If touch is in control area, let it pass through
+            return event.y > bottomControlArea
+        }
     }
 }

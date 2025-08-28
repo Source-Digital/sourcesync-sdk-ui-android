@@ -3,12 +3,15 @@ package io.sourcesync.sdk.ui.utils
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout.LayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.yandex.div.core.view2.Div2View
 import com.yandex.div.data.DivParsingEnvironment
 import com.yandex.div.json.ParsingErrorLogger
 import com.yandex.div2.DivData
 import org.json.JSONObject
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Utility class for layout-related operations.
@@ -122,5 +125,29 @@ object LayoutUtils {
         } catch (e: Exception) {
             Log.w(tag, "Error during safe cleanup: ${e.message}")
         }
+    }
+
+    fun getLayoutParams(
+        widthPercentage: Float,
+        heightPercentage: Float,
+        screenWidth: Int,
+        screenHeight: Int
+    ): LayoutParams {
+        // Calculate dimensions based on percentage
+        val width = if (widthPercentage <= 0f) {
+            LayoutParams.WRAP_CONTENT
+        } else {
+            (max(screenWidth, screenHeight) * widthPercentage.coerceIn(0f, 1f)).toInt()
+        }
+
+        val height = if (heightPercentage <= 0f) {
+            LayoutParams.WRAP_CONTENT
+        } else {
+            (min(screenWidth, screenHeight) * heightPercentage.coerceIn(0f, 1f)).toInt()
+        }
+
+        val params = LayoutParams(width, height)
+
+        return params
     }
 }
