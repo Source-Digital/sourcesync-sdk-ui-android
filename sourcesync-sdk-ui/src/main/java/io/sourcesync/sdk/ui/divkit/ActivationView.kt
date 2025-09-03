@@ -264,7 +264,7 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
                             onDetailsOutsideClicked?.invoke()
                             hideDetails()
                         }
-                        return true
+                        return false
                     }
                 }
             }

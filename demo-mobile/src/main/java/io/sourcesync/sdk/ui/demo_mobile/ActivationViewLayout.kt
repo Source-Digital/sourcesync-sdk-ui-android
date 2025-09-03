@@ -144,7 +144,7 @@ class ActivationViewLayout @JvmOverloads constructor(
             addView(activationView, layoutParams)
 
             val previewTemplate = TemplateLoader.loadTemplate(context, "div_preview1.json")
-            val detailsTemplate = TemplateLoader.loadTemplate(context, "div_details2.json")
+            val detailsTemplate = TemplateLoader.loadTemplate(context, "div_details1.json")
 
             activationView?.showPreview(previewTemplate) { _: View? ->
                 Log.d("ActivationViewLayout", "Preview clicked, showing details")
