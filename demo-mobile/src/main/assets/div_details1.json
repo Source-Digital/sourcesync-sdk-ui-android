@@ -1,0 +1,548 @@
+{
+
+  "card": {
+    "log_id": "bucked_up_detail_card",
+    "states": [
+      {
+        "state_id": 0,
+        "div": {
+          "type": "container",
+          "orientation": "vertical",
+          "width": {
+            "type": "fixed",
+            "value": 350
+          },
+          "height": {
+            "type": "match_parent"
+          },
+          "background": [
+            {
+              "type": "solid",
+              "color": "#000000"
+            }
+          ],
+          "items": [
+            {
+              "type": "_template_close_button"
+            },
+            {
+              "type": "gallery",
+              "orientation": "vertical",
+              "width": {
+                "type": "match_parent"
+              },
+              "height": {
+                "type": "match_parent"
+              },
+              "scroll_mode": "default",
+              "scrollbar": "none",
+              "items": [
+                {
+                  "type": "container",
+                  "orientation": "vertical",
+                  "width": {
+                    "type": "match_parent"
+                  },
+                  "height": {
+                    "type": "wrap_content"
+                  },
+                  "items": [
+                    {
+                      "type": "image",
+                      "image_url": "https://api2-dev.sourcesync.io/assets/254a3d22-3c92-4355-9753-d0f33fbd5087",
+                      "width": {
+                        "type": "match_parent"
+                      },
+                      "height": {
+                        "type": "fixed",
+                        "value": 112
+                      },
+                      "scale": "fit",
+                      "border": {
+                        "corner_radius": 0
+                      }
+                    },
+                    {
+                      "type": "image",
+                      "image_url": "https://api2-dev.sourcesync.io/assets/9bbdf332-d5f6-443b-8ea7-a5a50b913942",
+                      "width": {
+                        "type": "fixed",
+                        "value": 259
+                      },
+                      "height": {
+                        "type": "fixed",
+                        "value": 100
+                      },
+                      "preload_required": true,
+                      "scale": "fit",
+                      "alignment_horizontal": "center"
+                    },
+                    {
+                      "type": "text",
+                      "text": "Train harder, recover faster, dominate the day.",
+                      "font_size": 14,
+                      "text_color": "#CCCCCC",
+                      "text_alignment_horizontal": "center",
+                      "margins": {
+                        "bottom": 20
+                      }
+                    },
+                    {
+                      "type": "container",
+                      "orientation": "vertical",
+                      "background": [
+                        {
+                          "type": "solid",
+                          "color": "#1E1E1E"
+                        }
+                      ],
+                      "border": {
+                        "corner_radius": 14,
+                        "stroke": {
+                          "color": "#e22726",
+                          "width": 1
+                        }
+                      },
+                      "paddings": {
+                        "left": 18,
+                        "right": 18,
+                        "top": 18,
+                        "bottom": 18
+                      },
+                      "margins": {
+                        "left": 20,
+                        "right": 20,
+                        "bottom": 20
+                      },
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "Get Bucked Up",
+                          "font_size": 18,
+                          "font_weight": "bold",
+                          "text_color": "#e22726",
+                          "margins": {
+                            "bottom": 10
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "text": "• Clean, effective pre-workouts",
+                          "font_size": 14,
+                          "text_color": "#DDDDDD",
+                          "line_height": 20
+                        },
+                        {
+                          "type": "text",
+                          "text": "• Energy, focus & pump",
+                          "font_size": 14,
+                          "width": {
+                            "type": "wrap_content",
+                            "constrained": true
+                          },
+                          "line_height": 20,
+                          "text_color": "#ffffff"
+                        },
+                        {
+                          "type": "text",
+                          "text": "• Trusted by the HERD for results",
+                          "font_size": 14,
+                          "width": {
+                            "type": "wrap_content",
+                            "constrained": true
+                          },
+                          "line_height": 20,
+                          "text_color": "#ffffff"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "pager",
+                      "width": {
+                        "type": "wrap_content",
+                        "constrained": true
+                      },
+                      "items": [
+                        {
+                          "type": "container",
+                          "orientation": "vertical",
+                          "width": {
+                            "type": "fixed",
+                            "value": 306
+                          },
+                          "background": [
+                            {
+                              "type": "solid",
+                              "color": "#111111"
+                            }
+                          ],
+                          "border": {
+                            "corner_radius": 12
+                          },
+                          "paddings": {
+                            "top": 10,
+                            "bottom": 10
+                          },
+                          "items": [
+                            {
+                              "type": "image",
+                              "image_url": "https://api2-dev.sourcesync.io/assets/d348f435-0761-46c5-ae5b-6f789f02e881",
+                              "width": {
+                                "type": "fixed",
+                                "value": 100
+                              },
+                              "height": {
+                                "type": "fixed",
+                                "value": 100
+                              },
+                              "preload_required": true
+                            },
+                            {
+                              "type": "text",
+                              "text": "LFG Burn",
+                              "font_size": 14,
+                              "font_weight": "bold",
+                              "text_color": "#FFFFFF",
+                              "margins": {
+                                "bottom": 4
+                              },
+                              "text_alignment_horizontal": "center"
+                            },
+                            {
+                              "type": "text",
+                              "text": "Thermogenic Fat-Burn",
+                              "font_size": 12,
+                              "text_color": "#BBBBBB",
+                              "text_alignment_horizontal": "center"
+                            }
+                          ],
+                          "alignment_horizontal": "center",
+                          "alignment_vertical": "center",
+                          "content_alignment_horizontal": "center",
+                          "content_alignment_vertical": "center"
+                        },
+                        {
+                          "type": "container",
+                          "orientation": "vertical",
+                          "width": {
+                            "type": "fixed",
+                            "value": 306
+                          },
+                          "background": [
+                            {
+                              "type": "solid",
+                              "color": "#111111"
+                            }
+                          ],
+                          "border": {
+                            "corner_radius": 12
+                          },
+                          "paddings": {
+                            "top": 10,
+                            "bottom": 10
+                          },
+                          "items": [
+                            {
+                              "type": "image",
+                              "image_url": "https://api2-dev.sourcesync.io/assets/da6e5f8b-f53f-4327-85d1-9858e64284bf",
+                              "width": {
+                                "type": "fixed",
+                                "value": 100
+                              },
+                              "height": {
+                                "type": "fixed",
+                                "value": 100
+                              },
+                              "preload_required": true
+                            },
+                            {
+                              "type": "text",
+                              "text": "Buck Feed",
+                              "font_size": 14,
+                              "font_weight": "bold",
+                              "text_color": "#FFFFFF",
+                              "margins": {
+                                "bottom": 4
+                              },
+                              "text_alignment_horizontal": "center"
+                            },
+                            {
+                              "type": "text",
+                              "text": "All-Natural Protein",
+                              "font_size": 12,
+                              "text_color": "#BBBBBB",
+                              "text_alignment_horizontal": "center"
+                            }
+                          ],
+                          "alignment_horizontal": "center",
+                          "alignment_vertical": "center",
+                          "content_alignment_horizontal": "center",
+                          "content_alignment_vertical": "center"
+                        },
+                        {
+                          "type": "container",
+                          "orientation": "vertical",
+                          "width": {
+                            "type": "fixed",
+                            "value": 306
+                          },
+                          "background": [
+                            {
+                              "type": "solid",
+                              "color": "#111111"
+                            }
+                          ],
+                          "border": {
+                            "corner_radius": 12
+                          },
+                          "paddings": {
+                            "top": 10,
+                            "bottom": 10
+                          },
+                          "alignment_horizontal": "center",
+                          "alignment_vertical": "center",
+                          "content_alignment_horizontal": "center",
+                          "content_alignment_vertical": "center",
+                          "items": [
+                            {
+                              "type": "image",
+                              "image_url": "https://api2-dev.sourcesync.io/assets/8bd2fe85-9442-44a0-a26f-232d17aaf602",
+                              "width": {
+                                "type": "fixed",
+                                "value": 100
+                              },
+                              "height": {
+                                "type": "fixed",
+                                "value": 100
+                              },
+                              "preload_required": true
+                            },
+                            {
+                              "type": "text",
+                              "text": "Buck Shot",
+                              "font_size": 14,
+                              "font_weight": "bold",
+                              "text_color": "#FFFFFF",
+                              "margins": {
+                                "bottom": 4
+                              },
+                              "text_alignment_horizontal": "center"
+                            },
+                            {
+                              "type": "text",
+                              "text": "Quality, Focused, Clean Energy",
+                              "font_size": 12,
+                              "text_color": "#BBBBBB",
+                              "text_alignment_horizontal": "center"
+                            }
+                          ]
+                        }
+                      ],
+                      "layout_mode": {
+                        "type": "percentage",
+                        "page_width": {
+                          "value": 100
+                        }
+                      },
+                      "margins": {
+                        "top": 15,
+                        "bottom": 35
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "text": "Proven stacks for every goal—from focus and energy to recovery and fat loss.",
+                      "font_size": 14,
+                      "text_color": "#DDDDDD",
+                      "text_alignment_horizontal": "center",
+                      "margins": {
+                        "bottom": 20
+                      },
+                      "paddings": {
+                        "right": 5,
+                        "left": 5
+                      }
+                    },
+                    {
+                      "type": "container",
+                      "orientation": "vertical",
+                      "background": [
+                        {
+                          "type": "solid",
+                          "color": "#1A1A1A"
+                        }
+                      ],
+                      "border": {
+                        "corner_radius": 14,
+                        "stroke": {
+                          "color": "#333333",
+                          "width": 1
+                        }
+                      },
+                      "paddings": {
+                        "left": 16,
+                        "right": 16,
+                        "top": 16,
+                        "bottom": 16
+                      },
+                      "margins": {
+                        "right": 10,
+                        "bottom": 20,
+                        "left": 10
+                      },
+                      "items": [
+                        {
+                          "type": "text",
+                          "text": "Our Guarantee",
+                          "font_size": 18,
+                          "font_weight": "bold",
+                          "text_color": "#FFFFFF",
+                          "margins": {
+                            "bottom": 10
+                          },
+                          "text_alignment_horizontal": "center"
+                        },
+                        {
+                          "type": "text",
+                          "text": "If you're not satisfied within 45 days of purchase, you get your money back—no questions asked.",
+                          "font_size": 14,
+                          "text_color": "#DDDDDD",
+                          "line_height": 20,
+                          "text_alignment_horizontal": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "container",
+                      "orientation": "horizontal",
+                      "content_alignment_horizontal": "center",
+                      "margins": {
+                        "bottom": 30
+                      },
+                      "items": [
+                        {
+                          "text": "Shop Now",
+                          "background": [
+                            {
+                              "type": "solid",
+                              "color": "#e22726"
+                            }
+                          ],
+                          "text_color": "#fff",
+                          "corners": 20,
+                          "type": "_template_button",
+                          "width": {
+                            "type": "fixed",
+                            "value": 340
+                          },
+                          "font_size": 20,
+                          "line_height": 0,
+                          "paddings": {
+                            "top": 10,
+                            "right": 28,
+                            "bottom": 10,
+                            "left": 28
+                          },
+                          "actions": [
+                            {
+                              "log_id": "action_id",
+                              "url": "https://www.buckedup.com/shop"
+                            }
+                          ],
+                          "font_weight": "bold"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "templates": {
+    "_template_button": {
+      "type": "text",
+      "text_alignment_horizontal": "center",
+      "text_alignment_vertical": "center",
+      "border": {
+        "$corner_radius": "corners"
+      },
+      "paddings": {
+        "bottom": 24,
+        "left": 28,
+        "right": 28,
+        "top": 22
+      },
+      "width": {
+        "type": "wrap_content"
+      }
+    },
+    "_template_close_button": {
+      "type": "container",
+      "orientation": "horizontal",
+      "width": {
+        "type": "match_parent"
+      },
+      "height": {
+        "type": "fixed",
+        "value": 48
+      },
+      "content_alignment_horizontal": "right",
+      "paddings": {
+        "top": 4,
+        "right": 4,
+        "bottom": 4,
+        "left": 4
+      },
+      "items": [
+        {
+          "type": "container",
+          "orientation": "horizontal",
+          "width": {
+            "type": "fixed",
+            "value": 48
+          },
+          "height": {
+            "type": "fixed",
+            "value": 36
+          },
+          "background": [
+            {
+              "type": "solid",
+              "color": "#000000DD"
+            }
+          ],
+          "border": {
+            "corner_radius": 24,
+            "stroke": {
+              "color": "#FFFFFF33",
+              "width": 2
+            }
+          },
+          "content_alignment_horizontal": "center",
+          "content_alignment_vertical": "center",
+          "actions": [
+            {
+              "log_id": "close_button_click",
+              "url": "div-action://close"
+            }
+          ],
+          "items": [
+            {
+              "type": "text",
+              "text": "✕",
+              "font_size": 20,
+              "font_weight": "bold",
+              "text_color": "#FFFFFF",
+              "text_alignment_horizontal": "center",
+              "text_alignment_vertical": "center"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
