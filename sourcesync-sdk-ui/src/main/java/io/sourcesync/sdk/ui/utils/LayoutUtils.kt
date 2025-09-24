@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout.LayoutParams
+import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.yandex.div.core.view2.Div2View
 import com.yandex.div.data.DivParsingEnvironment
@@ -54,7 +55,7 @@ object LayoutUtils {
     /**
      * Check if the view is in a safe state for cleanup
      */
-    fun isSafeForCleanup(tag:String,divView:View?): Boolean {
+    fun isSafeForCleanup(tag: String, divView: View?): Boolean {
         return try {
             divView != null && divView.isAttachedToWindow
         } catch (e: Exception) {
@@ -66,11 +67,11 @@ object LayoutUtils {
     /**
      * Force cleanup even if view is not in a safe state
      */
-    fun forceCleanup(tag:String, divView: View?) {
+    fun forceCleanup(tag: String, divView: View?) {
         try {
             Log.w(tag, "Force cleanup initiated")
             divView?.let { view ->
-                clearRecyclerViews(tag,view)
+                clearRecyclerViews(tag, view)
                 // Don't call cleanup() in force mode to avoid exceptions
             }
         } catch (e: Exception) {
@@ -81,13 +82,13 @@ object LayoutUtils {
     /**
      * Safe cleanup method that should be called before view destruction
      */
-    fun safeCleanup(tag:String, divView: Div2View?) {
+    fun safeCleanup(tag: String, divView: Div2View?) {
         try {
             Log.d(tag, "Starting safe cleanup")
 
             divView?.let { view ->
                 // Clear all RecyclerViews first
-                clearRecyclerViews(tag,view)
+                clearRecyclerViews(tag, view)
 
                 // Clear any pending operations
                 view.clearFocus()
@@ -149,5 +150,43 @@ object LayoutUtils {
         val params = LayoutParams(width, height)
 
         return params
+    }
+
+    fun getLayoutParams(position: ActivationPosition, layoutParams: RelativeLayout.LayoutParams): RelativeLayout.LayoutParams{
+        // Apply horizontal alignment
+        when (position.activationPosition?.activationHorizontalAlignment) {
+            ActivationHorizontalAlignment.LEFT -> {
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT)
+            }
+            ActivationHorizontalAlignment.CENTER -> {
+                layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL)
+            }
+            ActivationHorizontalAlignment.RIGHT -> {
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
+            }
+            null -> {
+                // Default to left if not specified
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT)
+            }
+        }
+
+        // Apply vertical alignment
+        when (position.activationPosition?.activationVerticalAlignment) {
+            ActivationVerticalAlignment.TOP -> {
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP)
+            }
+            ActivationVerticalAlignment.CENTER -> {
+                layoutParams.addRule(RelativeLayout.CENTER_VERTICAL)
+            }
+            ActivationVerticalAlignment.BOTTOM -> {
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
+            }
+            null -> {
+                // Default to top if not specified
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP)
+            }
+        }
+
+        return layoutParams
     }
 }
