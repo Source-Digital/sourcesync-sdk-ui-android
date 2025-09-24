@@ -34,7 +34,7 @@ class Activation2Preview @JvmOverloads constructor(
          * Factory method to create preview with data
          */
         @JvmStatic
-        fun create(
+        fun createFromDivData(
             context: Context,
             previewData: DivData,
             config: ActivationConfig?
@@ -49,7 +49,7 @@ class Activation2Preview @JvmOverloads constructor(
          * Factory method to create preview from JSON
          */
         @JvmStatic
-        fun create(
+        fun createFromJson(
             context: Context,
             previewJson: JSONObject,
             config: ActivationConfig?

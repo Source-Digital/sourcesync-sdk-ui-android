@@ -44,7 +44,7 @@ class Activation2Details @JvmOverloads constructor(
          * Factory method to create details with data
          */
         @JvmStatic
-        fun create(
+        fun createFromDivData(
             context: Context,
             detailsData: DivData,
             config: ActivationConfig
@@ -59,7 +59,7 @@ class Activation2Details @JvmOverloads constructor(
          * Factory method to create details from JSON
          */
         @JvmStatic
-        fun create(
+        fun createFromJson(
             context: Context,
             detailsJson: JSONObject,
             config: ActivationConfig
