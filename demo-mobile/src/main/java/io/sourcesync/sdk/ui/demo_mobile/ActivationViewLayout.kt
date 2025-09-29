@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import io.sourcesync.sdk.ui.divkit.ActivationView
+import io.sourcesync.sdk.ui.views.ActivationView
 import org.json.JSONException
 
 class ActivationViewLayout @JvmOverloads constructor(
@@ -42,7 +42,7 @@ class ActivationViewLayout @JvmOverloads constructor(
 
     private fun setupBackButton() {
         backButton = ImageView(context).apply {
-            id = View.generateViewId()
+            id = generateViewId()
             setImageResource(android.R.drawable.ic_menu_revert)
             setBackgroundResource(android.R.drawable.btn_default)
             setPadding(16.dpToPx(), 16.dpToPx(), 16.dpToPx(), 16.dpToPx())
@@ -68,7 +68,7 @@ class ActivationViewLayout @JvmOverloads constructor(
 
     private fun setupTimer() {
         timerText = TextView(context).apply {
-            id = View.generateViewId()
+            id = generateViewId()
             text = "Timer: 0s"
             textSize = 18f
             setTextColor(android.graphics.Color.BLACK)
