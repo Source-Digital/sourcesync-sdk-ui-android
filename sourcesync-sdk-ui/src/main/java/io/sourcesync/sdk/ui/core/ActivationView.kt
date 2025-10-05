@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.WindowManager
 import android.widget.FrameLayout
 import com.yandex.div.core.DivConfiguration
-import io.sourcesync.sdk.ui.utils.EnhancedDivUrlHandler
+import io.sourcesync.sdk.ui.utils.CustomUrlHandler
 import io.sourcesync.sdk.ui.utils.LayoutUtils.asTemplateAndCardParsed
 import io.sourcesync.sdk.ui.utils.PicassoDivImageLoader
 import io.sourcesync.sdk.ui.utils.createDivUrlHandler
@@ -29,7 +29,7 @@ class ActivationView(private val context: Context) : FrameLayout(context) {
     private var detailView: ActivationDetails? = null
     private var onPreviewClickHandler: Runnable? = null
     private val handler = Handler()
-    private var divUrlHandler: EnhancedDivUrlHandler
+    private var divUrlHandler: CustomUrlHandler
     private lateinit var onDetailsActionTriggered: () -> Unit
     private var onDetailsOutsideClicked: (() -> Unit)? = null
 

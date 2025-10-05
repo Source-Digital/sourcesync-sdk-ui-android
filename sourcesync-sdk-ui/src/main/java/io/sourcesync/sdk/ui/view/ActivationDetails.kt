@@ -1,4 +1,4 @@
-package io.sourcesync.sdk.ui.views2
+package io.sourcesync.sdk.ui.view
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -22,7 +22,7 @@ import org.json.JSONObject
 /**
  * Standalone details component for activations
  */
-class Activation2Details @JvmOverloads constructor(
+class ActivationDetails @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -48,8 +48,8 @@ class Activation2Details @JvmOverloads constructor(
             context: Context,
             detailsData: DivData,
             config: ActivationConfig
-        ): Activation2Details {
-            return Activation2Details(context).apply {
+        ): ActivationDetails {
+            return ActivationDetails(context).apply {
                 setConfig(config)
                 setData(detailsData)
             }
@@ -63,8 +63,8 @@ class Activation2Details @JvmOverloads constructor(
             context: Context,
             detailsJson: JSONObject,
             config: ActivationConfig
-        ): Activation2Details {
-            return Activation2Details(context).apply {
+        ): ActivationDetails {
+            return ActivationDetails(context).apply {
                 setConfig(config)
                 setDataFromJson(detailsJson)
             }

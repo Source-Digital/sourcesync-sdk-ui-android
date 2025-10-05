@@ -1,10 +1,10 @@
-package io.sourcesync.sdk.ui.views2
+package io.sourcesync.sdk.ui.view
 
 import android.content.Context
 import android.view.View
 import com.yandex.div.core.DivConfiguration
 import io.sourcesync.sdk.ui.utils.ActivationPosition
-import io.sourcesync.sdk.ui.utils.EnhancedDivUrlHandler
+import io.sourcesync.sdk.ui.utils.CustomUrlHandler
 import io.sourcesync.sdk.ui.utils.PicassoDivImageLoader
 import io.sourcesync.sdk.ui.utils.Alignment
 import io.sourcesync.sdk.ui.utils.createDivUrlHandler
@@ -20,7 +20,7 @@ class ActivationConfig private constructor(
 ) {
     class Builder(private val context: Context) {
         private var visualErrorsEnabled = true
-        private var divUrlHandler: EnhancedDivUrlHandler? = null
+        private var divUrlHandler: CustomUrlHandler? = null
 
         private var onPreviewClickHandler: View.OnClickListener? = null
         private var onUrlActionTriggered: Runnable? = null
