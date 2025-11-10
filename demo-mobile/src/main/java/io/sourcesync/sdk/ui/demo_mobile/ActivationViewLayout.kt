@@ -5,12 +5,16 @@ import android.content.Context
 import android.os.CountDownTimer
 import android.util.AttributeSet
 import android.util.Log
-import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import io.sourcesync.sdk.ui.views.ActivationView
+import io.sourcesync.sdk.ui.utils.ActivationHorizontalAlignment
+import io.sourcesync.sdk.ui.utils.ActivationVerticalAlignment
+import io.sourcesync.sdk.ui.utils.Alignment
+import io.sourcesync.sdk.ui.view.ActivationConfig
+import io.sourcesync.sdk.ui.view.ActivationView
 import org.json.JSONException
+import org.json.JSONObject
 
 class ActivationViewLayout @JvmOverloads constructor(
     context: Context,
@@ -18,7 +22,8 @@ class ActivationViewLayout @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : RelativeLayout(context, attrs, defStyleAttr) {
 
-    private var activationView: ActivationView? = null
+    private var activationPreview: ActivationView? = null
+    private var activationDetails: ActivationView? = null
     private var timerText: TextView? = null
     private var backButton: ImageView? = null
     private var countDownTimer: CountDownTimer? = null
@@ -100,8 +105,7 @@ class ActivationViewLayout @JvmOverloads constructor(
                 // Setup activation view at 5 seconds
                 if (secondsElapsed == 1L && !isActivationViewSetup) {
                     Log.d("ActivationViewLayout", "Setting up activation view at 5 seconds")
-                    setupActivationView()
-                    isActivationViewSetup = true
+                    setupActivationViews()
                 }
 
                 // Hide activation view at 20 seconds
@@ -124,49 +128,64 @@ class ActivationViewLayout @JvmOverloads constructor(
         countDownTimer?.start()
     }
 
-    private fun setupActivationView() {
+    private fun initializeActivationPreview(
+        previewTemplate: JSONObject,
+        onClickListener: OnClickListener
+    ) {
+        val previewAlignment =
+            Alignment(ActivationHorizontalAlignment.LEFT, ActivationVerticalAlignment.TOP)
+
+        val previewConfig = ActivationConfig.Builder(context)
+            .setPositionAlignment(previewAlignment)
+            .setClickHandler {
+                onClickListener.onClick(activationPreview)
+                activationPreview?.hide()
+            }.build()
+
+
+        activationPreview =
+            ActivationView.createFromJson(context, previewTemplate, previewConfig)
+
+        addView(activationPreview, activationPreview?.getViewLayoutParams())
+        isActivationViewSetup = true
+    }
+
+    private fun initializeActivationDetails(detailsTemplate: JSONObject) {
+        val detailsAlignment = Alignment(
+            ActivationHorizontalAlignment.RIGHT,
+            ActivationVerticalAlignment.TOP
+        )
+
+        val detailsConfig = ActivationConfig.Builder(context)
+            .setPositionAlignment(detailsAlignment)
+            .setUrlActionHandler {
+                Log.d("ActivationViewLayout", "onActionTriggered!")
+            }
+            .setOutsideClickHandler {
+                activationDetails?.hide()
+            }
+            .setDetailsCloseHandler {
+                Log.d("ActivationViewLayout", "Details action triggered, hiding details")
+                activationDetails?.hide()
+            }.build()
+
+        activationDetails = ActivationView.createFromJson(context, detailsTemplate, detailsConfig)
+        addView(activationDetails, activationDetails?.getViewLayoutParams())
+        Log.d("ActivationViewLayout", "Activation view setup completed")
+    }
+
+    private fun setupActivationViews() {
         Log.d("ActivationViewLayout", "Setting up activation view...")
-
         try {
-            activationView = ActivationView(context)
+            val previewTemplate: JSONObject =
+                TemplateLoader.loadTemplate(context, "div_preview1.json")
 
-            // Create layout parameters for top-right positioning
-            val layoutParams = LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT
-            ).apply {
-                addRule(ALIGN_PARENT_TOP)
-                addRule(ALIGN_PARENT_END)
-                topMargin = 16.dpToPx()
-                rightMargin = 16.dpToPx()
+            val detailsTemplate: JSONObject =
+                TemplateLoader.loadTemplate(context, "div_details1.json")
+
+            initializeActivationPreview(previewTemplate){
+                initializeActivationDetails(detailsTemplate)
             }
-
-            addView(activationView, layoutParams)
-
-            val previewTemplate = TemplateLoader.loadTemplate(context, "div_preview1.json")
-            val detailsTemplate = TemplateLoader.loadTemplate(context, "div_details1.json")
-
-            activationView?.showPreview(previewTemplate) { _: View? ->
-                Log.d("ActivationViewLayout", "Preview clicked, showing details")
-                activationView?.showDetail(
-                    detailsTemplate,
-                    widthPercentage = 0.5f,
-                    onActionTriggered = {
-                        Log.d("ActivationViewLayout", "onActionTriggered!")
-
-                    },
-                    onDetailsOutsideClicked = {
-                        Log.d("ActivationViewLayout", "onOutSideClicked")
-
-                    },
-                    onClose = {
-                        Log.d("ActivationViewLayout", "Details action triggered, hiding details")
-                        activationView?.hideDetails()
-                    })
-            }
-
-            Log.d("ActivationViewLayout", "Activation view setup completed")
-
         } catch (e: JSONException) {
             Log.e("ActivationViewLayout", "Error setting up activation view", e)
             throw RuntimeException(e)
@@ -181,11 +200,10 @@ class ActivationViewLayout @JvmOverloads constructor(
 
     private fun hideActivationView() {
         Log.d("ActivationViewLayout", "Hiding activation view...")
-        activationView?.let {
-            removeView(it)
-            Log.d("ActivationViewLayout", "Activation view removed from layout")
-        }
-        activationView = null
+
+        activationPreview?.cleanup()
+        activationDetails?.cleanup()
+
         isActivationViewSetup = false
     }
 

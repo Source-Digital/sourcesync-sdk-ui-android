@@ -1,4 +1,4 @@
-package io.sourcesync.sdk.ui.views
+package io.sourcesync.sdk.ui.core
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -23,7 +23,7 @@ import io.sourcesync.sdk.ui.utils.LayoutUtils
 /**
  * A view representing an activation component with preview and detail views.
  */
-class ActivationView(private val context: Context) : FrameLayout(context) {
+class LegacyActivationView(private val context: Context) : FrameLayout(context) {
     private var onDetailsCloseClicked: Runnable? = null
     private var previewView: ActivationPreview? = null
     private var detailView: ActivationDetails? = null

@@ -1,4 +1,4 @@
-package io.sourcesync.sdk.ui.views
+package io.sourcesync.sdk.ui.core
 
 import android.annotation.SuppressLint
 import android.content.Context
