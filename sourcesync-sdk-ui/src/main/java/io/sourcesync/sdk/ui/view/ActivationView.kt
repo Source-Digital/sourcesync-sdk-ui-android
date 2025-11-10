@@ -32,7 +32,6 @@ class ActivationView @JvmOverloads constructor(
     private var config: ActivationConfig? = null
     private var layoutParam: RelativeLayout.LayoutParams? = null
     private var touchOutsideListener: TouchOutsideListener? = null
-    private var isOutsideClickEnabled: Boolean = false
 
     // Constants for better maintainability
     private val videoControlHeightDp = 100
@@ -88,6 +87,9 @@ class ActivationView @JvmOverloads constructor(
      * @param config ActivationConfig containing handlers and positioning
      */
     fun setConfig(config: ActivationConfig) {
+        if (config.onOutsideClickHandler != null) {
+            setupOutsideClickHandling()
+        }
         this.config = config
     }
 
@@ -99,14 +101,6 @@ class ActivationView @JvmOverloads constructor(
     fun setViewData(viewData: DivData) {
         val cfg = config ?: throw IllegalStateException("Config must be set before data")
         initializeView(viewData, cfg)
-    }
-
-    /**
-     * Enables/disables outside click detection for closing the view
-     * @param enabled true to enable outside click detection
-     */
-    fun setOutsideClickEnabled(enabled: Boolean) {
-        this.isOutsideClickEnabled = enabled
     }
 
     /**
@@ -143,10 +137,6 @@ class ActivationView @JvmOverloads constructor(
             setupDivView(data, config)
             setupClickHandlers(config)
             setupLayoutParams(config)
-
-            if (isOutsideClickEnabled) {
-                setupOutsideClickHandling()
-            }
 
         } catch (e: Exception) {
             Log.e(TAG, "Failed to initialize view", e)
@@ -265,7 +255,8 @@ class ActivationView @JvmOverloads constructor(
                 getHitRect(outRect)
 
                 if (!outRect.contains(event.x.toInt(), event.y.toInt()) &&
-                    !isVideoControlArea(event, v)) {
+                    !isVideoControlArea(event, v)
+                ) {
                     config?.onOutsideClickHandler?.run()
                     return false
                 }
