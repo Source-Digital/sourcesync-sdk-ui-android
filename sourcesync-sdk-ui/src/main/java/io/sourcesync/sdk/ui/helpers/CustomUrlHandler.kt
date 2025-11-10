@@ -1,4 +1,4 @@
-package io.sourcesync.sdk.ui.utils
+package io.sourcesync.sdk.ui.helpers
 
 import android.content.Context
 import android.content.Intent

@@ -1,4 +1,4 @@
-package io.sourcesync.sdk.ui.utils
+package io.sourcesync.sdk.ui.models
 
 data class ActivationPosition(
     val screenWidth: Int,

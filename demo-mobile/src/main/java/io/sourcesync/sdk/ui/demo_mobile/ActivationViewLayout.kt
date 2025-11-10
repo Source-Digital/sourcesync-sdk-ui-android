@@ -8,9 +8,9 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import io.sourcesync.sdk.ui.utils.ActivationHorizontalAlignment
-import io.sourcesync.sdk.ui.utils.ActivationVerticalAlignment
-import io.sourcesync.sdk.ui.utils.Alignment
+import io.sourcesync.sdk.ui.models.ActivationHorizontalAlignment
+import io.sourcesync.sdk.ui.models.ActivationVerticalAlignment
+import io.sourcesync.sdk.ui.models.Alignment
 import io.sourcesync.sdk.ui.view.ActivationConfig
 import io.sourcesync.sdk.ui.view.ActivationView
 import org.json.JSONException

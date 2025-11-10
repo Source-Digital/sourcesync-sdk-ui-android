@@ -1,5 +1,7 @@
 package io.sourcesync.sdk.ui.utils
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,10 @@ import com.yandex.div.core.view2.Div2View
 import com.yandex.div.data.DivParsingEnvironment
 import com.yandex.div.json.ParsingErrorLogger
 import com.yandex.div2.DivData
+import io.sourcesync.sdk.ui.helpers.CustomUrlHandler
+import io.sourcesync.sdk.ui.models.ActivationHorizontalAlignment
+import io.sourcesync.sdk.ui.models.ActivationPosition
+import io.sourcesync.sdk.ui.models.ActivationVerticalAlignment
 import org.json.JSONObject
 import kotlin.math.max
 import kotlin.math.min
@@ -189,4 +195,20 @@ object LayoutUtils {
 
         return layoutParams
     }
+}
+
+/**
+ * Extension function to easily create and configure the URL handler
+ */
+fun Context.createDivUrlHandler(
+    onCloseAction: () -> Unit,
+    onExternalUrlAction: ((Uri) -> Unit)? = null,
+    onCustomSchemeAction: ((Uri) -> Unit)? = null,
+): CustomUrlHandler {
+    return CustomUrlHandler(
+        context = this,
+        onCloseAction = onCloseAction,
+        onExternalUrlAction = onExternalUrlAction,
+        onCustomSchemeAction = onCustomSchemeAction
+    )
 }

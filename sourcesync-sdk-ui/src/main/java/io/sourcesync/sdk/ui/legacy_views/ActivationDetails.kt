@@ -1,4 +1,4 @@
-package io.sourcesync.sdk.ui.view
+package io.sourcesync.sdk.ui.legacy_views
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -17,6 +17,7 @@ import com.yandex.div.core.view2.Div2View
 import com.yandex.div2.DivData
 import io.sourcesync.sdk.ui.utils.LayoutUtils
 import io.sourcesync.sdk.ui.utils.LayoutUtils.asTemplateAndCardParsed
+import io.sourcesync.sdk.ui.view.ActivationConfig
 import org.json.JSONObject
 
 /**
