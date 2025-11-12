@@ -1,4 +1,4 @@
-package io.sourcesync.sdk.ui.views
+package io.sourcesync.sdk.ui.core
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -15,23 +15,24 @@ import io.sourcesync.sdk.ui.utils.LayoutUtils.isSafeForCleanup
 import io.sourcesync.sdk.ui.utils.LayoutUtils.safeCleanup
 
 @SuppressLint("ViewConstructor")
-class ActivationDetails(
+class ActivationPreview(
     context: Context,
-    detailsData: DivData,
-    divConfig: DivConfiguration
+    previewData: DivData,
+    config: DivConfiguration
 ) : FrameLayout(context) {
     private var divView: Div2View? = null
 
     init {
-        initializeView(detailsData, divConfig)
+        initializeView(previewData, config)
     }
 
-    private fun initializeView(
-        detailsData: DivData,
-        config: DivConfiguration
-    ) {
+    /**
+     * Initializes the DivView with the provided data and configuration
+     * @param previewData The DivData to display
+     * @param config The DivConfiguration to use
+     */
+    private fun initializeView(previewData: DivData, config: DivConfiguration) {
         try {
-
             val themedContext = ContextThemeWrapper(
                 context,
                 context.applicationInfo.theme
@@ -44,9 +45,7 @@ class ActivationDetails(
                 )
             )
 
-            divView?.setData(detailsData, DivDataTag("SourceSync-ActivationDetails"))
-
-            // Add content container to frame layout
+            divView?.setData(previewData, DivDataTag("SourceSync-ActivationPreview"))
             divView?.let { addView(it) }
         } catch (e: Exception) {
             Log.e(TAG, "Error in initializeView", e)
@@ -70,6 +69,6 @@ class ActivationDetails(
     }
 
     companion object {
-        private const val TAG = "ActivationDetails"
+        private const val TAG = "ActivationPreview"
     }
 }

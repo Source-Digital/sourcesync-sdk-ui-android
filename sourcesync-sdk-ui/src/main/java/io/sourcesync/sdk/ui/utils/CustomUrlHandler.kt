@@ -20,7 +20,7 @@ import androidx.core.net.toUri
  * - Custom scheme URLs
  * - Deep link handling
  */
-class EnhancedDivUrlHandler(
+class CustomUrlHandler(
     private val context: Context,
     private val onCloseAction: () -> Unit,
     private val onExternalUrlAction: ((Uri) -> Unit)? = null,

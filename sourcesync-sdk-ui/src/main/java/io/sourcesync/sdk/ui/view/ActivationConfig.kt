@@ -1,10 +1,10 @@
-package io.sourcesync.sdk.ui.views2
+package io.sourcesync.sdk.ui.view
 
 import android.content.Context
 import android.view.View
 import com.yandex.div.core.DivConfiguration
 import io.sourcesync.sdk.ui.utils.ActivationPosition
-import io.sourcesync.sdk.ui.utils.EnhancedDivUrlHandler
+import io.sourcesync.sdk.ui.utils.CustomUrlHandler
 import io.sourcesync.sdk.ui.utils.PicassoDivImageLoader
 import io.sourcesync.sdk.ui.utils.Alignment
 import io.sourcesync.sdk.ui.utils.createDivUrlHandler
@@ -20,23 +20,23 @@ class ActivationConfig private constructor(
 ) {
     class Builder(private val context: Context) {
         private var visualErrorsEnabled = true
-        private var divUrlHandler: EnhancedDivUrlHandler? = null
+        private var divUrlHandler: CustomUrlHandler? = null
 
-        private var onPreviewClickHandler: View.OnClickListener? = null
+        private var onClickHandler: View.OnClickListener? = null
         private var onUrlActionTriggered: Runnable? = null
         private var onDetailsCloseClicked: Runnable? = null
         private var onOutsideClickHandler: Runnable? = null
 
         private var positionAlignment: Alignment? = null
-        fun setPreviewClickHandler(onClickListener: View.OnClickListener) = apply {
-            this.onPreviewClickHandler = onClickListener
+        fun setClickHandler(onClickListener: View.OnClickListener) = apply {
+            this.onClickHandler = onClickListener
         }
 
         fun setUrlActionHandler(handler: Runnable) = apply {
             this.onUrlActionTriggered = handler
         }
 
-        fun setOutsideClickhandler(handler: Runnable) = apply {
+        fun setOutsideClickHandler(handler: Runnable) = apply {
             this.onOutsideClickHandler = handler
         }
 
@@ -71,7 +71,7 @@ class ActivationConfig private constructor(
 
             return ActivationConfig(
                 divConfiguration = divConfig,
-                onPreviewClickHandler = onPreviewClickHandler,
+                onPreviewClickHandler = onClickHandler,
                 onOutsideClickHandler = onOutsideClickHandler,
                 activationPosition = ActivationPosition(screenWidth = metrics.widthPixels, screenHeight = metrics.heightPixels,positionAlignment)
             )

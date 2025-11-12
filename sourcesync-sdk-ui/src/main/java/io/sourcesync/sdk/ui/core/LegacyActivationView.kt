@@ -1,4 +1,4 @@
-package io.sourcesync.sdk.ui.views
+package io.sourcesync.sdk.ui.core
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.WindowManager
 import android.widget.FrameLayout
 import com.yandex.div.core.DivConfiguration
-import io.sourcesync.sdk.ui.utils.EnhancedDivUrlHandler
+import io.sourcesync.sdk.ui.utils.CustomUrlHandler
 import io.sourcesync.sdk.ui.utils.LayoutUtils.asTemplateAndCardParsed
 import io.sourcesync.sdk.ui.utils.PicassoDivImageLoader
 import io.sourcesync.sdk.ui.utils.createDivUrlHandler
@@ -23,13 +23,13 @@ import io.sourcesync.sdk.ui.utils.LayoutUtils
 /**
  * A view representing an activation component with preview and detail views.
  */
-class ActivationView(private val context: Context) : FrameLayout(context) {
+class LegacyActivationView(private val context: Context) : FrameLayout(context) {
     private var onDetailsCloseClicked: Runnable? = null
     private var previewView: ActivationPreview? = null
     private var detailView: ActivationDetails? = null
     private var onPreviewClickHandler: Runnable? = null
     private val handler = Handler()
-    private var divUrlHandler: EnhancedDivUrlHandler
+    private var divUrlHandler: CustomUrlHandler
     private lateinit var onDetailsActionTriggered: () -> Unit
     private var onDetailsOutsideClicked: (() -> Unit)? = null
 

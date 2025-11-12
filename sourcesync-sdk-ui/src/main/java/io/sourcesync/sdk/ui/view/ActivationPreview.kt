@@ -1,4 +1,4 @@
-package io.sourcesync.sdk.ui.views2
+package io.sourcesync.sdk.ui.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -17,7 +17,7 @@ import org.json.JSONObject
 /**
  * Standalone preview component for activations
  */
-class Activation2Preview @JvmOverloads constructor(
+class ActivationPreview @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -38,8 +38,8 @@ class Activation2Preview @JvmOverloads constructor(
             context: Context,
             previewData: DivData,
             config: ActivationConfig?
-        ): Activation2Preview {
-            return Activation2Preview(context).apply {
+        ): ActivationPreview {
+            return ActivationPreview(context).apply {
                 setConfig(config)
                 setData(previewData)
             }
@@ -53,8 +53,8 @@ class Activation2Preview @JvmOverloads constructor(
             context: Context,
             previewJson: JSONObject,
             config: ActivationConfig?
-        ): Activation2Preview {
-            return Activation2Preview(context).apply {
+        ): ActivationPreview {
+            return ActivationPreview(context).apply {
                 setConfig(config)
                 setDataFromJson(previewJson)
             }
