@@ -16,27 +16,41 @@ import io.sourcesync.sdk.ui.view.ActivationView
 import org.json.JSONException
 import org.json.JSONObject
 
+/**
+ * Demo layout showcasing ActivationView integration with timer-based activation display
+ * Demonstrates preview-to-details interaction pattern for SDK evaluation
+ */
+
 class ActivationViewLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : RelativeLayout(context, attrs, defStyleAttr) {
 
-    private var activationPreview: ActivationView? = null
-    private var activationDetails: ActivationView? = null
-    private var timerText: TextView? = null
-    private var backButton: ImageView? = null
-    private var countDownTimer: CountDownTimer? = null
-    private var isActivationViewSetup = false
+    // UI Components
+    private var activationPreview: ActivationView? = null    // Preview activation view
+    private var activationDetails: ActivationView? = null    // Details activation view
+    private var timerText: TextView? = null                  // Timer display
+    private var backButton: ImageView? = null                // Navigation back button
+    private var countDownTimer: CountDownTimer? = null       // 30-second demo timer
+    private var isActivationViewSetup = false                // Setup state tracking
 
-    // Callback for back button click
+
+    /**
+     * Callback for back button navigation
+     */
     var onBackClickListener: (() -> Unit)? = null
 
+    /**
+     * Initializes demo layout components
+     */
     init {
         setupLayout()
     }
 
-
+    /**
+     * Sets up demo layout with background, back button, and timer
+     */
     private fun setupLayout() {
         Log.d("ActivationViewLayout", "Setting up layout...")
 
@@ -45,6 +59,9 @@ class ActivationViewLayout @JvmOverloads constructor(
         setupTimer()
     }
 
+    /**
+     * Creates and positions back button at top-left corner
+     */
     private fun setupBackButton() {
         backButton = ImageView(context).apply {
             id = generateViewId()
@@ -71,6 +88,9 @@ class ActivationViewLayout @JvmOverloads constructor(
         addView(backButton, backButtonParams)
     }
 
+    /**
+     * Creates and positions timer text at top-center
+     */
     private fun setupTimer() {
         timerText = TextView(context).apply {
             id = generateViewId()
@@ -92,6 +112,10 @@ class ActivationViewLayout @JvmOverloads constructor(
         addView(timerText, timerParams)
     }
 
+    /**
+     * Starts 30-second demo timer with activation milestones
+     * Shows activation at 1s, hides at 20s, finishes at 30s
+     */
     fun startTimer() {
         Log.d("ActivationViewLayout", "Starting timer...")
 
@@ -128,6 +152,11 @@ class ActivationViewLayout @JvmOverloads constructor(
         countDownTimer?.start()
     }
 
+    /**
+     * Creates preview activation view with left-top positioning
+     * @param previewTemplate JSON template for preview display
+     * @param onClickListener Click handler for transitioning to details
+     */
     private fun initializeActivationPreview(
         previewTemplate: JSONObject,
         onClickListener: OnClickListener
@@ -150,6 +179,11 @@ class ActivationViewLayout @JvmOverloads constructor(
         isActivationViewSetup = true
     }
 
+    /**
+     * Creates details activation view with right-top positioning
+     * Includes outside click handling and close functionality
+     * @param detailsTemplate JSON template for details display
+     */
     private fun initializeActivationDetails(detailsTemplate: JSONObject) {
         val detailsAlignment = Alignment(
             ActivationHorizontalAlignment.RIGHT,
@@ -174,6 +208,10 @@ class ActivationViewLayout @JvmOverloads constructor(
         Log.d("ActivationViewLayout", "Activation view setup completed")
     }
 
+    /**
+     * Loads templates and initializes activation views with interaction flow
+     * Loads div_preview1.json and div_details1.json from assets
+     */
     private fun setupActivationViews() {
         Log.d("ActivationViewLayout", "Setting up activation view...")
         try {
@@ -192,12 +230,18 @@ class ActivationViewLayout @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Cancels and clears the countdown timer
+     */
     fun stopTimer() {
         Log.d("ActivationViewLayout", "Stopping timer...")
         countDownTimer?.cancel()
         countDownTimer = null
     }
 
+    /**
+     * Hides and cleans up all activation views, resets setup state
+     */
     private fun hideActivationView() {
         Log.d("ActivationViewLayout", "Hiding activation view...")
 
@@ -207,6 +251,9 @@ class ActivationViewLayout @JvmOverloads constructor(
         isActivationViewSetup = false
     }
 
+    /**
+     * Resets timer to initial state without starting
+     */
     fun resetTimer() {
         Log.d("ActivationViewLayout", "Resetting timer...")
         stopTimer()
@@ -215,19 +262,28 @@ class ActivationViewLayout @JvmOverloads constructor(
         timerText?.text = "Timer: 0s"
     }
 
+    /**
+     * Resets and immediately restarts the demo timer
+     */
     fun restartTimer() {
         Log.d("ActivationViewLayout", "Restarting timer...")
         resetTimer()
         startTimer()
     }
 
+    /**
+     * Cleans up timer when view is detached from window
+     */
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         Log.d("ActivationViewLayout", "View detached, cleaning up timer")
         stopTimer()
     }
 
-    // Extension function to convert dp to pixels
+    /**
+     * Converts density-independent pixels to actual pixels
+     * @return Pixel value for current screen density
+     */
     private fun Int.dpToPx(): Int {
         return (this * resources.displayMetrics.density).toInt()
     }
