@@ -1,4 +1,4 @@
-package io.sourcesync.sdk.ui.utils
+package io.sourcesync.sdk.ui.helpers
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -9,7 +9,9 @@ import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
 import com.yandex.div.core.images.BitmapSource
 import com.yandex.div.core.images.CachedBitmap
 import com.yandex.div.core.images.DivImageDownloadCallback
@@ -19,10 +21,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.Cache
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 class PicassoDivImageLoader(
     context: Context,
-    httpClientBuilder: okhttp3.OkHttpClient.Builder?,
+    httpClientBuilder: OkHttpClient.Builder?,
 ) : DivImageLoader {
 
     constructor(context: Context) : this(context, null)
@@ -30,8 +35,8 @@ class PicassoDivImageLoader(
     private val appContext = context.applicationContext
     private val picasso by lazy { createPicasso() }
     private val targets = TargetList()
-    private val httpClient = (httpClientBuilder ?: okhttp3.OkHttpClient.Builder())
-        .cache(okhttp3.Cache(context.cacheDir, DISK_CACHE_SIZE))
+    private val httpClient = (httpClientBuilder ?: OkHttpClient.Builder())
+        .cache(Cache(context.cacheDir, DISK_CACHE_SIZE))
         .build()
     private val coroutineScope = (context as? LifecycleOwner)?.lifecycleScope ?: MainScope()
 
@@ -40,7 +45,7 @@ class PicassoDivImageLoader(
 
     private fun createPicasso(): Picasso {
         return Picasso.Builder(appContext)
-            .downloader(com.squareup.picasso.OkHttp3Downloader(appContext, DISK_CACHE_SIZE))
+            .downloader(OkHttp3Downloader(appContext, DISK_CACHE_SIZE))
             .build()
     }
 
@@ -72,7 +77,7 @@ class PicassoDivImageLoader(
         coroutineScope.launch {
             withContext(Dispatchers.IO) {
                 val response = runCatching {
-                    val request = okhttp3.Request.Builder().url(imageUrl).build()
+                    val request = Request.Builder().url(imageUrl).build()
                     val call = httpClient.newCall(request)
                     loadReference = LoadReference {
                         call.cancel()
@@ -101,7 +106,7 @@ class PicassoDivImageLoader(
     private inner class DownloadCallbackAdapter(
         private val imageUri: Uri,
         private val callback: DivImageDownloadCallback
-    ) : com.squareup.picasso.Target {
+    ) : Target {
 
         override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
             callback.onSuccess(CachedBitmap(bitmap, imageUri, BitmapSource.DISK))
@@ -118,9 +123,9 @@ class PicassoDivImageLoader(
 
     private inner class ImageViewAdapter(
         private val imageView: ImageView
-    ) : com.squareup.picasso.Target {
+    ) : Target {
 
-        override fun onBitmapLoaded(bitmap: Bitmap, from: com.squareup.picasso.Picasso.LoadedFrom) {
+        override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
             imageView.setImageBitmap(bitmap)
             targets.removeTarget(this)
         }
@@ -133,14 +138,14 @@ class PicassoDivImageLoader(
     }
 
     inner class TargetList {
-        private val activeTargets = ArrayList<com.squareup.picasso.Target>()
+        private val activeTargets = ArrayList<Target>()
         val size get() = activeTargets.size
 
-        fun addTarget(target: com.squareup.picasso.Target) {
+        fun addTarget(target: Target) {
             activeTargets.add(target)
         }
 
-        fun removeTarget(target: com.squareup.picasso.Target) {
+        fun removeTarget(target: Target) {
             activeTargets.remove(target)
         }
 

@@ -1,4 +1,4 @@
-package io.sourcesync.sdk.ui.core
+package io.sourcesync.sdk.ui.legacy_views
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,9 +9,9 @@ import android.util.Log
 import android.view.WindowManager
 import android.widget.FrameLayout
 import com.yandex.div.core.DivConfiguration
-import io.sourcesync.sdk.ui.utils.CustomUrlHandler
+import io.sourcesync.sdk.ui.helpers.CustomUrlHandler
 import io.sourcesync.sdk.ui.utils.LayoutUtils.asTemplateAndCardParsed
-import io.sourcesync.sdk.ui.utils.PicassoDivImageLoader
+import io.sourcesync.sdk.ui.helpers.PicassoDivImageLoader
 import io.sourcesync.sdk.ui.utils.createDivUrlHandler
 import org.json.JSONException
 import org.json.JSONObject
@@ -25,8 +25,8 @@ import io.sourcesync.sdk.ui.utils.LayoutUtils
  */
 class LegacyActivationView(private val context: Context) : FrameLayout(context) {
     private var onDetailsCloseClicked: Runnable? = null
-    private var previewView: ActivationPreview? = null
-    private var detailView: ActivationDetails? = null
+    private var previewView: LegacyActivationPreview? = null
+    private var detailView: LegacyActivationDetails? = null
     private var onPreviewClickHandler: Runnable? = null
     private val handler = Handler()
     private var divUrlHandler: CustomUrlHandler
@@ -98,7 +98,7 @@ class LegacyActivationView(private val context: Context) : FrameLayout(context) 
         val previewData = previewParentJson.asTemplateAndCardParsed()
 
         try {
-            previewView = ActivationPreview(context, previewData, createDivConfiguration())
+            previewView = LegacyActivationPreview(context, previewData, createDivConfiguration())
             previewView?.setOnClickListener {
                 onPreviewClickHandler?.let { handler ->
                     previewView?.visibility = GONE
@@ -149,7 +149,7 @@ class LegacyActivationView(private val context: Context) : FrameLayout(context) 
         try {
             val detailsData = detailsParentJson.asTemplateAndCardParsed()
             detailView =
-                ActivationDetails(context, detailsData, createDivConfiguration())
+                LegacyActivationDetails(context, detailsData, createDivConfiguration())
 
             val params = LayoutUtils.getLayoutParams(
                 widthPercentage,

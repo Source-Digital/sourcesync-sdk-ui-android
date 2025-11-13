@@ -3,10 +3,10 @@ package io.sourcesync.sdk.ui.view
 import android.content.Context
 import android.view.View
 import com.yandex.div.core.DivConfiguration
-import io.sourcesync.sdk.ui.utils.ActivationPosition
-import io.sourcesync.sdk.ui.utils.CustomUrlHandler
-import io.sourcesync.sdk.ui.utils.PicassoDivImageLoader
-import io.sourcesync.sdk.ui.utils.Alignment
+import io.sourcesync.sdk.ui.models.ActivationPosition
+import io.sourcesync.sdk.ui.helpers.CustomUrlHandler
+import io.sourcesync.sdk.ui.helpers.PicassoDivImageLoader
+import io.sourcesync.sdk.ui.models.Alignment
 import io.sourcesync.sdk.ui.utils.createDivUrlHandler
 
 /**
