@@ -1,4 +1,4 @@
-package io.sourcesync.sdk.ui.divkit
+package io.sourcesync.sdk.ui.legacy_views
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -15,7 +15,7 @@ import io.sourcesync.sdk.ui.utils.LayoutUtils.isSafeForCleanup
 import io.sourcesync.sdk.ui.utils.LayoutUtils.safeCleanup
 
 @SuppressLint("ViewConstructor")
-class ActivationPreview(
+class LegacyActivationPreview(
     context: Context,
     previewData: DivData,
     config: DivConfiguration

@@ -1,4 +1,4 @@
-package io.sourcesync.sdk.ui.utils
+package io.sourcesync.sdk.ui.helpers
 
 import android.content.Context
 import android.content.Intent
@@ -20,17 +20,24 @@ import androidx.core.net.toUri
  * - Custom scheme URLs
  * - Deep link handling
  */
-class EnhancedDivUrlHandler(
+class CustomUrlHandler(
     private val context: Context,
     private val onCloseAction: () -> Unit,
     private val onExternalUrlAction: ((Uri) -> Unit)? = null,
-    private val onCustomSchemeAction: ((Uri) -> Unit)? = null
+    private val onCustomSchemeAction: ((Uri) -> Unit)? = null,
 ) : DivActionHandler() {
 
     companion object {
         private const val TAG = "EnhancedDivUrlHandler"
     }
 
+    /**
+     * Processes DivKit actions and delegates URL handling
+     * @param action DivAction containing URL to process
+     * @param view DivViewFacade that triggered the action
+     * @param resolver ExpressionResolver for evaluating dynamic expressions
+     * @return true if action was handled, false otherwise
+     */
     override fun handleAction(
         action: DivAction,
         view: DivViewFacade,
@@ -41,6 +48,11 @@ class EnhancedDivUrlHandler(
         return handleUrl(urlString.toString())
     }
 
+    /**
+     * Routes URL to appropriate handler based on scheme and pattern
+     * @param urlString URL string to process
+     * @return true if URL was successfully handled
+     */
     private fun handleUrl(urlString: String): Boolean {
         val uri = try {
             urlString.toUri()
@@ -78,8 +90,9 @@ class EnhancedDivUrlHandler(
         }
     }
 
-    // MARK: - Private Action Handlers
-
+    /**
+     * Executes close action callback with error handling
+     */
     private fun handleCloseAction() {
         Log.d(TAG, "Executing close action")
         try {
@@ -89,24 +102,29 @@ class EnhancedDivUrlHandler(
         }
     }
 
+    /**
+     * Opens external URL with system browser and triggers callback
+     * @param uri External URL to open
+     */
     private fun handleExternalUrl(uri: Uri) {
         Log.d(TAG, "Opening external URL: $uri")
 
         try {
             // Use custom handler if provided, otherwise open with system
-//            if (onExternalUrlAction != null) {
-//                onExternalUrlAction.invoke(uri)
-//            } else {
-                openWithSystem(uri)
-//            }
+            onExternalUrlAction?.invoke(uri)
+            openWithSystem(uri)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to open external URL: $uri", e)
         }
     }
 
+    /**
+     * Processes custom scheme URLs and delegates to specific handlers
+     * @param uri Custom scheme URI to handle
+     */
     private fun handleCustomScheme(uri: Uri) {
         Log.d(TAG, "Handling custom scheme: $uri")
-
+        onCustomSchemeAction?.invoke(uri)
         val scheme = uri.scheme?.lowercase() ?: return
 
         try {
@@ -117,11 +135,7 @@ class EnhancedDivUrlHandler(
                 "div-action" -> handleDivAction(uri)
                 else -> {
                     // Use custom handler or fallback
-                    if (onCustomSchemeAction != null) {
-                        onCustomSchemeAction.invoke(uri)
-                    } else {
-                        attemptSystemOpen(uri)
-                    }
+                    attemptSystemOpen(uri)
                 }
             }
         } catch (e: Exception) {
@@ -129,6 +143,10 @@ class EnhancedDivUrlHandler(
         }
     }
 
+    /**
+     * Opens email client with mailto URL
+     * @param uri Mailto URI containing recipient and optional subject/body
+     */
     private fun handleMailtoUrl(uri: Uri) {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
             data = uri
@@ -142,6 +160,10 @@ class EnhancedDivUrlHandler(
         }
     }
 
+    /**
+     * Opens dialer with phone number
+     * @param uri Tel URI containing phone number
+     */
     private fun handleTelephoneUrl(uri: Uri) {
         val intent = Intent(Intent.ACTION_DIAL).apply {
             data = uri
@@ -155,6 +177,10 @@ class EnhancedDivUrlHandler(
         }
     }
 
+    /**
+     * Opens SMS app with recipient and optional message
+     * @param uri SMS URI containing recipient and message data
+     */
     private fun handleSmsUrl(uri: Uri) {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
             data = uri
@@ -168,6 +194,10 @@ class EnhancedDivUrlHandler(
         }
     }
 
+    /**
+     * Processes div-action scheme URLs (close, refresh, back)
+     * @param uri Div-action URI with specific command path
+     */
     private fun handleDivAction(uri: Uri) {
         val path = uri.path?.lowercase() ?: ""
         val host = uri.host?.lowercase() ?: ""
@@ -180,16 +210,26 @@ class EnhancedDivUrlHandler(
         }
     }
 
+    /**
+     * Triggers refresh action for current view
+     */
     private fun handleRefreshAction() {
         Log.d(TAG, "Refresh action triggered")
         // Add refresh logic here
     }
 
+    /**
+     * Triggers back navigation action
+     */
     private fun handleBackAction() {
         Log.d(TAG, "Back action triggered")
         // Add back navigation logic here
     }
 
+    /**
+     * Opens URI with system's default app
+     * @param uri URI to open with system intent
+     */
     private fun openWithSystem(uri: Uri) {
         val intent = Intent(Intent.ACTION_VIEW).apply {
             data = uri
@@ -203,6 +243,10 @@ class EnhancedDivUrlHandler(
         }
     }
 
+    /**
+     * Attempts to open custom scheme with system, handles failures gracefully
+     * @param uri Custom scheme URI to open
+     */
     private fun attemptSystemOpen(uri: Uri) {
         try {
             openWithSystem(uri)
